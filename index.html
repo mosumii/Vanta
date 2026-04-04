@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vanta Socials — Premium Digital & Ad Infrastructure</title>
+<meta name="description" content="High-performance UGC ads, web infrastructure, and creative strategy for small businesses ready to scale.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- Stylesheets -->
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/gallery.css">
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div class="loader">
+  <div class="loader-logo">Vanta <span>Socials</span></div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Vanta <span>Socials</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Work</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#book" class="nav-cta" data-action="open-consult">Book a Strategy Call</a>
+  <div class="nav-hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="nav-mobile">
+  <a href="#services">Services</a>
+  <a href="#gallery">Work</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#process">Process</a>
+  <a href="#about">About</a>
+  <a href="#faq">FAQ</a>
+  <a href="#" data-action="open-consult" style="color:var(--gold)">Book a Call</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Strategic Growth & Ad Infrastructure</div>
+    <h1>The ad infrastructure<br>small businesses<br><em>actually</em> use to scale.</h1>
+    <p class="hero-sub">High-performance UGC ads at $217 per video. Market-fit casting. Agile creative strategy. We build the machine — you focus on running your business.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary btn-magnetic" data-action="open-consult">Book a Strategy Call</a>
+      <a href="#pricing" class="btn-ghost">View Packages</a>
+    </div>
+  </div>
+  <div class="hero-globe">
+    <canvas id="monolithCanvas"></canvas>
+  </div>
+</section>
+
+<!-- PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-item"><div class="proof-number counter-animated">$217</div><div class="proof-label">Per UGC Ad</div></div>
+  <div class="proof-item"><div class="proof-number counter-animated">92%</div><div class="proof-label">Consumer Trust Rate</div></div>
+  <div class="proof-item"><div class="proof-number counter-animated">49%</div><div class="proof-label">Faster Revenue Growth</div></div>
+  <div class="proof-item"><div class="proof-number counter-animated">53</div><div class="proof-label">Google Page 1 Probability</div></div>
+  <div class="proof-item"><div class="proof-number counter-animated">161%</div><div class="proof-label">Higher On-Site Conversion</div></div>
+</div>
+
+<!-- LIVE PERFORMANCE LINE -->
+<div class="line-strip">
+  <div class="line-strip-inner">
+    <div class="line-strip-label">
+      <div class="line-label-top">Live Performance Index</div>
+      <div class="line-label-title">Vanta-Managed<br>Ad Returns</div>
+      <div class="line-label-delta" id="lineChgLabel">&#9650; +4.2% this cycle</div>
+    </div>
+    <canvas id="lineCanvas"></canvas>
+  </div>
+</div>
+
+<!-- METRICS TICKER -->
+<div class="metrics-ticker">
+  <div class="ticker-item"><span class="ticker-key">CTR</span><span class="ticker-val" id="t-ctr">3.8%</span><span class="ticker-chg up" id="tc-ctr">&#9650; +0.4</span></div>
+  <div class="ticker-item"><span class="ticker-key">CPA</span><span class="ticker-val" id="t-cpa">$12.40</span><span class="ticker-chg up" id="tc-cpa">&#9660; &minus;$2.10</span></div>
+  <div class="ticker-item"><span class="ticker-key">Conv. Rate</span><span class="ticker-val" id="t-conv">6.1%</span><span class="ticker-chg up" id="tc-conv">&#9650; +1.3</span></div>
+  <div class="ticker-item"><span class="ticker-key">ROAS</span><span class="ticker-val" id="t-roas">4.7&times;</span><span class="ticker-chg up" id="tc-roas">&#9650; +0.6</span></div>
+  <div class="ticker-item"><span class="ticker-key">Ad Recall</span><span class="ticker-val" id="t-recall">38%</span><span class="ticker-chg up" id="tc-recall">&#9650; +9</span></div>
+  <div class="ticker-item"><span class="ticker-key">Engagement</span><span class="ticker-val" id="t-eng">+28%</span><span class="ticker-chg up">vs brand avg</span></div>
+</div>
+
+<!-- PROBLEM SECTION -->
+<section id="problem">
+  <div class="ghost-text" style="font-size:260px;top:-40px;right:-30px;color:rgba(201,169,110,0.025)">50%</div>
+  <div class="problem-layout">
+    <div class="reveal">
+      <div class="section-eyebrow">The market reality</div>
+      <div class="problem-stat"><div class="stat-big counter-animated">50%</div><div class="stat-label">of small businesses fail within 5 years. The #1 cited reason: poor visibility and no structured advertising.</div></div>
+      <div class="problem-stat"><div class="stat-big counter-animated">62%</div><div class="stat-label">of potential customers ignore a business entirely if they can't find it online.</div></div>
+      <div class="problem-stat"><div class="stat-big counter-animated">56%</div><div class="stat-label">of consumers won't consider a business without a professional website. (Forbes)</div></div>
+      <div class="problem-stat"><div class="stat-big counter-animated">4</div><div class="stat-label">times more likely to open a second location within 24 months — for businesses using UGC ad funnels.</div></div>
+    </div>
+    <div class="reveal" style="padding-top:8px">
+      <div style="height:48px"></div>
+      <h2 class="section-title">Invisibility is the<br><em>primary cause</em><br>of business failure.</h2>
+      <p class="section-sub">In 2026, organic reach and word-of-mouth are survival risks, not growth strategies. Every day without a structured ad presence is a day your competitors claim the market share you're leaving behind.</p>
+      <div class="quote-block">
+        <blockquote>"We take on the creative risk, the logistical overhead, and the technical labor. You focus on running your business."</blockquote>
+        <cite>Ron Andrei Eligio — Creative Director, Vanta Socials</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- WHY UGC WINS -->
+<section id="why-ugc" class="compare-section">
+  <div class="ghost-text" style="font-size:200px;bottom:-60px;left:-20px">UGC</div>
+  <div class="reveal">
+    <div class="section-eyebrow">Why it works</div>
+    <h2 class="section-title">UGC beats traditional<br>media on <em>every metric.</em></h2>
+    <p class="section-sub">Studio ads are increasingly filtered out by modern consumers. Authenticity wins.</p>
+  </div>
+  <div class="compare-grid reveal-stagger">
+    <div class="compare-col">
+      <div class="compare-header">Traditional TV / Studio</div>
+      <div class="compare-row"><span class="compare-metric">Trust Factor</span><span>47%</span></div>
+      <div class="compare-row"><span class="compare-metric">Click-Through Rate</span><span>~0.1%</span></div>
+      <div class="compare-row"><span class="compare-metric">Recall Rate</span><span>Low (skip/mute)</span></div>
+      <div class="compare-row"><span class="compare-metric">On-Site Conversion</span><span>Baseline</span></div>
+      <div class="compare-row"><span class="compare-metric">Production Time</span><span>4–8 weeks</span></div>
+      <div class="compare-row"><span class="compare-metric">Industry Price</span><span>$5,000–$20,000+</span></div>
+    </div>
+    <div class="compare-col featured border-draw">
+      <div class="compare-header">UGC Ads — Vanta Socials <span class="compare-badge">Winner</span></div>
+      <div class="compare-row"><span class="compare-metric">Trust Factor</span><span class="compare-value">92% — 2&times; higher</span></div>
+      <div class="compare-row"><span class="compare-metric">Click-Through Rate</span><span class="compare-value">2.5–4.5% — up to 400% higher</span></div>
+      <div class="compare-row"><span class="compare-metric">Recall Rate</span><span class="compare-value">35% higher (real people)</span></div>
+      <div class="compare-row"><span class="compare-metric">On-Site Conversion</span><span class="compare-value">161% more likely</span></div>
+      <div class="compare-row"><span class="compare-metric">Production Time</span><span class="compare-value">1–2 weeks</span></div>
+      <div class="compare-row"><span class="compare-metric">Vanta Price</span><span class="compare-value">$217 / ad</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="ghost-text" style="font-size:320px;right:-20px;top:50%;transform:translateY(-50%);color:rgba(201,169,110,0.028)">6</div>
+  <div class="reveal">
+    <div class="section-eyebrow">What we deliver</div>
+    <h2 class="section-title">A complete growth<br>infrastructure — <em>not just ads.</em></h2>
+    <p class="section-sub">From creative production to web builds, consumer intelligence, and social management.</p>
+  </div>
+  <div class="services-grid reveal-stagger">
+    <div class="service-card" data-service="ugc">
+      <div class="service-icon-wrap">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="0.5" y="0.5" width="43" height="43" stroke="rgba(201,169,110,0.3)"/><polygon points="17,13 33,22 17,31" stroke="#c9a96e" stroke-width="1" fill="none" stroke-linejoin="round"/><circle cx="22" cy="22" r="13" stroke="rgba(201,169,110,0.2)" stroke-width="0.5"/></svg>
+      </div>
+      <h3>UGC Video Ads</h3>
+      <p>Market-fit creators who understand your product space. 4K production. Multiple hooks and faces per campaign to prevent ad fatigue and lower CPA by up to 30%.</p>
+      <span class="service-tag">From $217/ad</span>
+    </div>
+    <div class="service-card" data-service="social">
+      <div class="service-icon-wrap">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="0.5" y="0.5" width="43" height="43" stroke="rgba(201,169,110,0.3)"/><circle cx="12" cy="22" r="4" stroke="#c9a96e" stroke-width="1"/><circle cx="32" cy="12" r="4" stroke="#c9a96e" stroke-width="1"/><circle cx="32" cy="32" r="4" stroke="#c9a96e" stroke-width="1"/><line x1="16" y1="20" x2="28" y2="14" stroke="rgba(201,169,110,0.5)" stroke-width="0.75"/><line x1="16" y1="24" x2="28" y2="30" stroke="rgba(201,169,110,0.5)" stroke-width="0.75"/></svg>
+      </div>
+      <h3>Social Media Management</h3>
+      <p>Content creation, scheduling, engagement — handled on your behalf. Industry average: $2,500–$5,000/mo. Vanta rate: from $1,200/mo.</p>
+      <span class="service-tag">From $1,200/mo</span>
+    </div>
+    <div class="service-card" data-service="web">
+      <div class="service-icon-wrap">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="0.5" y="0.5" width="43" height="43" stroke="rgba(201,169,110,0.3)"/><rect x="8" y="12" width="28" height="20" stroke="#c9a96e" stroke-width="1"/><line x1="8" y1="17" x2="36" y2="17" stroke="rgba(201,169,110,0.5)" stroke-width="0.75"/><circle cx="11" cy="14.5" r="1" fill="rgba(201,169,110,0.5)"/><circle cx="14.5" cy="14.5" r="1" fill="rgba(201,169,110,0.5)"/><circle cx="18" cy="14.5" r="1" fill="rgba(201,169,110,0.5)"/></svg>
+      </div>
+      <h3>Web Infrastructure</h3>
+      <p>Static landing pages, full e-commerce builds, and ongoing maintenance. Brands with professional sites grow 15–25% faster than those without.</p>
+      <span class="service-tag">Included in Tier 2+</span>
+    </div>
+    <div class="service-card" data-service="intel">
+      <div class="service-icon-wrap">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="0.5" y="0.5" width="43" height="43" stroke="rgba(201,169,110,0.3)"/><circle cx="22" cy="22" r="10" stroke="#c9a96e" stroke-width="1"/><circle cx="22" cy="22" r="4" stroke="rgba(201,169,110,0.5)" stroke-width="0.75"/><line x1="22" y1="8" x2="22" y2="12" stroke="rgba(201,169,110,0.5)" stroke-width="0.75"/><line x1="22" y1="32" x2="22" y2="36" stroke="rgba(201,169,110,0.5)" stroke-width="0.75"/><line x1="8" y1="22" x2="12" y2="22" stroke="rgba(201,169,110,0.5)" stroke-width="0.75"/><line x1="32" y1="22" x2="36" y2="22" stroke="rgba(201,169,110,0.5)" stroke-width="0.75"/></svg>
+      </div>
+      <h3>Consumer Intelligence</h3>
+      <p>Custom surveys extracting product demand, pricing sensitivity, and channel attribution data. Companies using this see 10% higher growth and 25% higher margins.</p>
+      <span class="service-tag">Tier 3 + Add-on</span>
+    </div>
+    <div class="service-card" data-service="print">
+      <div class="service-icon-wrap">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="0.5" y="0.5" width="43" height="43" stroke="rgba(201,169,110,0.3)"/><rect x="9" y="9" width="26" height="26" stroke="rgba(201,169,110,0.3)" stroke-width="0.5"/><rect x="13" y="13" width="18" height="18" stroke="#c9a96e" stroke-width="1"/><line x1="13" y1="20" x2="31" y2="20" stroke="rgba(201,169,110,0.4)" stroke-width="0.5"/><line x1="13" y1="24" x2="31" y2="24" stroke="rgba(201,169,110,0.4)" stroke-width="0.5"/></svg>
+      </div>
+      <h3>Verified Print & Billboard</h3>
+      <p>Every design tested across a representative sample of your target demographic before a dollar goes to print. Consistent branding increases revenue by 23%.</p>
+      <span class="service-tag">From $100/asset</span>
+    </div>
+    <div class="service-card" data-service="optimize">
+      <div class="service-icon-wrap">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="0.5" y="0.5" width="43" height="43" stroke="rgba(201,169,110,0.3)"/><polyline points="8,30 16,22 22,26 30,14 36,18" stroke="#c9a96e" stroke-width="1" fill="none" stroke-linejoin="round" stroke-linecap="round"/><circle cx="36" cy="18" r="2.5" fill="#c9a96e" fill-opacity="0.7"/><line x1="8" y1="34" x2="36" y2="34" stroke="rgba(201,169,110,0.2)" stroke-width="0.5"/><line x1="8" y1="10" x2="8" y2="34" stroke="rgba(201,169,110,0.2)" stroke-width="0.5"/></svg>
+      </div>
+      <h3>Agile Ad Optimization</h3>
+      <p>Real-time monitoring, comment tracking, and creative pivots mid-campaign. Campaigns testing 5+ creatives see 30% lower CPA than single-hero approaches.</p>
+      <span class="service-tag">Included in all tiers</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- GALLERY -->
+<section id="gallery" class="gallery-section">
+  <div class="gallery-layout">
+    <div class="gallery-text reveal">
+      <div class="section-eyebrow">Our work</div>
+      <h2 class="section-title">Live demos &<br><em>client showcases.</em></h2>
+      <p class="section-sub">Interactive previews of the websites and digital experiences we build for our clients. Click the book to explore our portfolio of fully functional demo sites.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
+        <span style="font-size:10px;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--gold-border);background:var(--gold-dim)">4 Live Demos</span>
+        <span style="font-size:10px;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--gold-border);background:var(--gold-dim)">Mobile Ready</span>
+        <span style="font-size:10px;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--gold-border);background:var(--gold-dim)">Fully Interactive</span>
+      </div>
+    </div>
+    <div class="gallery-stage" id="galleryStage">
+
+    <!-- THE BOOK -->
+    <div class="gallery-book" id="galleryBook">
+      <div class="book-cover">
+        <div class="book-ornament"></div>
+        <div class="book-title-plate">
+          <div class="book-title">Client<br>Showcases</div>
+          <div class="book-subtitle">Interactive Demos</div>
+        </div>
+        <div class="book-ornament"></div>
+        <div class="book-year">MMXXVI</div>
+      </div>
+      <div class="book-hint">Click to reveal</div>
+    </div>
+
+    <!-- CLOSE BUTTON -->
+    <button class="gallery-close-fan" id="galleryCloseFan">Close</button>
+
+    <!-- FANNING CARDS -->
+    <div class="gallery-fan">
+      <div class="fan-card" data-demo="gallery-demo/boba-shop.html" data-title="Koi Boba — Demo Site">
+        <div class="fan-card-inner">
+          <img class="fan-card-img" src="https://images.unsplash.com/photo-1558857563-b371033873b8?w=400&h=500&fit=crop&q=80" alt="Koi Boba Co." loading="lazy">
+          <div class="fan-card-info">
+            <div class="fan-card-tag">Web Design</div>
+            <div class="fan-card-title">Koi Boba Co.</div>
+            <div class="fan-card-cta">View Demo</div>
+          </div>
+        </div>
+      </div>
+      <div class="fan-card" data-demo="gallery-demo/boutique.html" data-title="Maison Noir — Demo Site">
+        <div class="fan-card-inner">
+          <img class="fan-card-img" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=500&fit=crop&q=80" alt="Maison Noir" loading="lazy">
+          <div class="fan-card-info">
+            <div class="fan-card-tag">E-Commerce</div>
+            <div class="fan-card-title">Maison Noir</div>
+            <div class="fan-card-cta">View Demo</div>
+          </div>
+        </div>
+      </div>
+      <div class="fan-card" data-demo="gallery-demo/restaurant.html" data-title="Ember & Vine — Demo Site">
+        <div class="fan-card-inner">
+          <img class="fan-card-img" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=500&fit=crop&q=80" alt="Ember & Vine" loading="lazy">
+          <div class="fan-card-info">
+            <div class="fan-card-tag">Restaurant</div>
+            <div class="fan-card-title">Ember & Vine</div>
+            <div class="fan-card-cta">View Demo</div>
+          </div>
+        </div>
+      </div>
+      <div class="fan-card" data-demo="gallery-demo/fitness.html" data-title="FORM Athletics — Demo Site">
+        <div class="fan-card-inner">
+          <img class="fan-card-img" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=500&fit=crop&q=80" alt="FORM Athletics" loading="lazy">
+          <div class="fan-card-info">
+            <div class="fan-card-tag">Fitness</div>
+            <div class="fan-card-title">FORM Athletics</div>
+            <div class="fan-card-cta">View Demo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="pricing-section">
+  <div class="ghost-text" style="font-size:220px;right:-40px;top:50%;transform:translateY(-50%);color:rgba(201,169,110,0.02)">$$$</div>
+  <div class="reveal">
+    <div class="section-eyebrow">Transparent pricing</div>
+    <h2 class="section-title">Three tiers.<br>One goal: <em>sustainable growth.</em></h2>
+    <p class="section-sub">Built for businesses at every stage. No hidden fees. No long-term contracts in Tier 1.</p>
+  </div>
+  <div class="pricing-grid reveal-stagger">
+    <div class="pricing-card">
+      <div class="pricing-tier">Tier 1 — Essential (3-Month)</div>
+      <div class="pricing-price counter-animated">$650</div>
+      <div class="pricing-period">3-month engagement &middot; ~$217/mo</div>
+      <div class="pricing-feature">3 high-performance UGC ads</div>
+      <div class="pricing-feature">Market-fit casting & scripting</div>
+      <div class="pricing-feature">1 creative optimization cycle</div>
+      <div class="pricing-feature">Full post-production included</div>
+      <div class="pricing-feature inactive">Web infrastructure</div>
+      <div class="pricing-feature inactive">Print & billboard assets</div>
+      <div class="pricing-feature inactive">Consumer intelligence surveys</div>
+      <a href="#" class="pricing-cta" data-stripe="tier1">Get Started</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-popular">Most Popular</div>
+      <div class="pricing-tier">Tier 2 — Growth (3-Month)</div>
+      <div class="pricing-price counter-animated">$1,800</div>
+      <div class="pricing-period">3-month engagement &middot; $600/mo</div>
+      <div class="pricing-feature">10 ads — 3 to 4 per month</div>
+      <div class="pricing-feature">Monthly creative optimization</div>
+      <div class="pricing-feature">Static landing page included</div>
+      <div class="pricing-feature">1 digital poster design</div>
+      <div class="pricing-feature">Market-fit casting included</div>
+      <div class="pricing-feature inactive">Consumer intelligence surveys</div>
+      <div class="pricing-feature inactive">Full e-commerce suite</div>
+      <a href="#" class="pricing-cta" data-stripe="tier2">Book a Strategy Call</a>
+    </div>
+    <div class="pricing-card" id="tier3Card">
+      <div class="pricing-tier">Tier 3 — Intelligence</div>
+      <div class="pricing-price" id="tier3Price">$2,400</div>
+      <div class="pricing-period">Estimated starting price &middot; <span style="color:var(--gold);font-size:11px">SELECT BELOW</span></div>
+      <label class="pricing-check">
+        <input type="checkbox" data-price="1500" checked> 20+ ads + custom strategy
+        <span class="pricing-check-cost">$1,500</span>
+      </label>
+      <label class="pricing-check">
+        <input type="checkbox" data-price="450" checked> Real-time creative iteration
+        <span class="pricing-check-cost">$450</span>
+      </label>
+      <label class="pricing-check">
+        <input type="checkbox" data-price="950"> Full e-commerce web suite
+        <span class="pricing-check-cost">+$950</span>
+      </label>
+      <label class="pricing-check">
+        <input type="checkbox" data-price="550"> Full print & billboard suite
+        <span class="pricing-check-cost">+$550</span>
+      </label>
+      <label class="pricing-check">
+        <input type="checkbox" data-price="700"> Product & market surveys
+        <span class="pricing-check-cost">+$700</span>
+      </label>
+      <label class="pricing-check">
+        <input type="checkbox" data-price="400"> Dedicated account strategy
+        <span class="pricing-check-cost">+$400</span>
+      </label>
+      <label class="pricing-check">
+        <input type="checkbox" data-price="1400"> Social media management
+        <span class="pricing-check-cost">+$1,400/mo</span>
+      </label>
+      <a href="#" class="pricing-cta" data-stripe="tier3">Contact for Quote</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="process-header">
+    <div class="reveal">
+      <div class="section-eyebrow">How it works</div>
+      <h2 class="section-title">The four-phase<br><em>growth flywheel.</em></h2>
+    </div>
+    <p class="section-sub reveal" style="margin-bottom:0">We don't sell you a video. We sell you the infrastructure that powers your next location, your next product line, and your next stage of growth.</p>
+  </div>
+
+  <div class="waterfall reveal-stagger">
+    <div class="waterfall-line"></div>
+
+    <div class="waterfall-step">
+      <div class="waterfall-node"><div class="waterfall-dot"></div></div>
+      <div class="waterfall-content">
+        <div class="waterfall-phase">Month 1</div>
+        <div class="waterfall-num">01</div>
+        <h3>Testing & Discovery</h3>
+        <p>Deploy 3 ads. Test different hooks, creators, and formats. Identify what resonates.</p>
+        <div class="waterfall-tags">
+          <span>A/B Testing</span><span>Hook Variants</span><span>Creator Matching</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="waterfall-step">
+      <div class="waterfall-node"><div class="waterfall-dot"></div></div>
+      <div class="waterfall-content">
+        <div class="waterfall-phase">Month 2</div>
+        <div class="waterfall-num">02</div>
+        <h3>Scaling & Saturation</h3>
+        <p>Scale to 10 ads/month using the winning hook. Rotate faces to prevent fatigue.</p>
+        <div class="waterfall-tags">
+          <span>Volume Scale</span><span>Face Rotation</span><span>Fatigue Prevention</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="waterfall-step">
+      <div class="waterfall-node"><div class="waterfall-dot"></div></div>
+      <div class="waterfall-content">
+        <div class="waterfall-phase">Month 3</div>
+        <div class="waterfall-num">03</div>
+        <h3>Conversion Infrastructure</h3>
+        <p>Launch landing pages. Convert social discovery into direct sales and trackable leads.</p>
+        <div class="waterfall-tags">
+          <span>Landing Pages</span><span>Lead Funnels</span><span>Analytics</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="waterfall-step">
+      <div class="waterfall-node"><div class="waterfall-dot" style="border-color:rgba(201,169,110,0.5);background:rgba(201,169,110,0.15);box-shadow:0 0 12px rgba(201,169,110,0.2)"></div></div>
+      <div class="waterfall-content">
+        <div class="waterfall-phase">Month 4+</div>
+        <div class="waterfall-num">04</div>
+        <h3>Intelligence-Driven Expansion</h3>
+        <p>Survey data and ad performance guide your next launch or second-location strategy.</p>
+        <div class="waterfall-tags">
+          <span>Market Surveys</span><span>Data Strategy</span><span>Expansion</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXCHANGE -->
+<section id="partnership" class="exchange-section">
+  <div class="ghost-text" style="font-size:180px;right:-20px;top:50%;transform:translateY(-50%)">&#8644;</div>
+  <div class="reveal">
+    <div class="section-eyebrow">The partnership</div>
+    <h2 class="section-title">A shared investment,<br><em>not a vendor transaction.</em></h2>
+    <p class="section-sub">We operate on a structured exchange of assets. Your brand vision meets our creative infrastructure.</p>
+  </div>
+  <div class="exchange-layout reveal-scale">
+    <div>
+      <div class="exchange-header">What You Bring</div>
+      <div class="exchange-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:2px"><rect x="0.5" y="0.5" width="13" height="13" stroke="rgba(255,255,255,0.15)"/><line x1="3" y1="7" x2="11" y2="7" stroke="rgba(255,255,255,0.3)" stroke-width="0.75"/></svg>Project fee + brand slogans</div>
+      <div class="exchange-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:2px"><rect x="0.5" y="0.5" width="13" height="13" stroke="rgba(255,255,255,0.15)"/><line x1="3" y1="7" x2="11" y2="7" stroke="rgba(255,255,255,0.3)" stroke-width="0.75"/></svg>Product or service access for creator trial</div>
+      <div class="exchange-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:2px"><rect x="0.5" y="0.5" width="13" height="13" stroke="rgba(255,255,255,0.15)"/><line x1="3" y1="7" x2="11" y2="7" stroke="rgba(255,255,255,0.3)" stroke-width="0.75"/></svg>Filming window or location access</div>
+      <div class="exchange-item" style="border-bottom:none"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:2px"><rect x="0.5" y="0.5" width="13" height="13" stroke="rgba(255,255,255,0.15)"/><line x1="3" y1="7" x2="11" y2="7" stroke="rgba(255,255,255,0.3)" stroke-width="0.75"/></svg>Brand vision and ongoing feedback</div>
+    </div>
+    <div class="exchange-divider">
+      <svg width="40" height="120" viewBox="0 0 40 120" fill="none"><line x1="20" y1="0" x2="20" y2="120" stroke="rgba(201,169,110,0.15)" stroke-width="0.5"/><polygon points="20,20 12,35 28,35" stroke="#c9a96e" stroke-opacity="0.5" stroke-width="0.75" fill="none"/><polygon points="20,100 12,85 28,85" stroke="#c9a96e" stroke-opacity="0.5" stroke-width="0.75" fill="none"/><circle cx="20" cy="60" r="3" fill="rgba(201,169,110,0.3)"/></svg>
+    </div>
+    <div class="vanta-col">
+      <div class="exchange-header">What Vanta Delivers</div>
+      <div class="exchange-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:2px"><rect x="0.5" y="0.5" width="13" height="13" stroke="rgba(201,169,110,0.4)"/><polyline points="3,7 6,10 11,4" stroke="#c9a96e" stroke-width="0.75" fill="none"/></svg>3+ high-performance 4K UGC ads</div>
+      <div class="exchange-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:2px"><rect x="0.5" y="0.5" width="13" height="13" stroke="rgba(201,169,110,0.4)"/><polyline points="3,7 6,10 11,4" stroke="#c9a96e" stroke-width="0.75" fill="none"/></svg>Market-aligned casting, scripting & direction</div>
+      <div class="exchange-item"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:2px"><rect x="0.5" y="0.5" width="13" height="13" stroke="rgba(201,169,110,0.4)"/><polyline points="3,7 6,10 11,4" stroke="#c9a96e" stroke-width="0.75" fill="none"/></svg>Travel, editing, sound & reshoot insurance</div>
+      <div class="exchange-item" style="border-bottom:none"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:2px"><rect x="0.5" y="0.5" width="13" height="13" stroke="rgba(201,169,110,0.4)"/><polyline points="3,7 6,10 11,4" stroke="#c9a96e" stroke-width="0.75" fill="none"/></svg>Continuous optimization and iteration</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="book" class="cta-section">
+  <svg class="cta-bg-art" viewBox="0 0 700 700" fill="none">
+    <circle cx="350" cy="350" r="320" stroke="rgba(201,169,110,0.04)" stroke-width="0.5"/>
+    <circle cx="350" cy="350" r="270" stroke="rgba(201,169,110,0.055)" stroke-width="0.5"/>
+    <circle cx="350" cy="350" r="220" stroke="rgba(201,169,110,0.07)" stroke-width="0.5"/>
+    <circle cx="350" cy="350" r="170" stroke="rgba(201,169,110,0.09)" stroke-width="0.5"/>
+    <circle cx="350" cy="350" r="120" stroke="rgba(201,169,110,0.11)" stroke-width="0.5"/>
+    <circle cx="350" cy="350" r="70" stroke="rgba(201,169,110,0.14)" stroke-width="0.5"/>
+    <circle cx="350" cy="350" r="25" stroke="rgba(201,169,110,0.22)" stroke-width="0.5"/>
+    <line x1="350" y1="30" x2="350" y2="670" stroke="rgba(201,169,110,0.03)" stroke-width="0.5"/>
+    <line x1="30" y1="350" x2="670" y2="350" stroke="rgba(201,169,110,0.03)" stroke-width="0.5"/>
+    <line x1="96" y1="96" x2="604" y2="604" stroke="rgba(201,169,110,0.025)" stroke-width="0.5"/>
+    <line x1="604" y1="96" x2="96" y2="604" stroke="rgba(201,169,110,0.025)" stroke-width="0.5"/>
+    <circle cx="350" cy="30" r="3" fill="rgba(201,169,110,0.35)"/>
+    <circle cx="670" cy="350" r="3" fill="rgba(201,169,110,0.25)"/>
+  </svg>
+  <div class="cta-inner reveal">
+    <div class="section-eyebrow" style="justify-content:center;margin-bottom:28px">Start today</div>
+    <h2>Ready to claim<br>your <em>market share?</em></h2>
+    <p>Book a free strategy consultation. We'll analyze your market, identify your biggest opportunity, and show you exactly how Vanta Socials builds your growth infrastructure.</p>
+    <div class="cta-actions">
+      <a href="#" class="btn-primary btn-magnetic" data-action="open-consult">Book a Strategy Consultation</a>
+      <a href="questionnaire.html" class="btn-ghost">Start Questionnaire</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-col">
+      <div class="footer-col-title">Services</div>
+      <a href="#services">UGC Video Ads</a>
+      <a href="#services">Social Media Management</a>
+      <a href="#services">Web Infrastructure</a>
+      <a href="#services">Consumer Intelligence</a>
+      <a href="#services">Print & Billboard</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="#about">About</a>
+      <a href="#process">Process</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="questionnaire.html">Questionnaire</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Resources</div>
+      <a href="#why-ugc">Why UGC?</a>
+      <a href="#problem">Market Data</a>
+      <a href="#gallery">Case Studies</a>
+      <a href="#partnership">Partnership Model</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Connect</div>
+      <a href="#" data-action="open-consult">Book a Call</a>
+      <a href="mailto:hello@vantasocials.com">hello@vantasocials.com</a>
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <a href="#" class="footer-logo">Vanta <span>Socials</span></a>
+    <ul class="footer-socials">
+      <li><a href="#">IG</a></li>
+      <li><a href="#">LI</a></li>
+      <li><a href="#">TW</a></li>
+      <li><a href="#">TK</a></li>
+    </ul>
+    <span class="footer-credit">&copy; 2026 Vanta Socials — Premium Digital & Ad Infrastructure</span>
+  </div>
+</footer>
+
+<!-- CONSULTATION MODAL -->
+<div class="modal-overlay" id="consultModal">
+  <div class="modal">
+    <button class="modal-close">&times;</button>
+    <div class="modal-header">
+      <h3>Book a Strategy <em style="color:var(--gold)">Consultation</em></h3>
+      <p>Tell us about your business and we'll reach out within 24 hours.</p>
+    </div>
+    <div class="modal-body">
+      <form id="consultForm">
+        <div class="form-group">
+          <label for="c-name">Full Name</label>
+          <input type="text" id="c-name" name="name" required placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label for="c-email">Email</label>
+          <input type="email" id="c-email" name="email" required placeholder="you@business.com">
+        </div>
+        <div class="form-group">
+          <label for="c-phone">Phone</label>
+          <input type="tel" id="c-phone" name="phone" placeholder="+1 (555) 000-0000">
+        </div>
+        <div class="form-group">
+          <label for="c-business">Business Name</label>
+          <input type="text" id="c-business" name="business" required placeholder="Your business">
+        </div>
+        <div class="form-group">
+          <label for="c-interest">Interested In</label>
+          <select id="c-interest" name="interest">
+            <option value="ugc">UGC Video Ads</option>
+            <option value="social">Social Media Management</option>
+            <option value="web">Web Infrastructure</option>
+            <option value="full">Full Growth Package</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="c-message">Anything else?</label>
+          <textarea id="c-message" name="message" placeholder="Tell us about your goals..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Inquiry</button>
+      </form>
+      <div class="form-divider">or schedule directly</div>
+      <a href="https://calendly.com" target="_blank" rel="noopener" class="calendly-link">Open Calendly Scheduler</a>
+    </div>
+  </div>
+</div>
+
+<!-- DEMO PREVIEW MODAL -->
+<div class="demo-modal-overlay">
+  <div class="demo-modal-header">
+    <span class="demo-modal-title">Demo Preview</span>
+    <div class="demo-modal-controls">
+      <div class="demo-device-toggle">
+        <button class="demo-desktop-btn active">Desktop</button>
+        <button class="demo-mobile-btn">Mobile</button>
+      </div>
+      <button class="demo-modal-close">&times;</button>
+    </div>
+  </div>
+  <div class="demo-frame-wrapper">
+    <iframe title="Demo preview" sandbox="allow-scripts allow-same-origin"></iframe>
+  </div>
+</div>
+
+<!-- SERVICE VISUALIZATION MODAL -->
+<div class="modal-overlay" id="serviceModal">
+  <div class="modal" style="max-width:720px">
+    <button class="modal-close" onclick="document.getElementById('serviceModal').classList.remove('active');document.body.style.overflow=''">&times;</button>
+    <div id="serviceContent"></div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="js/monoliths.js"></script>
+<script src="js/line-chart.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/forms.js"></script>
+</body>
+</html>

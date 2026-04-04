@@ -1,0 +1,298 @@
+/* ═══════════════════════════════════════════════
+   ANIMATIONS — Scroll reveals, hover effects,
+   page load transitions, cursor
+   ═══════════════════════════════════════════════ */
+
+/* ── LOADING SCREEN ── */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
+  transition: opacity 0.6s var(--ease-out-expo), visibility 0.6s;
+}
+.loader.done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.loader-logo {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text);
+  overflow: hidden;
+}
+.loader-logo span { color: var(--gold); }
+.loader-bar {
+  width: 120px;
+  height: 1px;
+  background: var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.loader-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  animation: loaderFill 1.2s var(--ease-out-expo) forwards;
+}
+@keyframes loaderFill {
+  to { width: 100%; }
+}
+
+/* ── CUSTOM CURSOR (desktop only) ── */
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: difference;
+  transition: transform 0.15s var(--ease-out-expo), opacity 0.3s;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+.cursor-dot.visible { opacity: 1; }
+.cursor-dot.hovering {
+  transform: translate(-50%, -50%) scale(3);
+  background: var(--gold-bright);
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9997;
+  transition: transform 0.08s linear, opacity 0.3s, border-color 0.3s;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+.cursor-ring.visible { opacity: 1; }
+.cursor-ring.hovering {
+  transform: translate(-50%, -50%) scale(1.5);
+  border-color: rgba(201, 169, 110, 0.1);
+}
+
+@media (pointer: coarse) {
+  .cursor-dot, .cursor-ring { display: none !important; }
+}
+
+/* ── SCROLL REVEAL BASE ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered children */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+}
+.reveal-stagger.revealed > *:nth-child(1) { transition-delay: 0s; }
+.reveal-stagger.revealed > *:nth-child(2) { transition-delay: 0.08s; }
+.reveal-stagger.revealed > *:nth-child(3) { transition-delay: 0.16s; }
+.reveal-stagger.revealed > *:nth-child(4) { transition-delay: 0.24s; }
+.reveal-stagger.revealed > *:nth-child(5) { transition-delay: 0.32s; }
+.reveal-stagger.revealed > *:nth-child(6) { transition-delay: 0.4s; }
+.reveal-stagger.revealed > *:nth-child(7) { transition-delay: 0.48s; }
+.reveal-stagger.revealed > *:nth-child(8) { transition-delay: 0.56s; }
+.reveal-stagger.revealed > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reveal from left */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+}
+.reveal-left.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Reveal scale */
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+}
+.reveal-scale.revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── HERO ENTRANCE ── */
+.hero-inner .hero-eyebrow {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroEntrance 0.8s var(--ease-out-expo) 1.4s forwards;
+}
+.hero-inner h1 {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: heroEntrance 0.9s var(--ease-out-expo) 1.6s forwards;
+}
+.hero-inner .hero-sub {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroEntrance 0.8s var(--ease-out-expo) 1.85s forwards;
+}
+.hero-inner .hero-actions {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroEntrance 0.8s var(--ease-out-expo) 2.05s forwards;
+}
+.hero-globe {
+  opacity: 0;
+  transform: scale(0.9);
+  animation: globeEntrance 1.2s var(--ease-out-expo) 1.5s forwards;
+}
+
+@keyframes heroEntrance {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes globeEntrance {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── COUNTER ANIMATION ── */
+.counter-animated {
+  display: inline-block;
+}
+
+/* ── PARALLAX GHOST TEXT ── */
+.ghost-text {
+  transition: transform 0.1s linear;
+  will-change: transform;
+}
+
+/* ── SECTION EYEBROW LINE GROW ── */
+.reveal.revealed .section-eyebrow::after {
+  width: 40px;
+  transition-delay: 0.3s;
+}
+
+/* ── MAGNETIC BUTTON EFFECT ── */
+.btn-magnetic {
+  transition: transform 0.2s var(--ease-out-expo);
+}
+
+/* ── TICKER SCROLL ── */
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-animated {
+  animation: tickerScroll 30s linear infinite;
+}
+
+/* ── PROOF BAR SHIMMER ── */
+.proof-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.03), transparent);
+  animation: proofShimmer 8s var(--ease-in-out) infinite;
+}
+@keyframes proofShimmer {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+/* ── GALLERY CARD HOVER ── */
+.gallery-card {
+  transition: transform 0.5s var(--ease-out-expo), box-shadow 0.5s var(--ease-out-expo);
+}
+.gallery-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+.gallery-card .gallery-overlay {
+  transition: opacity 0.4s var(--ease-out-expo);
+}
+.gallery-card:hover .gallery-overlay {
+  opacity: 1;
+}
+
+/* ── SMOOTH SECTION TRANSITIONS ── */
+section {
+  transition: opacity 0.3s;
+}
+
+/* ── PULSING DOTS (Process steps) ── */
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 169, 110, 0); }
+  50% { box-shadow: 0 0 0 8px rgba(201, 169, 110, 0.1); }
+}
+.process-step:hover .step-dot {
+  animation: dotPulse 2s ease infinite;
+}
+
+/* ── BORDER DRAW ANIMATION ── */
+.border-draw {
+  position: relative;
+}
+.border-draw::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 100%;
+  bottom: 100%;
+  border-top: 1px solid var(--gold-border);
+  border-left: 1px solid var(--gold-border);
+  transition: all 0.6s var(--ease-out-expo);
+}
+.border-draw::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 100%;
+  top: 100%;
+  border-bottom: 1px solid var(--gold-border);
+  border-right: 1px solid var(--gold-border);
+  transition: all 0.6s var(--ease-out-expo);
+}
+.border-draw:hover::before {
+  right: 0;
+  bottom: 0;
+}
+.border-draw:hover::after {
+  left: 0;
+  top: 0;
+}

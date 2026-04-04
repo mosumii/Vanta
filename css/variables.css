@@ -1,0 +1,56 @@
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS — Vanta Socials
+   ═══════════════════════════════════════════════ */
+
+:root {
+  /* Backgrounds */
+  --bg: #0b0b09;
+  --surface: #11110e;
+  --surface-2: #181816;
+  --surface-elevated: #1e1e1b;
+
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.065);
+  --border-hover: rgba(255, 255, 255, 0.14);
+  --border-active: rgba(255, 255, 255, 0.22);
+
+  /* Text */
+  --text: #ede9e0;
+  --text-muted: #7a7670;
+  --text-dim: #333230;
+
+  /* Gold accent */
+  --gold: #c9a96e;
+  --gold-bright: #dfc08a;
+  --gold-dim: rgba(201, 169, 110, 0.09);
+  --gold-border: rgba(201, 169, 110, 0.22);
+  --gold-glow: rgba(201, 169, 110, 0.15);
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+
+  /* Spacing scale */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 32px;
+  --space-lg: 64px;
+  --space-xl: 108px;
+  --space-2xl: 140px;
+
+  /* Transitions */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Layout */
+  --nav-height: 68px;
+  --page-padding: 52px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --page-padding: 24px;
+    --nav-height: 60px;
+  }
+}

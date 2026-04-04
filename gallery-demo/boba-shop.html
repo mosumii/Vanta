@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koi Boba Co. — Your Second Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #faf6f1;
+  --bg-warm: #f3ebe0;
+  --surface: #fff;
+  --text: #2c2420;
+  --text-soft: #6b5d52;
+  --text-light: #9a8b7e;
+  --accent: #c4804e;
+  --accent-light: #e8a97a;
+  --accent-dark: #a05e30;
+  --sage: #8a9a7b;
+  --sage-light: #d4dece;
+  --cream: #f5ead7;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* NAV */
+.koi-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 64px;
+  background: rgba(250, 246, 241, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.koi-logo {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 500;
+  color: var(--text); text-decoration: none;
+}
+.koi-logo span { color: var(--accent); font-style: italic; }
+.koi-nav-links { display: flex; gap: 28px; list-style: none; }
+.koi-nav-links a {
+  color: var(--text-soft); text-decoration: none;
+  font-size: 13px; letter-spacing: 0.04em;
+  transition: color 0.3s;
+}
+.koi-nav-links a:hover { color: var(--accent); }
+.koi-nav-btn {
+  padding: 8px 20px; background: var(--accent);
+  color: #fff; text-decoration: none;
+  font-size: 12px; letter-spacing: 0.06em;
+  border-radius: 24px; transition: all 0.3s;
+}
+.koi-nav-btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+/* HERO */
+.koi-hero {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 100px 40px 60px;
+  position: relative; overflow: hidden;
+}
+.koi-hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--bg-warm) 50%, var(--sage-light) 100%);
+}
+.koi-hero-img {
+  position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+  width: 50%; height: 80%;
+  object-fit: cover; border-radius: 200px 0 0 200px;
+  opacity: 0.9;
+}
+.koi-hero-content {
+  position: relative; z-index: 2; max-width: 520px;
+}
+.koi-hero-tag {
+  display: inline-block;
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 20px;
+  padding: 6px 16px; border: 1px solid rgba(196,128,78,0.3);
+  border-radius: 20px;
+}
+.koi-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5vw, 64px); font-weight: 400;
+  line-height: 1.1; margin-bottom: 20px; color: var(--text);
+}
+.koi-hero h1 em { font-style: italic; color: var(--accent); }
+.koi-hero p {
+  font-size: 16px; color: var(--text-soft);
+  line-height: 1.7; margin-bottom: 32px;
+}
+.koi-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.koi-btn-primary {
+  padding: 14px 32px; background: var(--accent);
+  color: #fff; text-decoration: none;
+  font-size: 13px; letter-spacing: 0.06em;
+  border-radius: 32px; border: none; cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.3s;
+}
+.koi-btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,128,78,0.25); }
+.koi-btn-outline {
+  padding: 14px 32px; background: transparent;
+  border: 1px solid rgba(44,36,32,0.2);
+  color: var(--text-soft); text-decoration: none;
+  font-size: 13px; letter-spacing: 0.06em;
+  border-radius: 32px; cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.3s;
+}
+.koi-btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ANNOUNCEMENT BAR */
+.koi-announce {
+  background: var(--accent);
+  color: #fff; text-align: center;
+  padding: 10px 20px; font-size: 13px;
+  letter-spacing: 0.04em;
+}
+.koi-announce a { color: #fff; font-weight: 500; }
+
+/* SECTION SHARED */
+.koi-section {
+  padding: 80px 40px;
+}
+.koi-section-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3vw, 42px); font-weight: 400;
+  text-align: center; margin-bottom: 8px;
+}
+.koi-section-title em { font-style: italic; color: var(--accent); }
+.koi-section-sub {
+  text-align: center; color: var(--text-soft);
+  font-size: 15px; margin-bottom: 48px;
+}
+
+/* MENU */
+.koi-menu-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px; max-width: 1000px; margin: 0 auto;
+}
+.koi-menu-card {
+  background: var(--surface);
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.koi-menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+}
+.koi-menu-img {
+  width: 100%; height: 200px;
+  object-fit: cover;
+}
+.koi-menu-info { padding: 20px; }
+.koi-menu-name {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 500; margin-bottom: 6px;
+}
+.koi-menu-desc {
+  font-size: 13px; color: var(--text-light);
+  line-height: 1.5; margin-bottom: 12px;
+}
+.koi-menu-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.koi-menu-price {
+  font-family: var(--font-display);
+  font-size: 20px; color: var(--accent);
+}
+.koi-add-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%; border: 1px solid rgba(0,0,0,0.1);
+  background: var(--bg); color: var(--accent);
+  font-size: 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s;
+}
+.koi-add-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ABOUT STRIP */
+.koi-about {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0; background: var(--bg-warm);
+}
+.koi-about-img {
+  width: 100%; height: 100%; min-height: 400px;
+  object-fit: cover;
+}
+.koi-about-content {
+  padding: 60px 48px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.koi-about-content h2 {
+  font-family: var(--font-display);
+  font-size: 32px; font-weight: 400; margin-bottom: 16px;
+}
+.koi-about-content h2 em { font-style: italic; color: var(--accent); }
+.koi-about-content p {
+  color: var(--text-soft); line-height: 1.8; margin-bottom: 24px;
+}
+
+/* FEATURES */
+.koi-features {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 32px; max-width: 900px; margin: 0 auto;
+}
+.koi-feature {
+  text-align: center; padding: 32px 20px;
+  border-radius: 16px; transition: all 0.3s;
+}
+.koi-feature:hover { background: var(--surface); }
+.koi-feature-icon {
+  width: 56px; height: 56px;
+  background: var(--cream); border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px; font-size: 24px;
+}
+.koi-feature h3 {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 500; margin-bottom: 8px;
+}
+.koi-feature p { font-size: 13px; color: var(--text-light); line-height: 1.6; }
+
+/* ORDER / DELIVERY */
+.koi-order-section { background: var(--surface); }
+.koi-order-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 24px; max-width: 700px; margin: 0 auto;
+}
+.koi-order-card {
+  padding: 32px; border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 16px; text-align: center;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.koi-order-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(196,128,78,0.1);
+}
+.koi-order-card h3 {
+  font-family: var(--font-display);
+  font-size: 22px; margin-bottom: 8px;
+}
+.koi-order-card p { font-size: 13px; color: var(--text-light); margin-bottom: 16px; }
+
+/* REVIEWS */
+.koi-reviews {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; max-width: 1000px; margin: 0 auto;
+}
+.koi-review {
+  background: var(--surface); border-radius: 16px;
+  padding: 28px; border: 1px solid rgba(0,0,0,0.04);
+}
+.koi-review-stars { color: var(--accent); font-size: 14px; margin-bottom: 12px; letter-spacing: 2px; }
+.koi-review p {
+  font-size: 14px; color: var(--text-soft);
+  line-height: 1.6; font-style: italic; margin-bottom: 16px;
+}
+.koi-review-author {
+  font-size: 12px; color: var(--text-light);
+  letter-spacing: 0.04em;
+}
+
+/* NEWSLETTER / CREATE ACCOUNT */
+.koi-join { background: var(--cream); text-align: center; }
+.koi-join-form {
+  max-width: 440px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.koi-join-form input {
+  padding: 14px 20px; border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 12px; background: var(--surface);
+  font-family: var(--font-body); font-size: 14px;
+  outline: none; transition: border-color 0.3s;
+}
+.koi-join-form input:focus { border-color: var(--accent); }
+.koi-join-form button {
+  padding: 14px; background: var(--accent);
+  color: #fff; border: none; border-radius: 12px;
+  font-family: var(--font-body); font-size: 13px;
+  letter-spacing: 0.06em; cursor: pointer;
+  transition: all 0.3s;
+}
+.koi-join-form button:hover { background: var(--accent-dark); }
+
+/* FOOTER */
+.koi-footer {
+  background: var(--text); color: rgba(255,255,255,0.5);
+  padding: 48px 40px 24px;
+}
+.koi-footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px; margin-bottom: 32px;
+}
+.koi-footer-brand {
+  font-family: var(--font-display);
+  font-size: 22px; color: #fff; margin-bottom: 12px;
+}
+.koi-footer-brand span { color: var(--accent-light); font-style: italic; }
+.koi-footer p { font-size: 13px; line-height: 1.7; }
+.koi-footer h4 {
+  color: rgba(255,255,255,0.8);
+  font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 16px;
+}
+.koi-footer a {
+  display: block; color: rgba(255,255,255,0.4);
+  text-decoration: none; font-size: 13px;
+  padding: 3px 0; transition: color 0.3s;
+}
+.koi-footer a:hover { color: var(--accent-light); }
+.koi-footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 20px;
+  display: flex; justify-content: space-between;
+  font-size: 12px;
+}
+
+/* TOAST */
+.koi-toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--text); color: #fff;
+  padding: 14px 28px; border-radius: 12px;
+  font-size: 14px; opacity: 0;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  z-index: 1000;
+}
+.koi-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .koi-nav-links { display: none; }
+  .koi-hero { flex-direction: column; padding-top: 80px; }
+  .koi-hero-img { position: relative; width: 100%; height: 300px; border-radius: 16px; right: 0; transform: none; margin-top: 32px; }
+  .koi-about { grid-template-columns: 1fr; }
+  .koi-features { grid-template-columns: 1fr; }
+  .koi-reviews { grid-template-columns: 1fr; }
+  .koi-order-grid { grid-template-columns: 1fr; }
+  .koi-footer-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT -->
+<div class="koi-announce">
+  Summer special: Buy 2 drinks, get 1 free! <a href="#">Order now &rarr;</a>
+</div>
+
+<!-- NAV -->
+<nav class="koi-nav">
+  <a href="#" class="koi-logo">Koi <span>Boba</span> Co.</a>
+  <ul class="koi-nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">Our Story</a></li>
+    <li><a href="#order">Order</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <a href="#order" class="koi-nav-btn" onclick="showKoiToast('Online ordering coming soon!'); return false;">Order Online</a>
+</nav>
+
+<!-- HERO -->
+<section class="koi-hero">
+  <div class="koi-hero-bg"></div>
+  <img class="koi-hero-img" src="https://images.unsplash.com/photo-1558857563-b371033873b8?w=800&h=1000&fit=crop&q=80" alt="Boba tea">
+  <div class="koi-hero-content">
+    <span class="koi-hero-tag">Est. 2024 &middot; Your Second Home</span>
+    <h1>Where every sip<br>feels like <em>summer.</em></h1>
+    <p>Hand-crafted boba teas, fresh toppings, and a cozy space to study, hang out, or just breathe. Your neighborhood's favorite second home.</p>
+    <div class="koi-hero-actions">
+      <button class="koi-btn-primary" onclick="showKoiToast('Online ordering launching soon!')">Order Now</button>
+      <a href="#menu" class="koi-btn-outline">View Menu</a>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="koi-section">
+  <h2 class="koi-section-title">Our <em>Menu</em></h2>
+  <p class="koi-section-sub">Hand-crafted daily with premium ingredients</p>
+  <div class="koi-menu-grid">
+    <div class="koi-menu-card">
+      <img class="koi-menu-img" src="https://images.unsplash.com/photo-1525803377221-4e934e2f1a5b?w=400&h=300&fit=crop&q=80" alt="Brown Sugar Boba">
+      <div class="koi-menu-info">
+        <div class="koi-menu-name">Brown Sugar Tiger Milk</div>
+        <div class="koi-menu-desc">Our signature — fresh milk with hand-torched brown sugar and chewy tapioca pearls.</div>
+        <div class="koi-menu-bottom">
+          <span class="koi-menu-price">$6.50</span>
+          <button class="koi-add-btn" onclick="showKoiToast('Added to cart!')">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="koi-menu-card">
+      <img class="koi-menu-img" src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=300&fit=crop&q=80" alt="Matcha Latte">
+      <div class="koi-menu-info">
+        <div class="koi-menu-name">Ceremonial Matcha Latte</div>
+        <div class="koi-menu-desc">Premium Japanese matcha whisked to perfection with oat milk and honey boba.</div>
+        <div class="koi-menu-bottom">
+          <span class="koi-menu-price">$7.25</span>
+          <button class="koi-add-btn" onclick="showKoiToast('Added to cart!')">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="koi-menu-card">
+      <img class="koi-menu-img" src="https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?w=400&h=300&fit=crop&q=80" alt="Taro Milk Tea">
+      <div class="koi-menu-info">
+        <div class="koi-menu-name">Taro Milk Dream</div>
+        <div class="koi-menu-desc">Creamy house-made taro blended with jasmine milk tea and coconut jelly.</div>
+        <div class="koi-menu-bottom">
+          <span class="koi-menu-price">$6.75</span>
+          <button class="koi-add-btn" onclick="showKoiToast('Added to cart!')">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="koi-menu-card">
+      <img class="koi-menu-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop&q=80" alt="Fruit Tea">
+      <div class="koi-menu-info">
+        <div class="koi-menu-name">Sunset Fruit Tea</div>
+        <div class="koi-menu-desc">Passion fruit, mango, and lychee layered over green tea with aloe vera.</div>
+        <div class="koi-menu-bottom">
+          <span class="koi-menu-price">$6.25</span>
+          <button class="koi-add-btn" onclick="showKoiToast('Added to cart!')">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="koi-menu-card">
+      <img class="koi-menu-img" src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop&q=80" alt="Iced Coffee Boba">
+      <div class="koi-menu-info">
+        <div class="koi-menu-name">Iced Coffee Boba</div>
+        <div class="koi-menu-desc">Cold brew espresso with vanilla cream and brown sugar tapioca pearls.</div>
+        <div class="koi-menu-bottom">
+          <span class="koi-menu-price">$7.00</span>
+          <button class="koi-add-btn" onclick="showKoiToast('Added to cart!')">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="koi-menu-card">
+      <img class="koi-menu-img" src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=300&fit=crop&q=80" alt="Mochi Bites">
+      <div class="koi-menu-info">
+        <div class="koi-menu-name">Mochi Bites (6 pc)</div>
+        <div class="koi-menu-desc">Soft mochi filled with rotating seasonal flavors — strawberry, ube, sesame.</div>
+        <div class="koi-menu-bottom">
+          <span class="koi-menu-price">$5.50</span>
+          <button class="koi-add-btn" onclick="showKoiToast('Added to cart!')">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div id="about" class="koi-about">
+  <img class="koi-about-img" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=600&fit=crop&q=80" alt="Cozy cafe interior">
+  <div class="koi-about-content">
+    <h2>A place to <em>belong.</em></h2>
+    <p>Koi Boba started as a dream between two friends who wanted a space that felt like home — warm lighting, good music, and the best boba in town. Whether you're studying for finals, catching up with friends, or just need a quiet moment, we're here for you.</p>
+    <p>Every drink is made fresh to order with ingredients we actually care about. No powders, no shortcuts, no compromises.</p>
+    <a href="#" class="koi-btn-outline" style="align-self:flex-start">Our Story</a>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="koi-section">
+  <h2 class="koi-section-title">Why people <em>love</em> us</h2>
+  <p class="koi-section-sub">More than just drinks</p>
+  <div class="koi-features">
+    <div class="koi-feature">
+      <div class="koi-feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c4804e" stroke-width="1.5"><path d="M17 8h1a4 4 0 010 8h-1M3 8h14v9a4 4 0 01-4 4H7a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg></div>
+      <h3>Fresh Daily</h3>
+      <p>Every topping and tea base is prepared fresh each morning. We never use pre-made mixes.</p>
+    </div>
+    <div class="koi-feature">
+      <div class="koi-feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c4804e" stroke-width="1.5"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></svg></div>
+      <h3>Cozy Space</h3>
+      <p>Free WiFi, plenty of outlets, warm lighting — the perfect spot to study or hang out.</p>
+    </div>
+    <div class="koi-feature">
+      <div class="koi-feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c4804e" stroke-width="1.5"><path d="M12 22c5.5-3 9-7.5 9-12a9 9 0 00-18 0c0 4.5 3.5 9 9 12z"/><path d="M12 8v8M8 12h8"/></svg></div>
+      <h3>Sustainable</h3>
+      <p>Compostable cups, metal straws on request, and partnerships with local farms.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER / DELIVERY -->
+<section id="order" class="koi-section koi-order-section">
+  <h2 class="koi-section-title">Get your <em>boba fix</em></h2>
+  <p class="koi-section-sub">Pick your preferred way to order</p>
+  <div class="koi-order-grid">
+    <div class="koi-order-card" onclick="showKoiToast('Online ordering launching soon!')">
+      <h3>Online Order</h3>
+      <p>Skip the line — order ahead and pick up when it's ready.</p>
+      <button class="koi-btn-primary">Order for Pickup</button>
+    </div>
+    <div class="koi-order-card" onclick="window.open('social-fake.html','_blank')">
+      <h3>DoorDash Delivery</h3>
+      <p>Get it delivered to your door in 30 minutes or less.</p>
+      <button class="koi-btn-outline">Order on DoorDash</button>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:32px;">
+    <button class="koi-btn-outline" onclick="showKoiToast('Stripe checkout coming soon!')" style="border-radius:12px;">
+      Pay with Card &middot; Gift Cards Available
+    </button>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="koi-section" style="background:var(--bg-warm);">
+  <h2 class="koi-section-title">What people <em>say</em></h2>
+  <p class="koi-section-sub">Real reviews from our community</p>
+  <div class="koi-reviews">
+    <div class="koi-review">
+      <div class="koi-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p>"My absolute favorite study spot. The brown sugar tiger milk is unreal and the vibes are immaculate."</p>
+      <div class="koi-review-author">— Sarah M.</div>
+    </div>
+    <div class="koi-review">
+      <div class="koi-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p>"This place feels like a warm hug. Perfect for date night or just decompressing after a long day."</p>
+      <div class="koi-review-author">— James L.</div>
+    </div>
+    <div class="koi-review">
+      <div class="koi-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p>"The matcha latte here changed my life. No joke. I come here almost every day now."</p>
+      <div class="koi-review-author">— Emily K.</div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN / CREATE ACCOUNT -->
+<section class="koi-section koi-join">
+  <h2 class="koi-section-title">Join the <em>Koi Club</em></h2>
+  <p class="koi-section-sub">Get rewards, early access to new flavors, and a free drink on your birthday.</p>
+  <div class="koi-join-form">
+    <input type="text" placeholder="Your name">
+    <input type="email" placeholder="Email address">
+    <input type="password" placeholder="Create a password">
+    <button onclick="showKoiToast('Account created! Welcome to the Koi Club.')">Create Account</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="koi-footer">
+  <div class="koi-footer-grid">
+    <div>
+      <div class="koi-footer-brand">Koi <span>Boba</span> Co.</div>
+      <p>Handcrafted boba teas and a cozy space to call your second home. Made with love since 2024.</p>
+    </div>
+    <div>
+      <h4>Menu</h4>
+      <a href="#menu">Milk Teas</a>
+      <a href="#menu">Fruit Teas</a>
+      <a href="#menu">Specials</a>
+      <a href="#menu">Snacks</a>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <a href="#">123 Boba Lane, LA</a>
+      <a href="#">Mon-Sun 10am-10pm</a>
+      <a href="#">(555) 123-4567</a>
+    </div>
+    <div>
+      <h4>Follow</h4>
+      <a href="social-fake.html" target="_blank">Instagram</a>
+      <a href="social-fake.html" target="_blank">TikTok</a>
+      <a href="social-fake.html" target="_blank">Yelp</a>
+    </div>
+  </div>
+  <div class="koi-footer-bottom">
+    <span>&copy; 2026 Koi Boba Co.</span>
+    <span>Crafted by Vanta Socials</span>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="koi-toast" id="koiToast"></div>
+
+<script>
+function showKoiToast(msg) {
+  var toast = document.getElementById('koiToast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(function() {
+    toast.classList.remove('show');
+  }, 2500);
+}
+</script>
+</body>
+</html>
