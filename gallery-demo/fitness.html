@@ -16,23 +16,22 @@
   --font-display:'Syne',sans-serif;
   --font-body:'Space Grotesk',system-ui,sans-serif;
 }
-html{scroll-behavior:smooth;overflow-x:hidden}
+html{overflow-x:hidden}
 body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-weight:300;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-/* NAV */
-.fm-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:56px;background:rgba(10,10,10,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.04);transition:transform .4s}
-.fm-nav.hide{transform:translateY(-100%)}
-.fm-logo{font-family:var(--font-display);font-size:20px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--text);text-decoration:none}
-.fm-logo span{color:var(--neon)}
-.fm-nav-links{display:flex;gap:24px;list-style:none}
-.fm-nav-links a{color:var(--text-mid);text-decoration:none;font-size:11px;letter-spacing:.06em;text-transform:uppercase;transition:color .3s}
-.fm-nav-links a:hover{color:var(--neon)}
-.fm-join-btn{padding:9px 20px;background:var(--neon);color:var(--bg);text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;transition:all .3s;border:none;cursor:pointer;font-family:var(--font-body)}
-.fm-join-btn:hover{box-shadow:0 0 24px rgba(200,255,46,0.3);transform:translateY(-1px)}
+/* ── MINIMAP / PROGRESS ── */
+.minimap{position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:90;display:flex;flex-direction:column;align-items:flex-end;gap:20px}
+.minimap-item{display:flex;align-items:center;gap:10px;cursor:pointer;opacity:0.3;transition:opacity .4s}
+.minimap-item.active{opacity:1}
+.minimap-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text);opacity:0;transition:opacity .3s;white-space:nowrap}
+.minimap-item:hover .minimap-label,.minimap-item.active .minimap-label{opacity:1}
+.minimap-dot{width:8px;height:8px;border:1px solid var(--text-dim);border-radius:50%;transition:all .4s;flex-shrink:0}
+.minimap-item.active .minimap-dot{border-color:var(--neon);background:var(--neon);box-shadow:0 0 8px rgba(200,255,46,0.4)}
 
-/* ── SCROLL ROOMS ── */
-/* Each "room" is a full-viewport section with a background image,
-   text overlay, and parallax depth */
+/* ── CORRIDOR (the scroll tunnel) ── */
+.corridor{position:relative}
+
+/* Each room is a full-viewport snap section */
 .room{
   position:relative;
   min-height:100vh;
@@ -40,122 +39,161 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-we
   align-items:center;
   overflow:hidden;
 }
+
+/* Room background — full bleed, parallax */
 .room-bg{
-  position:absolute;inset:0;
+  position:absolute;inset:-20% -5%;
+  width:110%;height:140%;
   background-size:cover;background-position:center;
-  transition:transform .1s linear;
   will-change:transform;
+  filter:brightness(0.35) saturate(0.8);
+  transition:filter 1.2s;
 }
-.room-bg::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(to right,rgba(10,10,10,0.85) 0%,rgba(10,10,10,0.5) 50%,rgba(10,10,10,0.3) 100%);
-}
-/* Alternate rooms: text on right */
-.room.room-right .room-bg::after{
-  background:linear-gradient(to left,rgba(10,10,10,0.85) 0%,rgba(10,10,10,0.5) 50%,rgba(10,10,10,0.3) 100%);
+.room.in-view .room-bg{
+  filter:brightness(0.4) saturate(0.9);
 }
 
+/* Vignette overlay on every room */
+.room::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at center,transparent 30%,rgba(10,10,10,0.7) 100%),
+    linear-gradient(to bottom,rgba(10,10,10,0.3) 0%,transparent 20%,transparent 80%,rgba(10,10,10,0.5) 100%);
+  pointer-events:none;z-index:1;
+}
+
+/* Room content — fades in on scroll */
 .room-content{
   position:relative;z-index:2;
-  padding:0 60px;max-width:560px;
+  max-width:560px;
+  padding:0 48px;
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 0.8s cubic-bezier(.16,1,.3,1),transform 0.8s cubic-bezier(.16,1,.3,1);
 }
-.room.room-right .room-content{
-  margin-left:auto;text-align:right;
+.room.in-view .room-content{
+  opacity:1;
+  transform:translateY(0);
+}
+/* Alternate rooms: content on right */
+.room.right .room-content{
+  margin-left:auto;
+  text-align:right;
 }
 
 .room-tag{
-  font-size:10px;letter-spacing:.3em;text-transform:uppercase;
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;
   color:var(--neon);margin-bottom:16px;
   display:inline-block;padding:5px 14px;
-  border:1px solid rgba(200,255,46,0.2);
+  border:1px solid rgba(200,255,46,0.15);
+  opacity:0;transition:opacity .6s .2s;
 }
+.room.in-view .room-tag{opacity:1}
+
 .room h2{
   font-family:var(--font-display);
-  font-size:clamp(32px,5vw,56px);
-  font-weight:800;line-height:1;
+  font-size:clamp(36px,6vw,64px);
+  font-weight:800;line-height:.95;
   text-transform:uppercase;margin-bottom:16px;
 }
-.room h2 span{color:var(--neon);display:block}
-.room p{
+.room h2 em{color:var(--neon);font-style:normal}
+
+.room-desc{
   color:var(--text-mid);font-size:15px;
-  line-height:1.7;margin-bottom:24px;
+  line-height:1.7;margin-bottom:28px;
 }
 
-/* Room-specific features */
-.room-features{
-  display:flex;flex-direction:column;gap:10px;
-  margin-bottom:28px;
+/* Room feature pills */
+.room-pills{
+  display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;
 }
-.room.room-right .room-features{align-items:flex-end}
-.room-feat{
-  display:inline-flex;align-items:center;gap:10px;
-  font-size:12px;color:var(--text-mid);
-  padding:8px 16px;
-  border:1px solid rgba(255,255,255,0.05);
-  background:rgba(10,10,10,0.6);
+.room.right .room-pills{justify-content:flex-end}
+.room-pill{
+  font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-mid);padding:7px 14px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:rgba(10,10,10,0.5);
   backdrop-filter:blur(4px);
-  transition:border-color .3s;
+  transition:border-color .3s,color .3s;
 }
-.room-feat:hover{border-color:rgba(200,255,46,0.2)}
-.room-feat-dot{
-  width:6px;height:6px;
-  background:var(--neon);border-radius:50%;
-  flex-shrink:0;
-}
+.room-pill:hover{border-color:rgba(200,255,46,0.2);color:var(--neon)}
 
-/* Scroll progress indicator */
-.fm-progress{
-  position:fixed;right:20px;top:50%;
-  transform:translateY(-50%);z-index:50;
-  display:flex;flex-direction:column;gap:12px;
+.room-cta{
+  display:inline-block;padding:12px 28px;
+  background:var(--neon);color:var(--bg);
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:600;border:none;cursor:pointer;
+  font-family:var(--font-body);text-decoration:none;
+  transition:all .3s;
 }
-.fm-progress-dot{
-  width:8px;height:8px;border:1px solid rgba(255,255,255,0.15);
-  border-radius:50%;transition:all .4s;cursor:pointer;
-  background:transparent;padding:0;
-}
-.fm-progress-dot.active{
-  border-color:var(--neon);background:var(--neon);
-  box-shadow:0 0 8px rgba(200,255,46,0.4);
-}
+.room-cta:hover{box-shadow:0 0 24px rgba(200,255,46,0.3);transform:translateY(-2px)}
 
-/* ── ENTRANCE (hero room) ── */
-.room-entrance{justify-content:center;text-align:center}
-.room-entrance .room-content{max-width:700px;margin:0 auto}
-.room-entrance .room-bg::after{
-  background:linear-gradient(to bottom,rgba(10,10,10,0.4) 0%,rgba(10,10,10,0.8) 100%);
+/* ── ENTRANCE (special hero room) ── */
+.room-entrance{justify-content:center;text-align:center;min-height:120vh}
+.room-entrance .room-content{max-width:700px;margin:0 auto;padding-top:80px}
+.room-entrance .room-bg{
+  filter:brightness(0.25) saturate(0.7);
+}
+.room-entrance.in-view .room-bg{
+  filter:brightness(0.3) saturate(0.8);
 }
 .room-entrance h1{
   font-family:var(--font-display);
-  font-size:clamp(48px,10vw,130px);
-  font-weight:800;line-height:.9;
+  font-size:clamp(52px,12vw,140px);
+  font-weight:800;line-height:.85;
   text-transform:uppercase;margin-bottom:20px;
+  letter-spacing:-0.02em;
 }
-.room-entrance h1 span{color:var(--neon)}
+.room-entrance h1 em{color:var(--neon);font-style:normal}
 
-/* Scroll indicator arrow */
-.scroll-arrow{
-  position:absolute;bottom:40px;left:50%;
-  transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  color:var(--text-dim);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
-  animation:arrowBounce 2s ease infinite;
+/* Scroll indicator */
+.scroll-hint{
+  position:absolute;bottom:48px;left:50%;
+  transform:translateX(-50%);z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  animation:hintBounce 2.5s ease infinite;
 }
-@keyframes arrowBounce{
+.scroll-hint span{
+  font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--text-dim);
+}
+@keyframes hintBounce{
   0%,100%{transform:translateX(-50%) translateY(0)}
-  50%{transform:translateX(-50%) translateY(8px)}
+  50%{transform:translateX(-50%) translateY(10px)}
+}
+
+/* ── TRANSITION STRIP between rooms ── */
+.room-divider{
+  height:30vh;
+  position:relative;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.room-divider::before{
+  content:'';position:absolute;
+  left:50%;top:0;bottom:0;width:1px;
+  background:linear-gradient(to bottom,transparent,rgba(200,255,46,0.15),transparent);
+}
+.divider-text{
+  font-family:var(--font-display);
+  font-size:clamp(10px,1.2vw,14px);
+  letter-spacing:.4em;text-transform:uppercase;
+  color:var(--text-dim);
+  padding:0 20px;background:var(--bg);
+  position:relative;z-index:2;
 }
 
 /* ── SCHEDULE SECTION ── */
 .fm-schedule-section{background:var(--surface);padding:80px 40px}
 .fm-sched-title{font-family:var(--font-display);font-size:clamp(28px,4vw,42px);font-weight:800;text-transform:uppercase;text-align:center;margin-bottom:8px}
-.fm-sched-title span{color:var(--neon)}
+.fm-sched-title em{color:var(--neon);font-style:normal}
 .fm-sched-sub{text-align:center;color:var(--text-mid);font-size:14px;margin-bottom:40px}
 .fm-schedule{max-width:800px;margin:0 auto}
 .fm-schedule-day{margin-bottom:24px}
 .fm-schedule-day h3{font-family:var(--font-display);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--neon);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(200,255,46,0.1)}
-.fm-schedule-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.03);transition:background .2s}
-.fm-schedule-row:hover{background:rgba(200,255,46,0.02)}
+.fm-sched-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.03);transition:background .2s}
+.fm-sched-row:hover{background:rgba(200,255,46,0.02)}
 .fm-sched-time{font-size:13px;color:var(--text-mid);width:80px;flex-shrink:0}
 .fm-sched-class{font-family:var(--font-display);font-size:14px;font-weight:600;text-transform:uppercase;flex:1}
 .fm-sched-trainer{font-size:12px;color:var(--text-mid);flex:1;text-align:center}
@@ -167,7 +205,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-we
 .fm-membership{padding:100px 40px;text-align:center;position:relative;overflow:hidden}
 .fm-membership::before{content:'FORM';position:absolute;font-family:var(--font-display);font-size:clamp(120px,25vw,400px);font-weight:800;color:rgba(200,255,46,0.03);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none}
 .fm-membership h2{font-family:var(--font-display);font-size:clamp(32px,5vw,56px);font-weight:800;text-transform:uppercase;margin-bottom:16px;position:relative;z-index:2}
-.fm-membership h2 span{color:var(--neon)}
+.fm-membership h2 em{color:var(--neon);font-style:normal}
 .fm-membership>p{color:var(--text-mid);font-size:15px;max-width:500px;margin:0 auto 32px;line-height:1.7;position:relative;z-index:2}
 .fm-tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:900px;margin:0 auto;position:relative;z-index:2}
 .fm-tier{padding:32px 24px;background:var(--surface);border:1px solid rgba(255,255,255,0.04);text-align:center;transition:all .3s}
@@ -180,11 +218,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-we
 .fm-tier-feature{font-size:12px;color:var(--text-mid);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
 .fm-tier button{margin-top:20px;width:100%}
 
-/* Footer */
+/* ── FOOTER ── */
 .fm-footer{border-top:1px solid rgba(255,255,255,0.04);padding:48px 40px 24px}
 .fm-footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:36px}
 .fm-footer-brand{font-family:var(--font-display);font-size:20px;font-weight:800;text-transform:uppercase;margin-bottom:12px}
-.fm-footer-brand span{color:var(--neon)}
+.fm-footer-brand em{color:var(--neon);font-style:normal}
 .fm-footer p{font-size:13px;color:var(--text-dim);line-height:1.7}
 .fm-footer h4{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-mid);margin-bottom:16px}
 .fm-footer a{display:block;color:var(--text-dim);text-decoration:none;font-size:13px;padding:3px 0;transition:color .3s}
@@ -195,131 +233,128 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-we
 .fm-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface-2);border:1px solid rgba(200,255,46,0.2);color:var(--text);padding:14px 28px;font-size:13px;opacity:0;transition:all .4s cubic-bezier(.16,1,.3,1);z-index:1000}
 .fm-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* Responsive */
+/* ── RESPONSIVE ── */
 @media(max-width:900px){
-  .fm-nav-links{display:none}
+  .minimap{display:none}
   .room-content{padding:0 24px;max-width:100%}
-  .room.room-right .room-content{margin-left:0;text-align:left}
-  .room.room-right .room-features{align-items:flex-start}
+  .room.right .room-content{margin-left:0;text-align:left}
+  .room.right .room-pills{justify-content:flex-start}
   .fm-tiers{grid-template-columns:1fr}
   .fm-footer-grid{grid-template-columns:1fr 1fr}
-  .fm-schedule-row{flex-wrap:wrap;gap:8px}
-  .fm-progress{display:none}
-  .room-entrance h1{font-size:clamp(40px,12vw,80px)}
+  .fm-sched-row{flex-wrap:wrap;gap:8px}
+  .room-entrance h1{font-size:clamp(40px,14vw,80px)}
 }
 @media(max-width:600px){
-  .fm-tiers{grid-template-columns:1fr}
   .fm-footer-grid{grid-template-columns:1fr}
+  .room-divider{height:15vh}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="fm-nav" id="fmNav">
-  <a href="#" class="fm-logo">FORM<span>.</span></a>
-  <ul class="fm-nav-links">
-    <li><a href="#strength">Strength</a></li>
-    <li><a href="#yoga">Flow</a></li>
-    <li><a href="#hiit">Burn</a></li>
-    <li><a href="#schedule">Schedule</a></li>
-    <li><a href="#join">Join</a></li>
-  </ul>
-  <button class="fm-join-btn" onclick="fmToast('Membership signup coming soon!')">Join Now</button>
+<!-- MINIMAP -->
+<nav class="minimap" id="minimap">
+  <div class="minimap-item active" data-target="entrance"><span class="minimap-label">Entrance</span><div class="minimap-dot"></div></div>
+  <div class="minimap-item" data-target="strength"><span class="minimap-label">Strength</span><div class="minimap-dot"></div></div>
+  <div class="minimap-item" data-target="flow"><span class="minimap-label">Flow</span><div class="minimap-dot"></div></div>
+  <div class="minimap-item" data-target="burn"><span class="minimap-label">Burn</span><div class="minimap-dot"></div></div>
+  <div class="minimap-item" data-target="recovery"><span class="minimap-label">Recovery</span><div class="minimap-dot"></div></div>
+  <div class="minimap-item" data-target="schedule"><span class="minimap-label">Schedule</span><div class="minimap-dot"></div></div>
 </nav>
 
-<!-- SCROLL PROGRESS -->
-<div class="fm-progress" id="scrollProgress">
-  <button class="fm-progress-dot active" data-room="0" aria-label="Entrance"></button>
-  <button class="fm-progress-dot" data-room="1" aria-label="Strength Room"></button>
-  <button class="fm-progress-dot" data-room="2" aria-label="Flow Studio"></button>
-  <button class="fm-progress-dot" data-room="3" aria-label="Burn Zone"></button>
-  <button class="fm-progress-dot" data-room="4" aria-label="Trainers"></button>
+<div class="corridor">
+
+  <!-- ═══ ENTRANCE ═══ -->
+  <section class="room room-entrance in-view" id="entrance">
+    <div class="room-bg" style="background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&h=1000&fit=crop&q=80')"></div>
+    <div class="room-content">
+      <span class="room-tag">Welcome to FORM</span>
+      <h1>Move<br>with<br><em>purpose.</em></h1>
+      <p class="room-desc">Walk through our studio. Discover spaces designed to push your limits, restore your body, and build your strongest self.</p>
+      <a href="#strength" class="room-cta">Enter the Studio</a>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll to walk through</span>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M5 11l5 5 5-5" stroke="currentColor" stroke-width="1.5"/></svg>
+    </div>
+  </section>
+
+  <div class="room-divider"><span class="divider-text">Entering the studio</span></div>
+
+  <!-- ═══ ROOM 1: STRENGTH FLOOR ═══ -->
+  <section class="room" id="strength">
+    <div class="room-bg" style="background-image:url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=1600&h=1000&fit=crop&q=80')"></div>
+    <div class="room-content">
+      <span class="room-tag">Room 01 — Strength Floor</span>
+      <h2>Built<br>to <em>lift.</em></h2>
+      <p class="room-desc">Olympic platforms, calibrated plates, and racks built for serious lifters. Whether you're chasing a PR or just getting started, this room is your foundation.</p>
+      <div class="room-pills">
+        <span class="room-pill">Rogue racks & platforms</span>
+        <span class="room-pill">Calibrated Eleiko plates</span>
+        <span class="room-pill">Max 12 per session</span>
+      </div>
+      <button class="room-cta" onclick="fmToast('Booked: FORM Lift — next Mon 6AM')">Book a Lift Session</button>
+    </div>
+  </section>
+
+  <div class="room-divider"><span class="divider-text">Walking down the hall</span></div>
+
+  <!-- ═══ ROOM 2: FLOW STUDIO ═══ -->
+  <section class="room right" id="flow">
+    <div class="room-bg" style="background-image:url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1600&h=1000&fit=crop&q=80')"></div>
+    <div class="room-content">
+      <span class="room-tag">Room 02 — Flow Studio</span>
+      <h2>Restore<br>your <em>balance.</em></h2>
+      <p class="room-desc">Heated bamboo floors, ambient lighting, and silence. Our flow studio is designed for yoga, mobility work, and guided meditation. Move slowly. Breathe deeply.</p>
+      <div class="room-pills">
+        <span class="room-pill">Heated bamboo floors</span>
+        <span class="room-pill">Vinyasa, Yin & Mobility</span>
+        <span class="room-pill">Sound bath Sundays</span>
+      </div>
+      <button class="room-cta" onclick="fmToast('Booked: FORM Flow — next Tue 7PM')">Book a Flow Class</button>
+    </div>
+  </section>
+
+  <div class="room-divider"><span class="divider-text">Turning the corner</span></div>
+
+  <!-- ═══ ROOM 3: BURN ZONE ═══ -->
+  <section class="room" id="burn">
+    <div class="room-bg" style="background-image:url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1600&h=1000&fit=crop&q=80')"></div>
+    <div class="room-content">
+      <span class="room-tag">Room 03 — Burn Zone</span>
+      <h2>Where<br>the <em>work</em><br>happens.</h2>
+      <p class="room-desc">High-intensity interval training. 45 minutes. No rest. Assault bikes, rowers, sleds, and a coach who won't let you quit. This is where transformation begins.</p>
+      <div class="room-pills">
+        <span class="room-pill">Assault bikes & rowers</span>
+        <span class="room-pill">Heart rate tracked</span>
+        <span class="room-pill">Leaderboard</span>
+      </div>
+      <button class="room-cta" onclick="fmToast('Booked: FORM Burn — next Wed 6AM')">Book a Burn Class</button>
+    </div>
+  </section>
+
+  <div class="room-divider"><span class="divider-text">Through the glass doors</span></div>
+
+  <!-- ═══ ROOM 4: RECOVERY LOUNGE ═══ -->
+  <section class="room right" id="recovery">
+    <div class="room-bg" style="background-image:url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=1600&h=1000&fit=crop&q=80')"></div>
+    <div class="room-content">
+      <span class="room-tag">Room 04 — Recovery Lounge</span>
+      <h2>Earn<br>your <em>rest.</em></h2>
+      <p class="room-desc">Cold plunge, infrared sauna, and compression therapy. Recovery isn't optional — it's how you come back stronger. Elite members get unlimited access.</p>
+      <div class="room-pills">
+        <span class="room-pill">Cold plunge (38°F)</span>
+        <span class="room-pill">Infrared sauna</span>
+        <span class="room-pill">Normatec compression</span>
+      </div>
+      <button class="room-cta" onclick="fmToast('Free intro session request sent!')">Book Free Intro</button>
+    </div>
+  </section>
+
 </div>
 
-<!-- ROOM 0: ENTRANCE -->
-<section class="room room-entrance" data-room="0">
-  <div class="room-bg" style="background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1400&h=900&fit=crop&q=80')"></div>
-  <div class="room-content">
-    <span class="room-tag">Welcome to FORM</span>
-    <h1>Move<br>with<br><span>purpose.</span></h1>
-    <p>Walk through our studio. Discover the spaces designed to push your limits, restore your body, and build your strongest self.</p>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-      <a href="#strength" class="fm-join-btn" style="text-decoration:none">Enter the Studio</a>
-    </div>
-  </div>
-  <div class="scroll-arrow">
-    <span>Scroll to explore</span>
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M5 11l5 5 5-5" stroke="currentColor" stroke-width="1.5"/></svg>
-  </div>
-</section>
-
-<!-- ROOM 1: STRENGTH ROOM -->
-<section id="strength" class="room" data-room="1">
-  <div class="room-bg" style="background-image:url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=1400&h=900&fit=crop&q=80')"></div>
-  <div class="room-content">
-    <span class="room-tag">Room 01 &middot; Strength Floor</span>
-    <h2>Built to<br><span>lift.</span></h2>
-    <p>Olympic platforms, calibrated plates, and racks built for serious lifters. Whether you're chasing a PR or just getting started, this room is your foundation.</p>
-    <div class="room-features">
-      <div class="room-feat"><div class="room-feat-dot"></div>Rogue racks & platforms</div>
-      <div class="room-feat"><div class="room-feat-dot"></div>Calibrated Eleiko plates</div>
-      <div class="room-feat"><div class="room-feat-dot"></div>Max 12 per session</div>
-    </div>
-    <button class="fm-join-btn" onclick="fmToast('Booked: FORM Lift — next available Mon 6AM')">Book a Lift Session</button>
-  </div>
-</section>
-
-<!-- ROOM 2: YOGA / FLOW STUDIO -->
-<section id="yoga" class="room room-right" data-room="2">
-  <div class="room-bg" style="background-image:url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1400&h=900&fit=crop&q=80')"></div>
-  <div class="room-content">
-    <span class="room-tag">Room 02 &middot; Flow Studio</span>
-    <h2>Restore<br>your<br><span>balance.</span></h2>
-    <p>Heated bamboo floors, ambient lighting, and silence. Our flow studio is designed for yoga, mobility work, and guided meditation. Move slowly, breathe deeply.</p>
-    <div class="room-features">
-      <div class="room-feat"><div class="room-feat-dot"></div>Heated bamboo floors</div>
-      <div class="room-feat"><div class="room-feat-dot"></div>Vinyasa, Yin & Mobility</div>
-      <div class="room-feat"><div class="room-feat-dot"></div>Sound bath Sundays</div>
-    </div>
-    <button class="fm-join-btn" onclick="fmToast('Booked: FORM Flow — next available Tue 7PM')">Book a Flow Class</button>
-  </div>
-</section>
-
-<!-- ROOM 3: HIIT / BURN ZONE -->
-<section id="hiit" class="room" data-room="3">
-  <div class="room-bg" style="background-image:url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1400&h=900&fit=crop&q=80')"></div>
-  <div class="room-content">
-    <span class="room-tag">Room 03 &middot; Burn Zone</span>
-    <h2>Where the<br><span>work</span><br>happens.</h2>
-    <p>High-intensity interval training. 45 minutes. No rest. Assault bikes, rowers, sleds, and a coach who won't let you quit. This is where transformation begins.</p>
-    <div class="room-features">
-      <div class="room-feat"><div class="room-feat-dot"></div>Assault bikes & Concept2 rowers</div>
-      <div class="room-feat"><div class="room-feat-dot"></div>Heart rate monitored</div>
-      <div class="room-feat"><div class="room-feat-dot"></div>Leaderboard tracking</div>
-    </div>
-    <button class="fm-join-btn" onclick="fmToast('Booked: FORM Burn — next available Wed 6AM')">Book a Burn Class</button>
-  </div>
-</section>
-
-<!-- ROOM 4: TRAINERS -->
-<section class="room room-right" data-room="4">
-  <div class="room-bg" style="background-image:url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&h=900&fit=crop&q=80')"></div>
-  <div class="room-content">
-    <span class="room-tag">The Team</span>
-    <h2>Your<br><span>coaches.</span></h2>
-    <p>24 certified trainers. Every one obsessed with your progress. From Olympic lifters to yoga masters, our team coaches with intention — never just counting reps.</p>
-    <div class="room-features">
-      <div class="room-feat"><div class="room-feat-dot"></div>NSCA & NASM certified</div>
-      <div class="room-feat"><div class="room-feat-dot"></div>1-on-1 programming available</div>
-      <div class="room-feat"><div class="room-feat-dot"></div>Free intro session for new members</div>
-    </div>
-    <button class="fm-join-btn" onclick="fmToast('Free intro session request sent!')">Book Free Intro</button>
-  </div>
-</section>
-
 <!-- STATS BAR -->
-<div style="border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);padding:40px;display:grid;grid-template-columns:repeat(4,1fr);gap:40px;text-align:center;max-width:900px;margin:0 auto">
+<div style="border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);padding:48px 40px;display:grid;grid-template-columns:repeat(4,1fr);gap:40px;text-align:center;max-width:900px;margin:0 auto">
   <div><div style="font-family:var(--font-display);font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--neon);line-height:1">12K+</div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-mid);margin-top:4px">Active Members</div></div>
   <div><div style="font-family:var(--font-display);font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--neon);line-height:1">6</div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-mid);margin-top:4px">Class Formats</div></div>
   <div><div style="font-family:var(--font-display);font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--neon);line-height:1">98%</div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-mid);margin-top:4px">Retention Rate</div></div>
@@ -328,28 +363,34 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-we
 
 <!-- SCHEDULE -->
 <section id="schedule" class="fm-schedule-section">
-  <h2 class="fm-sched-title">This Week's <span>Schedule</span></h2>
+  <h2 class="fm-sched-title">This Week's <em>Schedule</em></h2>
   <p class="fm-sched-sub">Book your spot — classes fill up fast</p>
   <div class="fm-schedule">
     <div class="fm-schedule-day">
       <h3>Monday</h3>
-      <div class="fm-schedule-row"><span class="fm-sched-time">6:00 AM</span><span class="fm-sched-class">FORM Burn</span><span class="fm-sched-trainer">Alex R.</span><span class="fm-sched-spots">4 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Mon 6AM Burn')">Book</button></div>
-      <div class="fm-schedule-row"><span class="fm-sched-time">12:00 PM</span><span class="fm-sched-class">FORM Lift</span><span class="fm-sched-trainer">Marcus W.</span><span class="fm-sched-spots">8 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Mon 12PM Lift')">Book</button></div>
-      <div class="fm-schedule-row"><span class="fm-sched-time">5:30 PM</span><span class="fm-sched-class">FORM Burn</span><span class="fm-sched-trainer">Maya C.</span><span class="fm-sched-spots">2 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Mon 5:30PM Burn')">Book</button></div>
-      <div class="fm-schedule-row"><span class="fm-sched-time">7:00 PM</span><span class="fm-sched-class">FORM Flow</span><span class="fm-sched-trainer">Jordan L.</span><span class="fm-sched-spots">12 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Mon 7PM Flow')">Book</button></div>
+      <div class="fm-sched-row"><span class="fm-sched-time">6:00 AM</span><span class="fm-sched-class">FORM Burn</span><span class="fm-sched-trainer">Alex R.</span><span class="fm-sched-spots">4 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Mon 6AM Burn')">Book</button></div>
+      <div class="fm-sched-row"><span class="fm-sched-time">12:00 PM</span><span class="fm-sched-class">FORM Lift</span><span class="fm-sched-trainer">Marcus W.</span><span class="fm-sched-spots">8 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Mon 12PM Lift')">Book</button></div>
+      <div class="fm-sched-row"><span class="fm-sched-time">5:30 PM</span><span class="fm-sched-class">FORM Burn</span><span class="fm-sched-trainer">Maya C.</span><span class="fm-sched-spots">2 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Mon 5:30PM Burn')">Book</button></div>
+      <div class="fm-sched-row"><span class="fm-sched-time">7:00 PM</span><span class="fm-sched-class">FORM Flow</span><span class="fm-sched-trainer">Jordan L.</span><span class="fm-sched-spots">12 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Mon 7PM Flow')">Book</button></div>
     </div>
     <div class="fm-schedule-day">
       <h3>Tuesday</h3>
-      <div class="fm-schedule-row"><span class="fm-sched-time">6:00 AM</span><span class="fm-sched-class">FORM Lift</span><span class="fm-sched-trainer">Marcus W.</span><span class="fm-sched-spots">6 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Tue 6AM Lift')">Book</button></div>
-      <div class="fm-schedule-row"><span class="fm-sched-time">12:00 PM</span><span class="fm-sched-class">FORM Flow</span><span class="fm-sched-trainer">Jordan L.</span><span class="fm-sched-spots">10 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Tue 12PM Flow')">Book</button></div>
-      <div class="fm-schedule-row"><span class="fm-sched-time">6:00 PM</span><span class="fm-sched-class">FORM Burn</span><span class="fm-sched-trainer">Alex R.</span><span class="fm-sched-spots">1 spot</span><button class="fm-sched-book" onclick="fmToast('Booked: Tue 6PM Burn')">Book</button></div>
+      <div class="fm-sched-row"><span class="fm-sched-time">6:00 AM</span><span class="fm-sched-class">FORM Lift</span><span class="fm-sched-trainer">Marcus W.</span><span class="fm-sched-spots">6 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Tue 6AM Lift')">Book</button></div>
+      <div class="fm-sched-row"><span class="fm-sched-time">12:00 PM</span><span class="fm-sched-class">FORM Flow</span><span class="fm-sched-trainer">Jordan L.</span><span class="fm-sched-spots">10 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Tue 12PM Flow')">Book</button></div>
+      <div class="fm-sched-row"><span class="fm-sched-time">6:00 PM</span><span class="fm-sched-class">FORM Burn</span><span class="fm-sched-trainer">Alex R.</span><span class="fm-sched-spots">1 spot</span><button class="fm-sched-book" onclick="fmToast('Booked: Tue 6PM Burn')">Book</button></div>
+    </div>
+    <div class="fm-schedule-day">
+      <h3>Wednesday</h3>
+      <div class="fm-sched-row"><span class="fm-sched-time">6:00 AM</span><span class="fm-sched-class">FORM Burn</span><span class="fm-sched-trainer">Maya C.</span><span class="fm-sched-spots">5 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Wed 6AM Burn')">Book</button></div>
+      <div class="fm-sched-row"><span class="fm-sched-time">5:30 PM</span><span class="fm-sched-class">FORM Lift</span><span class="fm-sched-trainer">Marcus W.</span><span class="fm-sched-spots">7 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Wed 5:30PM Lift')">Book</button></div>
+      <div class="fm-sched-row"><span class="fm-sched-time">7:30 PM</span><span class="fm-sched-class">FORM Flow</span><span class="fm-sched-trainer">Jordan L.</span><span class="fm-sched-spots">15 spots</span><button class="fm-sched-book" onclick="fmToast('Booked: Wed 7:30PM Flow')">Book</button></div>
     </div>
   </div>
 </section>
 
 <!-- MEMBERSHIP -->
 <section id="join" class="fm-membership">
-  <h2>Ready to start <span>your form?</span></h2>
+  <h2>Ready to start <em>your form?</em></h2>
   <p>Three membership tiers. No contracts. Cancel anytime. First class always free.</p>
   <div class="fm-tiers">
     <div class="fm-tier">
@@ -359,7 +400,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-we
       <div class="fm-tier-feature">Access all class formats</div>
       <div class="fm-tier-feature">No commitment</div>
       <div class="fm-tier-feature">Towel & water included</div>
-      <button class="fm-join-btn" style="background:transparent;border:1px solid rgba(200,255,46,0.2);color:var(--neon)" onclick="fmToast('Signup coming soon!')">Get Started</button>
+      <button class="room-cta" style="background:transparent;border:1px solid rgba(200,255,46,0.2);color:var(--neon);width:100%;margin-top:20px" onclick="fmToast('Signup coming soon!')">Get Started</button>
     </div>
     <div class="fm-tier featured">
       <div class="fm-tier-name">Unlimited</div>
@@ -369,7 +410,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-we
       <div class="fm-tier-feature">Priority booking</div>
       <div class="fm-tier-feature">1 guest pass/month</div>
       <div class="fm-tier-feature">InBody scan quarterly</div>
-      <button class="fm-join-btn" onclick="fmToast('Signup coming soon!')">Join Unlimited</button>
+      <button class="room-cta" style="width:100%;margin-top:20px" onclick="fmToast('Signup coming soon!')">Join Unlimited</button>
     </div>
     <div class="fm-tier">
       <div class="fm-tier-name">Elite</div>
@@ -379,16 +420,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-we
       <div class="fm-tier-feature">2 PT sessions/month</div>
       <div class="fm-tier-feature">Nutrition coaching</div>
       <div class="fm-tier-feature">Recovery lounge access</div>
-      <button class="fm-join-btn" style="background:transparent;border:1px solid rgba(200,255,46,0.2);color:var(--neon)" onclick="fmToast('Signup coming soon!')">Go Elite</button>
+      <button class="room-cta" style="background:transparent;border:1px solid rgba(200,255,46,0.2);color:var(--neon);width:100%;margin-top:20px" onclick="fmToast('Signup coming soon!')">Go Elite</button>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
+<!-- FOOTER -->
 <footer class="fm-footer">
   <div class="fm-footer-grid">
-    <div><div class="fm-footer-brand">FORM<span>.</span></div><p>Boutique fitness studio. Intentional movement. High-performance coaching.</p></div>
-    <div><h4>Classes</h4><a href="#strength">FORM Lift</a><a href="#yoga">FORM Flow</a><a href="#hiit">FORM Burn</a><a href="#schedule">Full Schedule</a></div>
+    <div><div class="fm-footer-brand">FORM<em>.</em></div><p>Boutique fitness studio. Intentional movement. High-performance coaching.</p></div>
+    <div><h4>Classes</h4><a href="#strength">FORM Lift</a><a href="#flow">FORM Flow</a><a href="#burn">FORM Burn</a><a href="#schedule">Full Schedule</a></div>
     <div><h4>Studio</h4><a href="#">789 Iron St, LA</a><a href="#">Mon-Sat 5:30a-9p</a><a href="#">(310) 555-0247</a></div>
     <div><h4>Connect</h4><a href="social-fake.html" target="_blank">Instagram</a><a href="social-fake.html" target="_blank">TikTok</a><a href="#">YouTube</a><a href="#">App Store</a></div>
   </div>
@@ -400,48 +441,77 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-we
 <script>
 function fmToast(msg){var t=document.getElementById('fmToast');t.textContent=msg;t.classList.add('show');clearTimeout(t._tm);t._tm=setTimeout(function(){t.classList.remove('show')},2500)}
 
-// Parallax backgrounds on scroll
-var rooms=document.querySelectorAll('.room');
-var progressDots=document.querySelectorAll('.fm-progress-dot');
-var lastScrollY=0;
-var nav=document.getElementById('fmNav');
+// ── SCROLL ENGINE ──
+var rooms = document.querySelectorAll('.room');
+var minimapItems = document.querySelectorAll('.minimap-item');
+var lastScroll = 0;
 
-window.addEventListener('scroll',function(){
-  var y=window.scrollY;
-  var vh=window.innerHeight;
+function onScroll() {
+  var y = window.scrollY;
+  var vh = window.innerHeight;
 
-  // Parallax each room background
-  rooms.forEach(function(room){
-    var bg=room.querySelector('.room-bg');
-    if(!bg)return;
-    var rect=room.getBoundingClientRect();
-    if(rect.bottom>0&&rect.top<vh){
-      var progress=(vh-rect.top)/(vh+rect.height);
-      bg.style.transform='translateY('+(progress*80-40)+'px) scale(1.05)';
+  rooms.forEach(function(room) {
+    var rect = room.getBoundingClientRect();
+    var bg = room.querySelector('.room-bg');
+
+    // Parallax: move background slower than scroll
+    if (bg && rect.bottom > 0 && rect.top < vh) {
+      var progress = (vh - rect.top) / (vh + rect.height);
+      bg.style.transform = 'translateY(' + ((progress - 0.5) * 80) + 'px) scale(1.1)';
+    }
+
+    // In-view detection: content fades in
+    var center = rect.top + rect.height / 2;
+    if (center > vh * 0.15 && center < vh * 0.85) {
+      room.classList.add('in-view');
+    } else {
+      // Don't remove from entrance
+      if (!room.classList.contains('room-entrance')) {
+        room.classList.remove('in-view');
+      }
     }
   });
 
-  // Update progress dots
-  var activeRoom=0;
-  rooms.forEach(function(room,i){
-    var rect=room.getBoundingClientRect();
-    if(rect.top<vh*0.5) activeRoom=i;
-  });
-  progressDots.forEach(function(dot,i){
-    dot.classList.toggle('active',i===activeRoom);
+  // Update minimap
+  var activeIdx = 0;
+  rooms.forEach(function(room, i) {
+    var rect = room.getBoundingClientRect();
+    if (rect.top < vh * 0.5) activeIdx = i;
   });
 
-  // Nav hide/show
-  if(y>lastScrollY&&y>200)nav.classList.add('hide');
-  else nav.classList.remove('hide');
-  lastScrollY=y;
+  // Map room index to minimap index (rooms include entrance + 4 rooms, minimap has 6 items including schedule)
+  var scheduleEl = document.getElementById('schedule');
+  var schedRect = scheduleEl ? scheduleEl.getBoundingClientRect() : null;
+  var mapIdx = activeIdx;
+  if (schedRect && schedRect.top < vh * 0.5) mapIdx = 5;
+
+  minimapItems.forEach(function(item, i) {
+    item.classList.toggle('active', i === mapIdx);
+  });
+
+  lastScroll = y;
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// Minimap click navigation
+minimapItems.forEach(function(item) {
+  item.addEventListener('click', function() {
+    var targetId = item.getAttribute('data-target');
+    var el = document.getElementById(targetId);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  });
 });
 
-// Progress dot clicks
-progressDots.forEach(function(dot){
-  dot.addEventListener('click',function(){
-    var idx=parseInt(dot.getAttribute('data-room'));
-    if(rooms[idx])rooms[idx].scrollIntoView({behavior:'smooth'});
+// Smooth anchor scrolling
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
   });
 });
 </script>
