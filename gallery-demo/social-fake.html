@@ -183,10 +183,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   <div class="ig-related">
     <div class="ig-related-title">Suggested for you</div>
     <div class="ig-related-list">
-      <div class="ig-related-item" onclick="switchTab('tt')"><img src="https://images.unsplash.com/photo-1558857563-b371033873b8?w=100&h=100&fit=crop&q=80" alt=""><span>koiboba.tk</span></div>
-      <div class="ig-related-item" onclick="switchTab('yelp')"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=100&h=100&fit=crop&q=80" alt=""><span>embervine</span></div>
-      <div class="ig-related-item" onclick="switchTab('dd')"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=100&h=100&fit=crop&q=80" alt=""><span>maisonnoir</span></div>
-      <div class="ig-related-item" onclick="switchTab('ig')"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&h=100&fit=crop&q=80" alt=""><span>form.athletics</span></div>
+      <div class="ig-related-item" onclick="visitProfile('koiboba.tk','tt')"><img src="https://images.unsplash.com/photo-1558857563-b371033873b8?w=100&h=100&fit=crop&q=80" alt=""><span>koiboba.tk</span></div>
+      <div class="ig-related-item" onclick="visitProfile('embervine','ig')"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=100&h=100&fit=crop&q=80" alt=""><span>embervine</span></div>
+      <div class="ig-related-item" onclick="visitProfile('maisonnoir','ig')"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=100&h=100&fit=crop&q=80" alt=""><span>maisonnoir</span></div>
+      <div class="ig-related-item" onclick="visitProfile('form.athletics','ig')"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&h=100&fit=crop&q=80" alt=""><span>form.athletics</span></div>
     </div>
   </div>
 </div>
@@ -316,6 +316,27 @@ function showPage(id){
 // Switch tab from anywhere (suggested profiles, etc.)
 function switchTab(id){
   showPage(id);
+}
+
+// Visit a suggested profile — swap the name/bio to simulate navigation
+var brandData = {
+  'koiboba.tk': {name:'Koi Boba Co.', bio:'Your second home. Hand-crafted boba teas & cozy vibes.', link:'linktr.ee/koiboba'},
+  'embervine': {name:'Ember & Vine', bio:'Wood-fired kitchen & wine bar. Seasonal ingredients, open flame.', link:'embervine.com'},
+  'maisonnoir': {name:'Maison Noir', bio:'Curated luxury for the modern minimalist. Independent designers.', link:'maisonnoir.com'},
+  'form.athletics': {name:'FORM Athletics', bio:'Boutique fitness. Intentional movement. High-performance coaching.', link:'formathletics.com'}
+};
+function visitProfile(handle, tab) {
+  var data = brandData[handle];
+  if (!data) return;
+  // Update IG profile info
+  var nameEl = document.querySelector('.ig-bio-name');
+  var bioEl = document.querySelector('.ig-bio-text');
+  var linkEl = document.querySelector('.ig-bio-link');
+  if (nameEl) nameEl.textContent = data.name;
+  if (bioEl) bioEl.textContent = data.bio;
+  if (linkEl) linkEl.textContent = data.link;
+  // Switch to the tab and scroll up
+  showPage(tab);
 }
 
 // Check URL params on load — e.g. social-fake.html?tab=yelp
