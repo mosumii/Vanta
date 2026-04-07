@@ -180,18 +180,18 @@
   opacity: 1;
 }
 
-/* Card positions when fanned — contained within stage */
+/* Card positions when fanned — wider spread, more gap */
 .gallery-stage.fanned .fan-card:nth-child(1) {
-  transform: translate(-175px, -330px) rotate(-11deg) scale(1);
+  transform: translate(-230px, -318px) rotate(-17deg) scale(1);
 }
 .gallery-stage.fanned .fan-card:nth-child(2) {
-  transform: translate(-65px, -348px) rotate(-3deg) scale(1);
+  transform: translate(-82px, -348px) rotate(-5deg) scale(1);
 }
 .gallery-stage.fanned .fan-card:nth-child(3) {
-  transform: translate(35px, -348px) rotate(3deg) scale(1);
+  transform: translate(58px, -348px) rotate(5deg) scale(1);
 }
 .gallery-stage.fanned .fan-card:nth-child(4) {
-  transform: translate(125px, -330px) rotate(11deg) scale(1);
+  transform: translate(175px, -318px) rotate(17deg) scale(1);
 }
 
 /* Individual card hover — lift up */
@@ -199,16 +199,16 @@
   z-index: 20 !important;
 }
 .gallery-stage.fanned .fan-card:nth-child(1):hover {
-  transform: translate(-175px, -346px) rotate(-11deg) scale(1.04);
+  transform: translate(-230px, -335px) rotate(-17deg) scale(1.04);
 }
 .gallery-stage.fanned .fan-card:nth-child(2):hover {
-  transform: translate(-65px, -364px) rotate(-3deg) scale(1.04);
+  transform: translate(-82px, -365px) rotate(-5deg) scale(1.04);
 }
 .gallery-stage.fanned .fan-card:nth-child(3):hover {
-  transform: translate(35px, -364px) rotate(3deg) scale(1.04);
+  transform: translate(58px, -365px) rotate(5deg) scale(1.04);
 }
 .gallery-stage.fanned .fan-card:nth-child(4):hover {
-  transform: translate(125px, -346px) rotate(11deg) scale(1.04);
+  transform: translate(175px, -335px) rotate(17deg) scale(1.04);
 }
 
 /* Card frame (premium border) */

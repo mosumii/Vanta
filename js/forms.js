@@ -44,6 +44,37 @@
     }
   });
 
+  // ── UNIVERSAL FORM SENDER ──
+  // Sends to localStorage + Formspree + Google Sheets
+  function sendFormData(data, formType) {
+    var cfg = window.VANTA_CONFIG || {};
+    data._formType = formType;
+    data._timestamp = new Date().toISOString();
+
+    // 1. localStorage backup
+    var key = 'vanta_' + formType.toLowerCase();
+    var stored = JSON.parse(localStorage.getItem(key) || '[]');
+    stored.push(data);
+    localStorage.setItem(key, JSON.stringify(stored));
+
+    // 2. Formspree (email notification)
+    if (cfg.FORMSPREE_URL) {
+      fetch(cfg.FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      }).catch(function(){});
+    }
+
+    // 3. Google Sheets
+    if (cfg.GOOGLE_SHEET_URL) {
+      fetch(cfg.GOOGLE_SHEET_URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      }).catch(function(){});
+    }
+  }
+
   // Form submission
   if (consultForm) {
     consultForm.addEventListener('submit', (e) => {
@@ -52,20 +83,7 @@
       const formData = new FormData(consultForm);
       const data = Object.fromEntries(formData.entries());
 
-      // Store locally
-      const submissions = JSON.parse(localStorage.getItem('vanta_consultations') || '[]');
-      submissions.push({ ...data, timestamp: new Date().toISOString() });
-      localStorage.setItem('vanta_consultations', JSON.stringify(submissions));
-
-      // Send to configurable endpoint (replace URL with your actual endpoint)
-      const API_ENDPOINT = null; // Set your API URL here, e.g. 'https://api.example.com/consult'
-      if (API_ENDPOINT) {
-        fetch(API_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        }).catch(() => {});
-      }
+      sendFormData(data, 'Consultations');
 
       // Show success state
       consultForm.innerHTML = `
@@ -81,20 +99,15 @@
   }
 
   /* ═══════════════════════════════════════════
-     STRIPE PAYMENT LINKS (Placeholders)
+     STRIPE PAYMENT LINKS (from config)
      ═══════════════════════════════════════════ */
-  // Configure these with your actual Stripe Payment Links
-  const STRIPE_LINKS = {
-    tier1: null, // e.g. 'https://buy.stripe.com/xxx'
-    tier2: null,
-    tier3: null
-  };
-
   document.querySelectorAll('[data-stripe]').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const tier = btn.getAttribute('data-stripe');
-      const link = STRIPE_LINKS[tier];
+      const cfg = window.VANTA_CONFIG || {};
+      const linkMap = { tier1: cfg.STRIPE_TIER1, tier2: cfg.STRIPE_TIER2, tier3: cfg.STRIPE_TIER3 };
+      const link = linkMap[tier];
 
       if (link) {
         window.open(link, '_blank');

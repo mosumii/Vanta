@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/variables.css">
+<script src="js/config.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -614,19 +615,29 @@ body::after {
       }
     });
 
-    // Store locally
-    var submissions = JSON.parse(localStorage.getItem('vanta_questionnaires') || '[]');
-    submissions.push({ data: data, timestamp: new Date().toISOString() });
-    localStorage.setItem('vanta_questionnaires', JSON.stringify(submissions));
+    // Store locally + send to backends
+    data._formType = 'Questionnaires';
+    data._timestamp = new Date().toISOString();
 
-    // Send to configurable endpoint
-    var API_ENDPOINT = null; // Set your API URL here
-    if (API_ENDPOINT) {
-      fetch(API_ENDPOINT, {
+    var stored = JSON.parse(localStorage.getItem('vanta_questionnaires') || '[]');
+    stored.push(data);
+    localStorage.setItem('vanta_questionnaires', JSON.stringify(stored));
+
+    // Formspree
+    var cfg = window.VANTA_CONFIG || {};
+    if (cfg.FORMSPREE_URL) {
+      fetch(cfg.FORMSPREE_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(data)
-      }).catch(function () {});
+      }).catch(function(){});
+    }
+    // Google Sheets
+    if (cfg.GOOGLE_SHEET_URL) {
+      fetch(cfg.GOOGLE_SHEET_URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      }).catch(function(){});
     }
 
     // Show success

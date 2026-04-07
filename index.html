@@ -592,7 +592,7 @@
         <button type="submit" class="form-submit">Send Inquiry</button>
       </form>
       <div class="form-divider">or schedule directly</div>
-      <a href="https://calendly.com" target="_blank" rel="noopener" class="calendly-link">Open Calendly Scheduler</a>
+      <a href="#" id="calendlyLink" target="_blank" rel="noopener" class="calendly-link" onclick="var u=(window.VANTA_CONFIG||{}).CALENDLY_URL||'https://calendly.com';window.open(u,'_blank');return false;">Open Calendly Scheduler</a>
     </div>
   </div>
 </div>
@@ -623,6 +623,7 @@
 </div>
 
 <!-- Scripts -->
+<script src="js/config.js"></script>
 <script src="js/monoliths.js"></script>
 <script src="js/line-chart.js"></script>
 <script src="js/animations.js"></script>
