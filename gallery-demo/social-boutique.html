@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--surface:#111;--surface-2:#1a1a1a;--text:#fafafa;--text-mid:#a8a8a8;--text-dim:#555;--accent:#c4804e;--blue:#3897f0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;max-width:420px;margin:0 auto;min-height:100vh;position:relative;overflow-x:hidden}
+
+/* TAB NAV */
+.tab-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:var(--bg);border-top:1px solid rgba(255,255,255,0.1);display:flex;z-index:100;padding:8px 0 12px}
+.tab-btn{flex:1;background:none;border:none;color:var(--text-dim);font-size:10px;letter-spacing:0.04em;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0;transition:color .2s;font-family:'Inter',sans-serif}
+.tab-btn.active{color:var(--text)}
+.tab-btn svg{width:22px;height:22px}
+
+/* PAGES */
+.page{display:none;padding-bottom:60px}
+.page.active{display:block}
+
+/* ── INSTAGRAM ── */
+.ig-header{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08)}
+.ig-logo{font-size:18px;font-weight:600;letter-spacing:-0.02em}
+.ig-profile{display:flex;align-items:center;gap:16px;padding:16px}
+.ig-avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--accent)}
+.ig-stats{display:flex;gap:20px;text-align:center}
+.ig-stat-num{font-weight:600;font-size:16px}
+.ig-stat-label{font-size:11px;color:var(--text-mid)}
+.ig-bio{padding:0 16px 12px}
+.ig-bio-name{font-weight:600;font-size:13px}
+.ig-bio-text{font-size:13px;color:var(--text-mid);line-height:1.5;margin-top:2px}
+.ig-bio-link{color:var(--blue);font-size:13px;font-weight:500}
+.ig-edit-btn{display:block;margin:0 16px 16px;padding:8px;text-align:center;border:1px solid rgba(255,255,255,0.15);font-size:12px;font-weight:500;color:var(--text);background:transparent;cursor:pointer;border-radius:6px}
+.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.ig-grid img{width:100%;aspect-ratio:1;object-fit:cover;cursor:pointer;transition:opacity .2s}
+.ig-grid img:hover{opacity:0.7}
+.ig-related{padding:16px;border-top:1px solid rgba(255,255,255,0.06)}
+.ig-related-title{font-size:12px;font-weight:600;margin-bottom:12px}
+.ig-related-list{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px}
+.ig-related-item{flex:0 0 auto;text-align:center;width:72px;cursor:pointer}
+.ig-related-item img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.1);margin-bottom:4px}
+.ig-related-item span{font-size:10px;color:var(--text-mid);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* IG Post Modal */
+.ig-post-modal{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.9);display:none;flex-direction:column;padding:48px 16px 16px}
+.ig-post-modal.open{display:flex}
+.ig-post-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer}
+.ig-post-img{width:100%;max-height:60vh;object-fit:contain;margin-bottom:12px}
+.ig-post-actions{display:flex;gap:16px;padding:8px 0}
+.ig-post-actions svg{width:24px;height:24px;cursor:pointer}
+.ig-post-likes{font-weight:600;font-size:13px;padding:4px 0}
+.ig-post-caption{font-size:13px;color:var(--text-mid);line-height:1.5}
+.ig-post-caption b{color:var(--text);font-weight:600}
+.ig-post-time{font-size:11px;color:var(--text-dim);margin-top:8px}
+
+/* ── TIKTOK ── */
+.tt-header{padding:12px 16px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,0.06)}
+.tt-logo{font-size:16px;font-weight:700;letter-spacing:-0.02em}
+.tt-profile{text-align:center;padding:20px 16px}
+.tt-avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 12px;display:block}
+.tt-name{font-weight:700;font-size:15px}
+.tt-handle{font-size:13px;color:var(--text-mid);margin-top:2px}
+.tt-stats{display:flex;justify-content:center;gap:28px;margin:16px 0}
+.tt-bio{font-size:13px;color:var(--text-mid);max-width:260px;margin:0 auto}
+.tt-follow-btn{display:inline-block;padding:10px 48px;background:#fe2c55;color:#fff;border:none;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px;font-family:'Inter',sans-serif}
+.tt-videos{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:16px}
+.tt-videos .tt-vid{position:relative;aspect-ratio:9/16;overflow:hidden;cursor:pointer}
+.tt-videos img{width:100%;height:100%;object-fit:cover;transition:opacity .2s}
+.tt-videos img:hover{opacity:0.7}
+.tt-vid-views{position:absolute;bottom:6px;left:6px;font-size:11px;font-weight:500;display:flex;align-items:center;gap:4px}
+
+/* ── YELP ── */
+.yelp-header{padding:12px 16px;background:#af0606;text-align:center}
+.yelp-logo{font-size:18px;font-weight:700;color:#fff}
+.yelp-biz{padding:16px}
+.yelp-biz-name{font-size:20px;font-weight:700;margin-bottom:4px}
+.yelp-biz-rating{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.yelp-stars{color:#ff8c00;font-size:16px;letter-spacing:2px}
+.yelp-count{font-size:13px;color:var(--text-mid)}
+.yelp-biz-meta{font-size:13px;color:var(--text-mid)}
+.yelp-photos{display:flex;gap:2px;margin:12px 0;overflow-x:auto}
+.yelp-photos img{width:140px;height:140px;object-fit:cover;flex-shrink:0;border-radius:4px}
+.yelp-review{padding:16px;border-top:1px solid rgba(255,255,255,0.06)}
+.yelp-reviewer{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.yelp-reviewer img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+.yelp-reviewer-name{font-weight:600;font-size:13px}
+.yelp-reviewer-info{font-size:11px;color:var(--text-dim)}
+.yelp-review-stars{color:#ff8c00;font-size:13px;letter-spacing:1px;margin-bottom:6px}
+.yelp-review-text{font-size:13px;color:var(--text-mid);line-height:1.6}
+.yelp-review-date{font-size:11px;color:var(--text-dim);margin-top:6px}
+
+/* ── DOORDASH ── */
+.dd-header{padding:12px 16px;background:#ff3008;display:flex;align-items:center;justify-content:space-between}
+.dd-logo{font-size:16px;font-weight:700;color:#fff}
+.dd-search{padding:8px 16px;background:rgba(255,255,255,0.15);border:none;color:#fff;border-radius:20px;font-size:13px;width:200px;font-family:'Inter',sans-serif}
+.dd-biz{padding:16px}
+.dd-biz-banner{width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:12px}
+.dd-biz-name{font-size:20px;font-weight:700}
+.dd-biz-info{font-size:13px;color:var(--text-mid);margin:4px 0 12px}
+.dd-biz-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.dd-biz-tags span{font-size:11px;padding:4px 10px;border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:var(--text-mid)}
+.dd-menu-title{font-size:16px;font-weight:700;margin-bottom:12px}
+.dd-menu-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;transition:background .2s}
+.dd-menu-item:hover{background:rgba(255,255,255,0.02)}
+.dd-menu-item img{width:80px;height:80px;object-fit:cover;border-radius:8px;flex-shrink:0}
+.dd-item-name{font-weight:500;font-size:14px;margin-bottom:4px}
+.dd-item-desc{font-size:12px;color:var(--text-dim);line-height:1.4;margin-bottom:6px}
+.dd-item-price{font-weight:600;font-size:14px}
+.dd-add-btn{margin-top:auto;padding:6px 14px;background:#ff3008;color:#fff;border:none;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+
+.dd-toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--surface-2);border:1px solid rgba(255,48,8,0.3);color:var(--text);padding:12px 24px;font-size:13px;border-radius:8px;opacity:0;transition:all .3s;z-index:300}
+.dd-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- BACK BUTTON -->
+<div style="position:fixed;top:12px;left:12px;z-index:200">
+  <button onclick="history.back()" style="background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.1);color:#fafafa;padding:8px 16px;font-size:11px;letter-spacing:0.06em;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;backdrop-filter:blur(8px)">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+    Back to site
+  </button>
+</div>
+
+<!-- TAB NAVIGATION -->
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showPage('ig')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="18" cy="6" r="1.5" fill="currentColor"/></svg>
+    <span>Instagram</span>
+  </button>
+  <button class="tab-btn" onclick="showPage('tt')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/></svg>
+    <span>TikTok</span>
+  </button>
+  <button class="tab-btn" onclick="showPage('yelp')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
+    <span>Yelp</span>
+  </button>
+  <button class="tab-btn" onclick="showPage('dd')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/><circle cx="8" cy="14" r="1" fill="currentColor"/><circle cx="16" cy="14" r="1" fill="currentColor"/></svg>
+    <span>DoorDash</span>
+  </button>
+</nav>
+
+<!-- INSTAGRAM PAGE -->
+<div class="page active" id="page-ig">
+  <div class="ig-header">
+    <div class="ig-logo">Instagram</div>
+    <div style="display:flex;gap:16px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    </div>
+  </div>
+  <div class="ig-profile">
+    <img class="ig-avatar" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=150&h=150&fit=crop&q=80" alt="Profile">
+    <div class="ig-stats">
+      <div><div class="ig-stat-num">47</div><div class="ig-stat-label">Posts</div></div>
+      <div><div class="ig-stat-num">2,841</div><div class="ig-stat-label">Followers</div></div>
+      <div><div class="ig-stat-num">312</div><div class="ig-stat-label">Following</div></div>
+    </div>
+  </div>
+  <div class="ig-bio">
+    <div class="ig-bio-name">Maison Noir</div>
+    <div class="ig-bio-text">Curated luxury for the modern minimalist.<br>New arrivals every Friday</div>
+    <div class="ig-bio-link">linktr.ee/maisonnoir</div>
+  </div>
+  <button class="ig-edit-btn">Follow</button>
+  <div class="ig-grid">
+    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=300&h=300&fit=crop&q=80" alt="Post" onclick="openIgPost(0)">
+    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=300&h=300&fit=crop&q=80" alt="Post" onclick="openIgPost(1)">
+    <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=300&h=300&fit=crop&q=80" alt="Post" onclick="openIgPost(2)">
+    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=300&h=300&fit=crop&q=80" alt="Post" onclick="openIgPost(3)">
+    <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=300&h=300&fit=crop&q=80" alt="Post" onclick="openIgPost(4)">
+    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop&q=80" alt="Post" onclick="openIgPost(5)">
+    <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=300&h=300&fit=crop&q=80" alt="Post" onclick="openIgPost(6)">
+    <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300&h=300&fit=crop&q=80" alt="Post" onclick="openIgPost(7)">
+    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=300&h=300&fit=crop&q=75" alt="Post" onclick="openIgPost(8)">
+  </div>
+  <div class="ig-related">
+    <div class="ig-related-title">Suggested for you</div>
+    <div class="ig-related-list">
+      <div class="ig-related-item" onclick="visitProfile('maisonnoir.tk','tt')"><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=100&h=100&fit=crop&q=80" alt=""><span>maisonnoir.tk</span></div>
+      <div class="ig-related-item" onclick="visitProfile('embervine','ig')"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=100&h=100&fit=crop&q=80" alt=""><span>embervine</span></div>
+      <div class="ig-related-item" onclick="visitProfile('maisonnoir','ig')"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=100&h=100&fit=crop&q=80" alt=""><span>maisonnoir</span></div>
+      <div class="ig-related-item" onclick="visitProfile('form.athletics','ig')"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&h=100&fit=crop&q=80" alt=""><span>form.athletics</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- IG POST MODAL -->
+<div class="ig-post-modal" id="igPostModal">
+  <button class="ig-post-close" onclick="closeIgPost()">&times;</button>
+  <img class="ig-post-img" id="igPostImg" src="" alt="">
+  <div class="ig-post-actions">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
+  </div>
+  <div class="ig-post-likes" id="igPostLikes">247 likes</div>
+  <div class="ig-post-caption" id="igPostCaption"></div>
+  <div class="ig-post-time" id="igPostTime"></div>
+</div>
+
+<!-- TIKTOK PAGE -->
+<div class="page" id="page-tt">
+  <div class="tt-header"><div class="tt-logo">TikTok</div></div>
+  <div class="tt-profile">
+    <img class="tt-avatar" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=150&h=150&fit=crop&q=80" alt="Profile">
+    <div class="tt-name">Maison Noir</div>
+    <div class="tt-handle">@maisonnoir</div>
+    <div class="tt-stats">
+      <div><div class="ig-stat-num">12</div><div class="ig-stat-label">Following</div></div>
+      <div><div class="ig-stat-num">8.4K</div><div class="ig-stat-label">Followers</div></div>
+      <div><div class="ig-stat-num">142K</div><div class="ig-stat-label">Likes</div></div>
+    </div>
+    <div class="tt-bio">Your second home. Hand-crafted boba. LA based.</div>
+    <button class="tt-follow-btn">Follow</button>
+  </div>
+  <div class="tt-videos">
+    <div class="tt-vid"><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=250&h=440&fit=crop&q=80" alt=""><div class="tt-vid-views"><svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><polygon points="3,2 13,8 3,14"/></svg>48.2K</div></div>
+    <div class="tt-vid"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=250&h=440&fit=crop&q=80" alt=""><div class="tt-vid-views"><svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><polygon points="3,2 13,8 3,14"/></svg>31.5K</div></div>
+    <div class="tt-vid"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=250&h=440&fit=crop&q=80" alt=""><div class="tt-vid-views"><svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><polygon points="3,2 13,8 3,14"/></svg>22.1K</div></div>
+    <div class="tt-vid"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=250&h=440&fit=crop&q=80" alt=""><div class="tt-vid-views"><svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><polygon points="3,2 13,8 3,14"/></svg>18.7K</div></div>
+    <div class="tt-vid"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=250&h=440&fit=crop&q=80" alt=""><div class="tt-vid-views"><svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><polygon points="3,2 13,8 3,14"/></svg>12.3K</div></div>
+    <div class="tt-vid"><img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=250&h=440&fit=crop&q=80" alt=""><div class="tt-vid-views"><svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><polygon points="3,2 13,8 3,14"/></svg>9.8K</div></div>
+  </div>
+</div>
+
+<!-- YELP PAGE -->
+<div class="page" id="page-yelp">
+  <div class="yelp-header"><div class="yelp-logo">yelp</div></div>
+  <div class="yelp-biz">
+    <div class="yelp-biz-name">Maison Noir</div>
+    <div class="yelp-biz-rating">
+      <div class="yelp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="yelp-count">4.8 (127 reviews)</div>
+    </div>
+    <div class="yelp-biz-meta">Bubble Tea, Coffee & Tea, Desserts &middot; $$ &middot; Open until 10 PM</div>
+    <div class="yelp-photos">
+      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=280&h=280&fit=crop&q=80" alt="">
+      <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=280&h=280&fit=crop&q=80" alt="">
+      <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=280&h=280&fit=crop&q=80" alt="">
+    </div>
+  </div>
+  <div class="yelp-review">
+    <div class="yelp-reviewer"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&q=80" alt=""><div><div class="yelp-reviewer-name">Sarah M.</div><div class="yelp-reviewer-info">Elite '26 &middot; 84 reviews</div></div></div>
+    <div class="yelp-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+    <div class="yelp-review-text">My absolute favorite shopping experience. The cashmere quality is incredible and the vibes are immaculate. Free wifi, plenty of outlets, warm lighting. I come here almost every day.</div>
+    <div class="yelp-review-date">Apr 1, 2026</div>
+  </div>
+  <div class="yelp-review">
+    <div class="yelp-reviewer"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&q=80" alt=""><div><div class="yelp-reviewer-name">James L.</div><div class="yelp-reviewer-info">28 reviews</div></div></div>
+    <div class="yelp-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+    <div class="yelp-review-text">This place feels like a gallery experience. Perfect for date night or just decompressing after a long day. The matcha latte changed my life. No joke.</div>
+    <div class="yelp-review-date">Mar 28, 2026</div>
+  </div>
+  <div class="yelp-review">
+    <div class="yelp-reviewer"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&q=80" alt=""><div><div class="yelp-reviewer-name">Emily K.</div><div class="yelp-reviewer-info">156 reviews</div></div></div>
+    <div class="yelp-review-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+    <div class="yelp-review-text">Great drinks and lovely atmosphere. Only reason for 4 stars is the wait time on weekends can be 15+ minutes. But worth it honestly.</div>
+    <div class="yelp-review-date">Mar 22, 2026</div>
+  </div>
+</div>
+
+<!-- DOORDASH PAGE -->
+<div class="page" id="page-dd">
+  <div class="dd-header">
+    <div class="dd-logo">DoorDash</div>
+    <input class="dd-search" placeholder="Search Koi Boba..." readonly>
+  </div>
+  <div class="dd-biz">
+    <img class="dd-biz-banner" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=300&fit=crop&q=80" alt="Koi Boba">
+    <div class="dd-biz-name">Maison Noir</div>
+    <div class="dd-biz-info">4.8 &#9733; (127) &middot; Bubble Tea &middot; 0.8 mi &middot; $0 delivery fee &middot; 20-30 min</div>
+    <div class="dd-biz-tags"><span>Boba</span><span>Matcha</span><span>Milk Tea</span><span>Mochi</span></div>
+    <div class="dd-menu-title">Most Popular</div>
+    <div class="dd-menu-item" onclick="ddToast('Added to cart: Structured Wool Overcoat')">
+      <div style="flex:1"><div class="dd-item-name">Structured Wool Overcoat</div><div class="dd-item-desc">Double-faced wool, minimal construction</div><div class="dd-item-price">$395</div></div>
+      <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=160&h=160&fit=crop&q=80" alt="">
+    </div>
+    <div class="dd-menu-item" onclick="ddToast('Added to cart: Cashmere Relaxed Sweater')">
+      <div style="flex:1"><div class="dd-item-name">Cashmere Relaxed Sweater</div><div class="dd-item-desc">Hand-finished edges, drapes without clinging</div><div class="dd-item-price">$245</div></div>
+      <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=160&h=160&fit=crop&q=80" alt="">
+    </div>
+    <div class="dd-menu-item" onclick="ddToast('Added to cart: Minimal Leather Tote')">
+      <div style="flex:1"><div class="dd-item-name">Minimal Leather Tote</div><div class="dd-item-desc">Full-grain vegetable-tanned leather</div><div class="dd-item-price">$280</div></div>
+      <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=160&h=160&fit=crop&q=80" alt="">
+    </div>
+    <div class="dd-menu-item" onclick="ddToast('Added to cart: Mochi Bites')">
+      <div style="flex:1"><div class="dd-item-name">Printed Silk Scarf</div><div class="dd-item-desc">Limited edition seasonal prints</div><div class="dd-item-price">$120</div></div>
+      <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=160&h=160&fit=crop&q=80" alt="">
+    </div>
+  </div>
+</div>
+
+<div class="dd-toast" id="ddToast"></div>
+
+<script>
+// Page switching
+function showPage(id){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+  var page = document.getElementById('page-'+id);
+  if(page) page.classList.add('active');
+  // Highlight matching tab button
+  var btns = document.querySelectorAll('.tab-btn');
+  var tabMap = {ig:0, tt:1, yelp:2, dd:3};
+  if(tabMap[id] !== undefined && btns[tabMap[id]]) btns[tabMap[id]].classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// Switch tab from anywhere (suggested profiles, etc.)
+function switchTab(id){
+  showPage(id);
+}
+
+// Visit a suggested profile — swap the name/bio to simulate navigation
+var brandData = {
+  'maisonnoir.tk': {name:'Maison Noir', bio:'Your second home. Hand-crafted boba teas & cozy vibes.', link:'linktr.ee/maisonnoir'},
+  'embervine': {name:'Ember & Vine', bio:'Wood-fired kitchen & wine bar. Seasonal ingredients, open flame.', link:'embervine.com'},
+  'maisonnoir': {name:'Maison Noir', bio:'Curated luxury for the modern minimalist. Independent designers.', link:'maisonnoir.com'},
+  'form.athletics': {name:'FORM Athletics', bio:'Boutique fitness. Intentional movement. High-performance coaching.', link:'formathletics.com'}
+};
+function visitProfile(handle, tab) {
+  var data = brandData[handle];
+  if (!data) return;
+  // Update IG profile info
+  var nameEl = document.querySelector('.ig-bio-name');
+  var bioEl = document.querySelector('.ig-bio-text');
+  var linkEl = document.querySelector('.ig-bio-link');
+  if (nameEl) nameEl.textContent = data.name;
+  if (bioEl) bioEl.textContent = data.bio;
+  if (linkEl) linkEl.textContent = data.link;
+  // Switch to the tab and scroll up
+  showPage(tab);
+}
+
+// Check URL params on load — e.g. social-fake.html?tab=yelp
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  var tab = params.get('tab');
+  if(tab && document.getElementById('page-'+tab)){
+    showPage(tab);
+  }
+})();
+
+// IG Post data
+var igPosts=[
+  {img:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&h=600&fit=crop&q=80',likes:'247',caption:'<b>maisonnoir</b> New collection just dropped. Timeless pieces, no logos.',time:'2 HOURS AGO'},
+  {img:'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&h=600&fit=crop&q=80',likes:'189',caption:'<b>maisonnoir</b> Cashmere season is here. Come grab yours before they\'re gone.',time:'1 DAY AGO'},
+  {img:'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=600&fit=crop&q=80',likes:'312',caption:'<b>maisonnoir</b> The lookbook is live. AW26 shot in Paris. This is not your average matcha.',time:'2 DAYS AGO'},
+  {img:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=600&fit=crop&q=80',likes:'156',caption:'<b>maisonnoir</b> Minimalism is not about less. It's about enough. Available all day, every day.',time:'3 DAYS AGO'},
+  {img:'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&h=600&fit=crop&q=80',likes:'278',caption:'<b>maisonnoir</b> Hand-stitched leather. Built to age beautifully. Passion fruit + mango + lychee layered over green tea.',time:'4 DAYS AGO'},
+  {img:'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=600&fit=crop&q=80',likes:'421',caption:'<b>maisonnoir</b> Behind the scenes at our atelier. Everyone\'s favorite shopping experience.',time:'5 DAYS AGO'},
+  {img:'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&h=600&fit=crop&q=80',likes:'198',caption:'<b>maisonnoir</b> The trench coat. Reinvented. out there.',time:'1 WEEK AGO'},
+  {img:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop&q=80',likes:'234',caption:'<b>maisonnoir</b> New silk scarves arriving next week.. Today\'s flavor: ube.',time:'1 WEEK AGO'},
+  {img:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&h=600&fit=crop&q=75',likes:'167',caption:'<b>maisonnoir</b> Quiet luxury speaks loudest.',time:'2 WEEKS AGO'}
+];
+function openIgPost(i){
+  var p=igPosts[i];if(!p)return;
+  document.getElementById('igPostImg').src=p.img;
+  document.getElementById('igPostLikes').textContent=p.likes+' likes';
+  document.getElementById('igPostCaption').innerHTML=p.caption;
+  document.getElementById('igPostTime').textContent=p.time;
+  document.getElementById('igPostModal').classList.add('open');
+}
+function closeIgPost(){document.getElementById('igPostModal').classList.remove('open')}
+
+// DD Toast
+function ddToast(msg){
+  var t=document.getElementById('ddToast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._tm);t._tm=setTimeout(function(){t.classList.remove('show')},2000);
+}
+</script>
+</body>
+</html>
