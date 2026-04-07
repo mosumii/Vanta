@@ -25,12 +25,22 @@
       - Go to https://calendly.com and create an event type
       - Paste your scheduling link below
 
+   5. TWILIO (SMS notifications):
+      - Sign up at https://www.twilio.com (free trial gives you $15 credit)
+      - Get a Twilio phone number
+      - Copy your Account SID and Auth Token from the dashboard
+      - IMPORTANT: Twilio API requires server-side auth — you CANNOT call
+        Twilio directly from the browser (exposes your auth token).
+        Instead, the Google Apps Script acts as a proxy.
+      - Set TWILIO_ENABLED = true and fill in the details below
+      - Then update your Google Apps Script with the Twilio section
+        (see google-apps-script.js for instructions)
+
    ═══════════════════════════════════════════════ */
 
 window.VANTA_CONFIG = {
 
   // ── FORM ENDPOINTS ──
-  // Set these to receive form submissions
   FORMSPREE_URL: null,        // e.g. 'https://formspree.io/f/xyzabc'
   GOOGLE_SHEET_URL: null,     // e.g. 'https://script.google.com/macros/s/xxxxx/exec'
 
@@ -41,6 +51,14 @@ window.VANTA_CONFIG = {
 
   // ── CALENDLY ──
   CALENDLY_URL: null,         // e.g. 'https://calendly.com/your-name/strategy-call'
+
+  // ── TWILIO (configured in Google Apps Script, not here) ──
+  // SMS notifications are sent server-side via Google Apps Script
+  // to keep your Twilio credentials safe. See google-apps-script.js.
+
+  // ── QUESTIONNAIRE GATE ──
+  // If true, users must complete the questionnaire before booking
+  REQUIRE_QUESTIONNAIRE: true,
 
   // ── CONTACT ──
   EMAIL: 'hello@vantasocials.com',

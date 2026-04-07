@@ -535,8 +535,11 @@ body::after {
         </svg>
       </div>
       <h2>Thank <em>you.</em></h2>
-      <p>Your questionnaire has been submitted successfully. Our team will review your responses and reach out within 24 hours to schedule your free strategy consultation.</p>
-      <a href="index.html">Return to Homepage</a>
+      <p>Your questionnaire has been submitted successfully. You can now book your free strategy consultation — we'll review your responses beforehand so we're fully prepared.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+        <a href="index.html#book" style="display:inline-block;padding:13px 30px;background:var(--gold);color:#0b0b09;text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500">Book Consultation Now</a>
+        <a href="index.html" style="display:inline-block;padding:13px 30px;border:1px solid var(--border-hover);color:var(--text-muted);text-decoration:none;font-size:12px;letter-spacing:0.1em;text-transform:uppercase">Return to Homepage</a>
+      </div>
     </div>
 
   </div>
@@ -639,6 +642,9 @@ body::after {
         body: JSON.stringify(data)
       }).catch(function(){});
     }
+
+    // Mark questionnaire as complete (unlocks consultation booking)
+    localStorage.setItem('vanta_questionnaire_done', 'true');
 
     // Show success
     form.style.display = 'none';

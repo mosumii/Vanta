@@ -7,16 +7,46 @@
   'use strict';
 
   /* ═══════════════════════════════════════════
+     QUESTIONNAIRE GATE
+     ═══════════════════════════════════════════ */
+  function hasCompletedQuestionnaire() {
+    var stored = localStorage.getItem('vanta_questionnaire_done');
+    return stored === 'true';
+  }
+
+  function markQuestionnaireComplete() {
+    localStorage.setItem('vanta_questionnaire_done', 'true');
+  }
+
+  // Expose globally so questionnaire.html can call it
+  window.markQuestionnaireComplete = markQuestionnaireComplete;
+
+  /* ═══════════════════════════════════════════
      CONSULTATION MODAL
      ═══════════════════════════════════════════ */
   const modalOverlay = document.getElementById('consultModal');
   const modalClose = modalOverlay ? modalOverlay.querySelector('.modal-close') : null;
   const consultForm = document.getElementById('consultForm');
 
-  // Open modal triggers
+  // Open modal triggers — check questionnaire gate first
   document.querySelectorAll('[data-action="open-consult"]').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
+      var cfg = window.VANTA_CONFIG || {};
+
+      // Gate: require questionnaire if configured
+      if (cfg.REQUIRE_QUESTIONNAIRE && !hasCompletedQuestionnaire()) {
+        // Show gate message instead of modal
+        if (window.showToast) {
+          window.showToast('Please complete the questionnaire first so we can prepare for your consultation.', 4000);
+        }
+        // Redirect to questionnaire after brief delay
+        setTimeout(function() {
+          window.location.href = 'questionnaire.html';
+        }, 1500);
+        return;
+      }
+
       if (modalOverlay) {
         modalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -82,6 +112,7 @@
 
       const formData = new FormData(consultForm);
       const data = Object.fromEntries(formData.entries());
+      data.questionnaireDone = hasCompletedQuestionnaire() ? 'Yes' : 'No';
 
       sendFormData(data, 'Consultations');
 
