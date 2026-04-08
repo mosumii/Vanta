@@ -204,6 +204,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
         <div class="u-field-hint">What do you shoot with?</div>
       </div>
 
+      <!-- Honeypot — hidden from humans, bots fill it -->
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;width:0;overflow:hidden">
       <button type="submit" class="u-submit">Submit Application</button>
     </form>
 
@@ -232,6 +234,20 @@ function showToast(msg, type, duration) {
 document.getElementById('ugcForm').addEventListener('submit', function(e) {
   e.preventDefault();
   var form = this;
+
+  // Bot check
+  var honey = form.querySelector('[name="_gotcha"]');
+  if (honey && honey.value.length > 0) return;
+
+  // Rate limit
+  if (!window._ugcSubmits) window._ugcSubmits = [];
+  var now = Date.now();
+  window._ugcSubmits = window._ugcSubmits.filter(function(t){ return now - t < 300000; });
+  if (window._ugcSubmits.length >= 3) {
+    showToast('Too many submissions. Please wait a few minutes.', 'error');
+    return;
+  }
+  window._ugcSubmits.push(now);
 
   // Validation
   var name = form.querySelector('[name="name"]').value.trim();

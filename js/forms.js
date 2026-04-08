@@ -7,6 +7,39 @@
   'use strict';
 
   /* ═══════════════════════════════════════════
+     FORM SECURITY — Honeypot + Rate Limiting
+     ═══════════════════════════════════════════ */
+
+  // Honeypot: add hidden field to all forms — bots fill it, humans don't
+  document.querySelectorAll('form').forEach(function (form) {
+    var honey = document.createElement('input');
+    honey.type = 'text';
+    honey.name = '_gotcha';
+    honey.tabIndex = -1;
+    honey.autocomplete = 'off';
+    honey.style.cssText = 'position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;width:0;overflow:hidden';
+    form.appendChild(honey);
+  });
+
+  // Rate limiting: max 3 submissions per 5 minutes per form
+  var submitCounts = {};
+  window.checkRateLimit = function (formId) {
+    var now = Date.now();
+    if (!submitCounts[formId]) submitCounts[formId] = [];
+    // Clean old entries (older than 5 min)
+    submitCounts[formId] = submitCounts[formId].filter(function (t) { return now - t < 300000; });
+    if (submitCounts[formId].length >= 3) return false; // rate limited
+    submitCounts[formId].push(now);
+    return true;
+  };
+
+  // Check honeypot before sending
+  window.isBot = function (form) {
+    var honey = form.querySelector('[name="_gotcha"]');
+    return honey && honey.value.length > 0;
+  };
+
+  /* ═══════════════════════════════════════════
      QUESTIONNAIRE GATE
      ═══════════════════════════════════════════ */
   function hasCompletedQuestionnaire() {
@@ -80,6 +113,7 @@
     var cfg = window.VANTA_CONFIG || {};
     data._formType = formType;
     data._timestamp = new Date().toISOString();
+    delete data._gotcha; // never send honeypot field
 
     // 1. localStorage backup
     var key = 'vanta_' + formType.toLowerCase();
@@ -110,8 +144,16 @@
     consultForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
+      // Security checks
+      if (window.isBot && window.isBot(consultForm)) return;
+      if (window.checkRateLimit && !window.checkRateLimit('consult')) {
+        if (window.showToast) window.showToast('Too many submissions. Please wait a few minutes.', 3000);
+        return;
+      }
+
       const formData = new FormData(consultForm);
       const data = Object.fromEntries(formData.entries());
+      delete data._gotcha; // don't send honeypot to backend
       data.questionnaireDone = hasCompletedQuestionnaire() ? 'Yes' : 'No';
 
       sendFormData(data, 'Consultations');
