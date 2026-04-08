@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:unseen.co)",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:organimo.com)",
+      "WebSearch",
+      "Bash(cp social-fake.html social-boutique.html)",
+      "Bash(cp social-fake.html social-restaurant.html)",
+      "Bash(cp social-fake.html social-fitness.html)",
+      "Bash(python -c \":*)"
     ]
   }
 }

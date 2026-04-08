@@ -3,6 +3,104 @@
    page load transitions, cursor
    ═══════════════════════════════════════════════ */
 
+/* ── STAR FIELD BACKGROUND ── */
+.star-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: rgba(201, 169, 110, 0.4);
+  border-radius: 50%;
+  animation: twinkle var(--dur) ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+}
+
+/* Shooting star */
+.shooting-star {
+  position: absolute;
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(201, 169, 110, 0.6), transparent);
+  transform-origin: left center;
+  opacity: 0;
+  animation: shoot var(--shoot-dur, 1.2s) var(--shoot-delay, 0s) ease-out forwards;
+}
+@keyframes shoot {
+  0% { opacity: 0; transform: translateX(0) scaleX(0); }
+  10% { opacity: 1; transform: translateX(0) scaleX(1); }
+  100% { opacity: 0; transform: translateX(300px) scaleX(0.3); }
+}
+
+/* ── INK DROP TRANSITION ── */
+.ink-drop {
+  position: fixed;
+  z-index: 9000;
+  border-radius: 50%;
+  background: var(--gold);
+  pointer-events: none;
+  transform: scale(0);
+  opacity: 0;
+  transition: none;
+}
+.ink-drop.expanding {
+  opacity: 1;
+  animation: inkExpand 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.ink-drop.collapsing {
+  animation: inkCollapse 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes inkExpand {
+  0% { transform: scale(0); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+@keyframes inkCollapse {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+/* ── ORIGAMI FOLD ── */
+.origami-wrap {
+  perspective: 1200px;
+  position: relative;
+}
+.origami-fold {
+  animation: origamiFold 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform-origin: center center;
+}
+@keyframes origamiFold {
+  0% { transform: rotateX(0) scale(1); opacity: 1; }
+  30% { transform: rotateX(-15deg) scale(0.95); opacity: 1; }
+  60% { transform: rotateX(40deg) scale(0.7); opacity: 0.8; }
+  80% { transform: rotateX(60deg) scale(0.4) translateY(-60px); opacity: 0.4; }
+  100% { transform: rotateX(90deg) scale(0.1) translateY(-120px); opacity: 0; }
+}
+
+/* Dotted trail left behind by the folding plane */
+.origami-trail {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(201, 169, 110, 0.3);
+  pointer-events: none;
+  animation: trailFade 1.5s ease-out forwards;
+}
+@keyframes trailFade {
+  0% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+}
+
 /* ── LOADING SCREEN ── */
 .loader {
   position: fixed;
