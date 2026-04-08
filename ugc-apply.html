@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UGC Creator Application — Vanta Socials</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/variables.css">
+<script src="js/config.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-weight:300;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");background-size:220px;pointer-events:none;z-index:9999;opacity:0.45}
+
+/* Nav */
+.u-nav{display:flex;align-items:center;justify-content:space-between;padding:0 var(--page-padding);height:var(--nav-height);border-bottom:1px solid var(--border)}
+.u-nav-logo{font-family:var(--font-display);font-size:17px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--text);text-decoration:none}
+.u-nav-logo span{color:var(--gold)}
+.u-nav-back{color:var(--text-muted);text-decoration:none;font-size:12px;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px;transition:color .3s}
+.u-nav-back:hover{color:var(--gold)}
+
+/* Main */
+.u-main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px var(--page-padding)}
+.u-container{max-width:620px;width:100%}
+
+/* Header */
+.u-header{margin-bottom:48px}
+.u-eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.u-eyebrow::after{content:'';display:block;width:22px;height:1px;background:var(--gold)}
+.u-header h1{font-family:var(--font-display);font-size:clamp(32px,4vw,48px);font-weight:300;line-height:1.1;margin-bottom:12px}
+.u-header h1 em{font-style:italic;color:var(--gold)}
+.u-header p{font-size:15px;color:var(--text-muted);line-height:1.7;max-width:480px}
+
+/* Status badge */
+.u-status{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--border);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px}
+.u-status-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* Form */
+.u-form{display:flex;flex-direction:column;gap:20px}
+.u-field label{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.u-field input,.u-field textarea,.u-field select{width:100%;padding:13px 16px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--font-body);font-size:14px;transition:border-color .3s;outline:none}
+.u-field input:focus,.u-field textarea:focus,.u-field select:focus{border-color:var(--gold-border)}
+.u-field textarea{resize:vertical;min-height:90px}
+.u-field select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7670' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.u-field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.u-field-hint{font-size:11px;color:var(--text-dim);margin-top:4px}
+
+/* Checkboxes */
+.u-checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.u-check{position:relative}
+.u-check input{position:absolute;opacity:0}
+.u-check label{display:block;padding:12px 16px;border:1px solid var(--border);background:var(--surface);font-size:13px;color:var(--text-muted);cursor:pointer;transition:all .3s;user-select:none}
+.u-check input:checked+label{border-color:var(--gold-border);color:var(--gold);background:var(--gold-dim)}
+
+/* Submit */
+.u-submit{width:100%;padding:14px;background:var(--gold);color:#0b0b09;border:none;font-family:var(--font-body);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:all .35s}
+.u-submit:hover{box-shadow:0 0 30px rgba(201,169,110,0.25)}
+
+/* Divider */
+.u-divider{text-align:center;font-size:10px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;position:relative;padding:8px 0}
+.u-divider::before,.u-divider::after{content:'';position:absolute;top:50%;width:35%;height:1px;background:var(--border)}
+.u-divider::before{left:0}
+.u-divider::after{right:0}
+
+/* Success */
+.u-success{display:none;text-align:center;padding:48px 0}
+.u-success.active{display:block}
+.u-success h2{font-family:var(--font-display);font-size:36px;font-weight:300;margin-bottom:12px}
+.u-success h2 em{font-style:italic;color:var(--gold)}
+.u-success p{color:var(--text-muted);font-size:15px;line-height:1.7;max-width:400px;margin:0 auto 28px}
+.u-success a{display:inline-block;padding:13px 30px;border:1px solid var(--border-hover);color:var(--text-muted);text-decoration:none;font-size:12px;letter-spacing:.1em;text-transform:uppercase;transition:all .3s}
+.u-success a:hover{border-color:var(--gold-border);color:var(--gold)}
+
+@media(max-width:600px){
+  .u-field-row,.u-checks{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="u-nav">
+  <a href="index.html" class="u-nav-logo">Vanta <span>Socials</span></a>
+  <a href="index.html" class="u-nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5"/></svg>
+    Back to site
+  </a>
+</nav>
+
+<main class="u-main">
+  <div class="u-container">
+
+    <div class="u-header">
+      <div class="u-status"><div class="u-status-dot"></div>Waitlist Open</div>
+      <div class="u-eyebrow">Creator Program</div>
+      <h1>Join Vanta's<br><em>UGC creator network.</em></h1>
+      <p>We're building a roster of authentic creators who can produce high-converting video ads for our clients. Apply below to be considered for upcoming campaigns.</p>
+    </div>
+
+    <form class="u-form" id="ugcForm">
+
+      <div class="u-field-row">
+        <div class="u-field">
+          <label for="ugc-name">Full Name</label>
+          <input type="text" id="ugc-name" name="name" required placeholder="Your name">
+        </div>
+        <div class="u-field">
+          <label for="ugc-email">Email</label>
+          <input type="email" id="ugc-email" name="email" required placeholder="you@email.com">
+        </div>
+      </div>
+
+      <div class="u-field-row">
+        <div class="u-field">
+          <label for="ugc-phone">Phone</label>
+          <input type="tel" id="ugc-phone" name="phone" placeholder="+1 (555) 000-0000">
+        </div>
+        <div class="u-field">
+          <label for="ugc-location">Location</label>
+          <input type="text" id="ugc-location" name="location" placeholder="City, State">
+        </div>
+      </div>
+
+      <div class="u-field">
+        <label for="ugc-social">Primary Social Media</label>
+        <input type="url" id="ugc-social" name="socialLink" placeholder="https://instagram.com/yourhandle or TikTok link">
+        <div class="u-field-hint">Link to your most active profile</div>
+      </div>
+
+      <div class="u-field-row">
+        <div class="u-field">
+          <label for="ugc-followers">Follower Count</label>
+          <select id="ugc-followers" name="followers">
+            <option value="">Select range</option>
+            <option value="0-1k">0 – 1,000</option>
+            <option value="1k-5k">1,000 – 5,000</option>
+            <option value="5k-10k">5,000 – 10,000</option>
+            <option value="10k-50k">10,000 – 50,000</option>
+            <option value="50k+">50,000+</option>
+            <option value="na">Not applicable / No following</option>
+          </select>
+        </div>
+        <div class="u-field">
+          <label for="ugc-experience">UGC Experience</label>
+          <select id="ugc-experience" name="experience">
+            <option value="">Select experience</option>
+            <option value="none">No prior UGC work</option>
+            <option value="1-5">1 – 5 campaigns</option>
+            <option value="5-15">5 – 15 campaigns</option>
+            <option value="15+">15+ campaigns</option>
+            <option value="agency">Previously worked with an agency</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="u-field">
+        <label>Content Niches (select all that apply)</label>
+        <div class="u-checks">
+          <div class="u-check"><input type="checkbox" name="niches" id="n1" value="food-bev"><label for="n1">Food & Beverage</label></div>
+          <div class="u-check"><input type="checkbox" name="niches" id="n2" value="beauty"><label for="n2">Beauty & Skincare</label></div>
+          <div class="u-check"><input type="checkbox" name="niches" id="n3" value="fitness"><label for="n3">Fitness & Wellness</label></div>
+          <div class="u-check"><input type="checkbox" name="niches" id="n4" value="fashion"><label for="n4">Fashion & Lifestyle</label></div>
+          <div class="u-check"><input type="checkbox" name="niches" id="n5" value="tech"><label for="n5">Tech & SaaS</label></div>
+          <div class="u-check"><input type="checkbox" name="niches" id="n6" value="home"><label for="n6">Home & Interior</label></div>
+          <div class="u-check"><input type="checkbox" name="niches" id="n7" value="pets"><label for="n7">Pets & Animals</label></div>
+          <div class="u-check"><input type="checkbox" name="niches" id="n8" value="other"><label for="n8">Other</label></div>
+        </div>
+      </div>
+
+      <div class="u-field">
+        <label for="ugc-portfolio">Portfolio / Sample Work</label>
+        <input type="url" id="ugc-portfolio" name="portfolio" placeholder="Google Drive, Dropbox, or website link">
+        <div class="u-field-hint">Optional — link to a folder or page with your best content</div>
+      </div>
+
+      <div class="u-field">
+        <label for="ugc-rate">Your Rate (per video)</label>
+        <select id="ugc-rate" name="rate">
+          <option value="">Select your rate</option>
+          <option value="50-100">$50 – $100</option>
+          <option value="100-200">$100 – $200</option>
+          <option value="200-400">$200 – $400</option>
+          <option value="400+">$400+</option>
+          <option value="negotiable">Negotiable / Open</option>
+        </select>
+      </div>
+
+      <div class="u-field">
+        <label for="ugc-why">Why do you want to create for Vanta?</label>
+        <textarea id="ugc-why" name="whyVanta" placeholder="Tell us about yourself, your style, and what excites you about UGC..."></textarea>
+      </div>
+
+      <div class="u-field">
+        <label for="ugc-equipment">Equipment</label>
+        <input type="text" id="ugc-equipment" name="equipment" placeholder="e.g. iPhone 15 Pro, ring light, Rode mic">
+        <div class="u-field-hint">What do you shoot with?</div>
+      </div>
+
+      <button type="submit" class="u-submit">Submit Application</button>
+    </form>
+
+    <div class="u-success" id="ugcSuccess">
+      <h2>Application <em>received.</em></h2>
+      <p>Thank you for your interest in creating with Vanta Socials. We'll review your application and reach out if there's a fit for upcoming campaigns.</p>
+      <a href="index.html">Return to Homepage</a>
+    </div>
+
+  </div>
+</main>
+
+<script>
+document.getElementById('ugcForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  var formData = new FormData(this);
+  var data = {};
+  formData.forEach(function(value, key) {
+    if (data[key]) {
+      if (Array.isArray(data[key])) data[key].push(value);
+      else data[key] = [data[key], value];
+    } else {
+      data[key] = value;
+    }
+  });
+
+  data._formType = 'UGC_Applications';
+  data._timestamp = new Date().toISOString();
+
+  // localStorage
+  var stored = JSON.parse(localStorage.getItem('vanta_ugc_applications') || '[]');
+  stored.push(data);
+  localStorage.setItem('vanta_ugc_applications', JSON.stringify(stored));
+
+  // Formspree
+  var cfg = window.VANTA_CONFIG || {};
+  if (cfg.FORMSPREE_URL) {
+    fetch(cfg.FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    }).catch(function(){});
+  }
+  // Google Sheets
+  if (cfg.GOOGLE_SHEET_URL) {
+    fetch(cfg.GOOGLE_SHEET_URL, {
+      method: 'POST',
+      body: JSON.stringify(data)
+    }).catch(function(){});
+  }
+
+  // Show success
+  this.style.display = 'none';
+  document.querySelector('.u-header').style.display = 'none';
+  document.getElementById('ugcSuccess').classList.add('active');
+});
+</script>
+</body>
+</html>

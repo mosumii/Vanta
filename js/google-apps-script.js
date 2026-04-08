@@ -44,6 +44,8 @@ function doPost(e) {
         sheet.appendRow(['Timestamp', 'Name', 'Email', 'Phone', 'Business', 'Interest', 'Message', 'Questionnaire Done']);
       } else if (sheetName === 'Questionnaires') {
         sheet.appendRow(['Timestamp', 'Business Name', 'Industry', 'Website', 'Revenue', 'Ad Budget', 'Goals', 'Channels', 'Challenge', 'Audience', 'Timeline', 'Prev Agency', 'Full Name', 'Email', 'Phone', 'Notes']);
+      } else if (sheetName === 'UGC_Applications') {
+        sheet.appendRow(['Timestamp', 'Name', 'Email', 'Phone', 'Location', 'Social Link', 'Followers', 'Experience', 'Niches', 'Portfolio', 'Rate', 'Why Vanta', 'Equipment']);
       } else {
         sheet.appendRow(['Timestamp', 'Data']);
       }
@@ -101,6 +103,30 @@ function doPost(e) {
           'Industry: ' + (data.industry || 'N/A') +
           ', Revenue: ' + (data.revenue || 'N/A') +
           ', Timeline: ' + (data.timeline || 'N/A'));
+      }
+
+    } else if (sheetName === 'UGC_Applications') {
+      sheet.appendRow([
+        timestamp,
+        data.name || '',
+        data.email || '',
+        data.phone || '',
+        data.location || '',
+        data.socialLink || '',
+        data.followers || '',
+        data.experience || '',
+        Array.isArray(data.niches) ? data.niches.join(', ') : (data.niches || ''),
+        data.portfolio || '',
+        data.rate || '',
+        data.whyVanta || '',
+        data.equipment || ''
+      ]);
+
+      if (TWILIO_ENABLED) {
+        sendSMS('New UGC creator application from ' + (data.name || 'Unknown') +
+          '. Niches: ' + (Array.isArray(data.niches) ? data.niches.join(', ') : (data.niches || 'N/A')) +
+          ', Rate: ' + (data.rate || 'N/A') +
+          ', Experience: ' + (data.experience || 'N/A'));
       }
 
     } else {
