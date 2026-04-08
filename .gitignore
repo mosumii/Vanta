@@ -1,0 +1,31 @@
+# ═══ SECRETS — Never commit these ═══
+.env
+.env.local
+.env.production
+*.pem
+*.key
+*.secret
+
+# ═══ OS files ═══
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ═══ Editor files ═══
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ═══ Dependencies ═══
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+htmlcov/
+
+# ═══ Build artifacts ═══
+dist/
+build/
+.vercel/
