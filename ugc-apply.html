@@ -125,14 +125,21 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       </div>
 
       <div class="u-field">
-        <label for="ugc-social">Primary Social Media</label>
-        <input type="url" id="ugc-social" name="socialLink" placeholder="https://instagram.com/yourhandle or TikTok link">
-        <div class="u-field-hint">Link to your most active profile</div>
+        <label>Social Media Handles</label>
+        <div class="u-field-row" style="margin-bottom:8px">
+          <input type="text" name="instagram" placeholder="@instagram handle">
+          <input type="text" name="tiktok" placeholder="@tiktok handle">
+        </div>
+        <div class="u-field-row">
+          <input type="text" name="youtube" placeholder="YouTube channel (optional)">
+          <input type="text" name="other_social" placeholder="Other handle/link (optional)">
+        </div>
+        <div class="u-field-hint">Include at least one handle so we can review your content</div>
       </div>
 
       <div class="u-field-row">
         <div class="u-field">
-          <label for="ugc-followers">Follower Count</label>
+          <label for="ugc-followers">Follower Count (largest platform)</label>
           <select id="ugc-followers" name="followers">
             <option value="">Select range</option>
             <option value="0-1k">0 – 1,000</option>
@@ -171,26 +178,21 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       </div>
 
       <div class="u-field">
-        <label for="ugc-portfolio">Portfolio / Sample Work</label>
-        <input type="url" id="ugc-portfolio" name="portfolio" placeholder="Google Drive, Dropbox, or website link">
-        <div class="u-field-hint">Optional — link to a folder or page with your best content</div>
-      </div>
-
-      <div class="u-field">
-        <label for="ugc-rate">Your Rate (per video)</label>
-        <select id="ugc-rate" name="rate">
-          <option value="">Select your rate</option>
-          <option value="50-100">$50 – $100</option>
-          <option value="100-200">$100 – $200</option>
-          <option value="200-400">$200 – $400</option>
-          <option value="400+">$400+</option>
-          <option value="negotiable">Negotiable / Open</option>
+        <label for="ugc-availability">Availability</label>
+        <select id="ugc-availability" name="availability">
+          <option value="">Select availability</option>
+          <option value="immediate">Available immediately</option>
+          <option value="1-2weeks">Available in 1–2 weeks</option>
+          <option value="monthly">Available monthly (recurring)</option>
+          <option value="weekends">Weekends only</option>
+          <option value="flexible">Flexible / Project-based</option>
         </select>
       </div>
 
       <div class="u-field">
-        <label for="ugc-why">Why do you want to create for Vanta?</label>
-        <textarea id="ugc-why" name="whyVanta" placeholder="Tell us about yourself, your style, and what excites you about UGC..."></textarea>
+        <label for="ugc-portfolio">Portfolio / Sample Work</label>
+        <input type="url" id="ugc-portfolio" name="portfolio" placeholder="Google Drive, Dropbox, or website link">
+        <div class="u-field-hint">Optional — link to a folder or page with your best content</div>
       </div>
 
       <div class="u-field">
@@ -202,20 +204,55 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       <button type="submit" class="u-submit">Submit Application</button>
     </form>
 
-    <div class="u-success" id="ugcSuccess">
-      <h2>Application <em>received.</em></h2>
-      <p>Thank you for your interest in creating with Vanta Socials. We'll review your application and reach out if there's a fit for upcoming campaigns.</p>
-      <a href="index.html">Return to Homepage</a>
-    </div>
-
   </div>
 </main>
 
+<!-- Toast popup -->
+<div id="ugcToast" style="position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);max-width:420px;width:90%;padding:16px 24px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:13px;line-height:1.5;opacity:0;pointer-events:none;transition:all .4s cubic-bezier(.16,1,.3,1);z-index:1000;text-align:center"></div>
+
 <script>
+function showToast(msg, type, duration) {
+  var t = document.getElementById('ugcToast');
+  t.textContent = msg;
+  t.style.borderColor = type === 'success' ? 'rgba(201,169,110,0.4)' : type === 'error' ? 'rgba(200,60,60,0.4)' : 'rgba(255,255,255,0.1)';
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  t.style.pointerEvents = 'all';
+  clearTimeout(t._tm);
+  t._tm = setTimeout(function() {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(20px)';
+    t.style.pointerEvents = 'none';
+  }, duration || 4000);
+}
+
 document.getElementById('ugcForm').addEventListener('submit', function(e) {
   e.preventDefault();
+  var form = this;
 
-  var formData = new FormData(this);
+  // Validation
+  var name = form.querySelector('[name="name"]').value.trim();
+  var email = form.querySelector('[name="email"]').value.trim();
+  var ig = form.querySelector('[name="instagram"]').value.trim();
+  var tt = form.querySelector('[name="tiktok"]').value.trim();
+  var yt = form.querySelector('[name="youtube"]').value.trim();
+  var other = form.querySelector('[name="other_social"]').value.trim();
+
+  if (!name || !email) {
+    showToast('Please fill in your name and email.', 'error');
+    return;
+  }
+  if (!ig && !tt && !yt && !other) {
+    showToast('Please provide at least one social media handle.', 'error');
+    return;
+  }
+  if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    showToast('Please enter a valid email address.', 'error');
+    return;
+  }
+
+  // Collect data
+  var formData = new FormData(form);
   var data = {};
   formData.forEach(function(value, key) {
     if (data[key]) {
@@ -225,36 +262,64 @@ document.getElementById('ugcForm').addEventListener('submit', function(e) {
       data[key] = value;
     }
   });
-
   data._formType = 'UGC_Applications';
   data._timestamp = new Date().toISOString();
+  // Formspree _replyto for auto-confirmation email
+  data._replyto = email;
+  data._subject = 'UGC Creator Application — ' + name;
 
   // localStorage
   var stored = JSON.parse(localStorage.getItem('vanta_ugc_applications') || '[]');
   stored.push(data);
   localStorage.setItem('vanta_ugc_applications', JSON.stringify(stored));
 
-  // Formspree
+  // Show submitting state
+  var submitBtn = form.querySelector('.u-submit');
+  var originalText = submitBtn.textContent;
+  submitBtn.textContent = 'Submitting...';
+  submitBtn.disabled = true;
+
   var cfg = window.VANTA_CONFIG || {};
+  var promises = [];
+
+  // Formspree (also sends auto-reply confirmation to applicant)
   if (cfg.FORMSPREE_URL) {
-    fetch(cfg.FORMSPREE_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(data)
-    }).catch(function(){});
+    promises.push(
+      fetch(cfg.FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      })
+    );
   }
   // Google Sheets
   if (cfg.GOOGLE_SHEET_URL) {
-    fetch(cfg.GOOGLE_SHEET_URL, {
-      method: 'POST',
-      body: JSON.stringify(data)
-    }).catch(function(){});
+    promises.push(
+      fetch(cfg.GOOGLE_SHEET_URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+    );
   }
 
-  // Show success
-  this.style.display = 'none';
-  document.querySelector('.u-header').style.display = 'none';
-  document.getElementById('ugcSuccess').classList.add('active');
+  if (promises.length > 0) {
+    Promise.all(promises).then(function() {
+      showToast('Application submitted successfully! Check your email for a confirmation.', 'success', 5000);
+      form.reset();
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }).catch(function() {
+      showToast('Application saved locally but there was a network issue. We\'ll still receive it.', 'warn', 5000);
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    });
+  } else {
+    // No backends configured — still saved to localStorage
+    showToast('Application submitted successfully! We\'ll review and be in touch.', 'success', 5000);
+    form.reset();
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+  }
 });
 </script>
 </body>

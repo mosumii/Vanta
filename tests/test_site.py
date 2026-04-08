@@ -436,3 +436,132 @@ class TestAnimations:
         page.goto(base_url)
         assert page.locator(".cursor-dot").count() == 1
         assert page.locator(".cursor-ring").count() == 1
+
+
+# ═══════════════════════════════════════════════
+# UGC CREATOR APPLICATION
+# ═══════════════════════════════════════════════
+
+
+class TestUGCApplication:
+    """Verify UGC creator application page."""
+
+    def test_ugc_page_loads(self, page: Page, ugc_url: str):
+        page.goto(ugc_url)
+        expect(page).to_have_title(re.compile(r"UGC Creator"))
+
+    def test_ugc_form_exists(self, page: Page, ugc_url: str):
+        page.goto(ugc_url)
+        form = page.locator("#ugcForm")
+        assert form.count() == 1
+
+    def test_ugc_has_required_fields(self, page: Page, ugc_url: str):
+        page.goto(ugc_url)
+        expect(page.locator('[name="name"]')).to_be_visible()
+        expect(page.locator('[name="email"]')).to_be_visible()
+        expect(page.locator('[name="instagram"]')).to_be_visible()
+        expect(page.locator('[name="tiktok"]')).to_be_visible()
+
+    def test_ugc_has_availability_field(self, page: Page, ugc_url: str):
+        page.goto(ugc_url)
+        expect(page.locator('[name="availability"]')).to_be_visible()
+
+    def test_ugc_has_social_handles(self, page: Page, ugc_url: str):
+        page.goto(ugc_url)
+        expect(page.locator('[name="instagram"]')).to_be_visible()
+        expect(page.locator('[name="tiktok"]')).to_be_visible()
+        expect(page.locator('[name="youtube"]')).to_be_visible()
+        expect(page.locator('[name="other_social"]')).to_be_visible()
+
+    def test_ugc_has_niche_checkboxes(self, page: Page, ugc_url: str):
+        page.goto(ugc_url)
+        niches = page.locator('[name="niches"]')
+        assert niches.count() == 8, f"Expected 8 niche checkboxes, got {niches.count()}"
+
+    def test_ugc_no_rate_field(self, page: Page, ugc_url: str):
+        """Rate field should have been removed."""
+        page.goto(ugc_url)
+        assert page.locator('[name="rate"]').count() == 0, "Rate field should not exist"
+
+    def test_ugc_no_why_field(self, page: Page, ugc_url: str):
+        """Why Vanta field should have been removed."""
+        page.goto(ugc_url)
+        assert page.locator('[name="whyVanta"]').count() == 0, "WhyVanta field should not exist"
+
+    def test_ugc_validation_empty_name(self, page: Page, ugc_url: str):
+        """Submitting without name should show error toast."""
+        page.goto(ugc_url)
+        page.fill('[name="email"]', "test@test.com")
+        page.fill('[name="instagram"]', "@testcreator")
+        page.click(".u-submit")
+        page.wait_for_timeout(500)
+        toast = page.locator("#ugcToast")
+        expect(toast).to_have_css("opacity", "1")
+
+    def test_ugc_validation_no_socials(self, page: Page, ugc_url: str):
+        """Submitting without any social handles should show error toast."""
+        page.goto(ugc_url)
+        page.fill('[name="name"]', "Test Creator")
+        page.fill('[name="email"]', "test@test.com")
+        page.click(".u-submit")
+        page.wait_for_timeout(500)
+        toast = page.locator("#ugcToast")
+        expect(toast).to_have_css("opacity", "1")
+
+    def test_ugc_validation_bad_email(self, page: Page, ugc_url: str):
+        """Submitting with invalid email should show error toast."""
+        page.goto(ugc_url)
+        page.fill('[name="name"]', "Test Creator")
+        page.fill('[name="email"]', "not-an-email")
+        page.fill('[name="instagram"]', "@testcreator")
+        page.click(".u-submit")
+        page.wait_for_timeout(500)
+        toast = page.locator("#ugcToast")
+        expect(toast).to_have_css("opacity", "1")
+
+    def test_ugc_successful_submission(self, page: Page, ugc_url: str):
+        """Valid submission should show success toast and save to localStorage."""
+        page.goto(ugc_url)
+        page.fill('[name="name"]', "Test Creator")
+        page.fill('[name="email"]', "test@example.com")
+        page.fill('[name="instagram"]', "@testcreator")
+        page.fill('[name="tiktok"]', "@testcreator")
+        page.select_option('[name="followers"]', "1k-5k")
+        page.select_option('[name="experience"]', "1-5")
+        page.select_option('[name="availability"]', "flexible")
+        page.click(".u-submit")
+        page.wait_for_timeout(1000)
+        # Check toast shows success
+        toast = page.locator("#ugcToast")
+        expect(toast).to_have_css("opacity", "1")
+        expect(toast).to_contain_text("submitted")
+        # Verify localStorage
+        stored = page.evaluate("JSON.parse(localStorage.getItem('vanta_ugc_applications') || '[]')")
+        assert len(stored) > 0, "Expected submission in localStorage"
+        assert stored[-1]["name"] == "Test Creator"
+
+    def test_ugc_has_formspree_replyto(self, page: Page, ugc_url: str):
+        """Submission data should include _replyto for Formspree auto-reply."""
+        page.goto(ugc_url)
+        page.fill('[name="name"]', "Reply Test")
+        page.fill('[name="email"]', "reply@test.com")
+        page.fill('[name="instagram"]', "@replytest")
+        page.click(".u-submit")
+        page.wait_for_timeout(1000)
+        stored = page.evaluate("JSON.parse(localStorage.getItem('vanta_ugc_applications') || '[]')")
+        last = stored[-1]
+        assert last.get("_replyto") == "reply@test.com", "Should have _replyto for auto-confirmation"
+        assert last.get("_subject") is not None, "Should have _subject for email"
+
+    def test_ugc_footer_link_exists(self, page: Page, base_url: str):
+        """UGC application link should exist in the main site footer."""
+        page.goto(base_url)
+        link = page.locator('a[href="ugc-apply.html"]')
+        assert link.count() == 1, "Expected UGC link in footer"
+
+    def test_ugc_waitlist_badge(self, page: Page, ugc_url: str):
+        """Should show waitlist status badge."""
+        page.goto(ugc_url)
+        badge = page.locator(".u-status")
+        expect(badge).to_be_visible()
+        expect(badge).to_contain_text("Waitlist")

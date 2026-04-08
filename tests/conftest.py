@@ -33,6 +33,13 @@ def boba_demo_url():
 
 
 @pytest.fixture(scope="session")
+def ugc_url():
+    """Return the file:// URL for ugc-apply.html."""
+    ugc_path = PROJECT_ROOT / "ugc-apply.html"
+    return f"file:///{ugc_path.as_posix()}"
+
+
+@pytest.fixture(scope="session")
 def browser_context_args():
     """Browser context configuration."""
     return {
