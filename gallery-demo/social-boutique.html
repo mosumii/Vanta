@@ -136,13 +136,13 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/></svg>
     <span>TikTok</span>
   </button>
-  <button class="tab-btn" onclick="showPage('yelp')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
-    <span>Yelp</span>
+  <button class="tab-btn" onclick="showPage('pin')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83l1.23-5.24s-.31-.63-.31-1.56c0-1.46.85-2.55 1.9-2.55.9 0 1.33.67 1.33 1.48 0 .9-.57 2.25-.87 3.5-.25 1.05.53 1.9 1.56 1.9 1.87 0 3.31-1.97 3.31-4.82 0-2.52-1.81-4.28-4.4-4.28-3 0-4.76 2.25-4.76 4.57 0 .91.35 1.88.79 2.41.09.11.1.2.07.31l-.3 1.2c-.05.19-.16.23-.36.14-1.31-.61-2.13-2.52-2.13-4.06 0-3.31 2.41-6.35 6.94-6.35 3.64 0 6.47 2.6 6.47 6.07 0 3.62-2.28 6.53-5.45 6.53-1.06 0-2.07-.55-2.41-1.21l-.66 2.5c-.24.91-.88 2.05-1.31 2.74A10 10 0 0022 12c0-5.52-4.48-10-10-10z"/></svg>
+    <span>Pinterest</span>
   </button>
-  <button class="tab-btn" onclick="showPage('dd')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/><circle cx="8" cy="14" r="1" fill="currentColor"/><circle cx="16" cy="14" r="1" fill="currentColor"/></svg>
-    <span>DoorDash</span>
+  <button class="tab-btn" onclick="showPage('news')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    <span>Newsletter</span>
   </button>
 </nav>
 
@@ -231,68 +231,62 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 </div>
 
 <!-- YELP PAGE -->
-<div class="page" id="page-yelp">
-  <div class="yelp-header"><div class="yelp-logo">yelp</div></div>
-  <div class="yelp-biz">
-    <div class="yelp-biz-name">Maison Noir</div>
-    <div class="yelp-biz-rating">
-      <div class="yelp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-      <div class="yelp-count">4.8 (127 reviews)</div>
+<!-- PINTEREST PAGE -->
+<div class="page" id="page-pin">
+  <div style="padding:16px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06)">
+    <div style="font-size:18px;font-weight:700;color:#e60023">Pinterest</div>
+  </div>
+  <div style="padding:16px">
+    <div style="text-align:center;margin-bottom:20px">
+      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=80&h=80&fit=crop&q=80" style="width:64px;height:64px;border-radius:50%;object-fit:cover;margin-bottom:8px" alt="">
+      <div style="font-weight:600;font-size:15px">Maison Noir</div>
+      <div style="font-size:12px;color:var(--text-mid)">@maisonnoir &middot; 3.2K followers</div>
+      <div style="font-size:12px;color:var(--text-mid);margin-top:4px">Curated luxury. Timeless design.</div>
     </div>
-    <div class="yelp-biz-meta">Bubble Tea, Coffee & Tea, Desserts &middot; $$ &middot; Open until 10 PM</div>
-    <div class="yelp-photos">
-      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=280&h=280&fit=crop&q=80" alt="">
-      <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=280&h=280&fit=crop&q=80" alt="">
-      <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=280&h=280&fit=crop&q=80" alt="">
+    <div style="font-size:12px;font-weight:600;margin-bottom:12px">Boards</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="border:1px solid rgba(255,255,255,0.06);overflow:hidden;border-radius:8px">
+        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=300&h=200&fit=crop&q=80" style="width:100%;height:100px;object-fit:cover" alt="">
+        <div style="padding:8px"><div style="font-size:12px;font-weight:600">AW26 Collection</div><div style="font-size:10px;color:var(--text-dim)">24 Pins</div></div>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,0.06);overflow:hidden;border-radius:8px">
+        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=300&h=200&fit=crop&q=80" style="width:100%;height:100px;object-fit:cover" alt="">
+        <div style="padding:8px"><div style="font-size:12px;font-weight:600">Styling Inspo</div><div style="font-size:10px;color:var(--text-dim)">48 Pins</div></div>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,0.06);overflow:hidden;border-radius:8px">
+        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=300&h=200&fit=crop&q=80" style="width:100%;height:100px;object-fit:cover" alt="">
+        <div style="padding:8px"><div style="font-size:12px;font-weight:600">Outerwear Edit</div><div style="font-size:10px;color:var(--text-dim)">16 Pins</div></div>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,0.06);overflow:hidden;border-radius:8px">
+        <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300&h=200&fit=crop&q=80" style="width:100%;height:100px;object-fit:cover" alt="">
+        <div style="padding:8px"><div style="font-size:12px;font-weight:600">Accessories</div><div style="font-size:10px;color:var(--text-dim)">31 Pins</div></div>
+      </div>
     </div>
-  </div>
-  <div class="yelp-review">
-    <div class="yelp-reviewer"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&q=80" alt=""><div><div class="yelp-reviewer-name">Sarah M.</div><div class="yelp-reviewer-info">Elite '26 &middot; 84 reviews</div></div></div>
-    <div class="yelp-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-    <div class="yelp-review-text">My absolute favorite shopping experience. The cashmere quality is incredible and the vibes are immaculate. Free wifi, plenty of outlets, warm lighting. I come here almost every day.</div>
-    <div class="yelp-review-date">Apr 1, 2026</div>
-  </div>
-  <div class="yelp-review">
-    <div class="yelp-reviewer"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&q=80" alt=""><div><div class="yelp-reviewer-name">James L.</div><div class="yelp-reviewer-info">28 reviews</div></div></div>
-    <div class="yelp-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-    <div class="yelp-review-text">This place feels like a gallery experience. Perfect for date night or just decompressing after a long day. The matcha latte changed my life. No joke.</div>
-    <div class="yelp-review-date">Mar 28, 2026</div>
-  </div>
-  <div class="yelp-review">
-    <div class="yelp-reviewer"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&q=80" alt=""><div><div class="yelp-reviewer-name">Emily K.</div><div class="yelp-reviewer-info">156 reviews</div></div></div>
-    <div class="yelp-review-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
-    <div class="yelp-review-text">Great drinks and lovely atmosphere. Only reason for 4 stars is the wait time on weekends can be 15+ minutes. But worth it honestly.</div>
-    <div class="yelp-review-date">Mar 22, 2026</div>
   </div>
 </div>
 
-<!-- DOORDASH PAGE -->
-<div class="page" id="page-dd">
-  <div class="dd-header">
-    <div class="dd-logo">DoorDash</div>
-    <input class="dd-search" placeholder="Search Koi Boba..." readonly>
-  </div>
-  <div class="dd-biz">
-    <img class="dd-biz-banner" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=300&fit=crop&q=80" alt="Koi Boba">
-    <div class="dd-biz-name">Maison Noir</div>
-    <div class="dd-biz-info">4.8 &#9733; (127) &middot; Bubble Tea &middot; 0.8 mi &middot; $0 delivery fee &middot; 20-30 min</div>
-    <div class="dd-biz-tags"><span>Boba</span><span>Matcha</span><span>Milk Tea</span><span>Mochi</span></div>
-    <div class="dd-menu-title">Most Popular</div>
-    <div class="dd-menu-item" onclick="ddToast('Added to cart: Structured Wool Overcoat')">
-      <div style="flex:1"><div class="dd-item-name">Structured Wool Overcoat</div><div class="dd-item-desc">Double-faced wool, minimal construction</div><div class="dd-item-price">$395</div></div>
-      <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=160&h=160&fit=crop&q=80" alt="">
+<!-- NEWSLETTER PAGE -->
+<div class="page" id="page-news">
+  <div style="padding:24px;text-align:center">
+    <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px">Newsletter</div>
+    <div style="font-family:serif;font-size:24px;font-weight:400;margin-bottom:8px">Maison <em style="font-style:italic">Noir</em></div>
+    <div style="font-size:13px;color:var(--text-mid);margin-bottom:24px;line-height:1.6">Early access to new arrivals, exclusive member pricing, and styling guides delivered to your inbox.</div>
+    <div style="max-width:300px;margin:0 auto">
+      <input type="email" placeholder="your@email.com" style="width:100%;padding:12px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fafafa;font-size:14px;margin-bottom:8px;border-radius:4px;font-family:inherit;outline:none">
+      <button onclick="ddToast('Subscribed to Maison Noir newsletter!')" style="width:100%;padding:12px;background:#fafafa;color:#000;border:none;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-radius:4px;font-family:inherit">Subscribe</button>
     </div>
-    <div class="dd-menu-item" onclick="ddToast('Added to cart: Cashmere Relaxed Sweater')">
-      <div style="flex:1"><div class="dd-item-name">Cashmere Relaxed Sweater</div><div class="dd-item-desc">Hand-finished edges, drapes without clinging</div><div class="dd-item-price">$245</div></div>
-      <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=160&h=160&fit=crop&q=80" alt="">
-    </div>
-    <div class="dd-menu-item" onclick="ddToast('Added to cart: Minimal Leather Tote')">
-      <div style="flex:1"><div class="dd-item-name">Minimal Leather Tote</div><div class="dd-item-desc">Full-grain vegetable-tanned leather</div><div class="dd-item-price">$280</div></div>
-      <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=160&h=160&fit=crop&q=80" alt="">
-    </div>
-    <div class="dd-menu-item" onclick="ddToast('Added to cart: Mochi Bites')">
-      <div style="flex:1"><div class="dd-item-name">Printed Silk Scarf</div><div class="dd-item-desc">Limited edition seasonal prints</div><div class="dd-item-price">$120</div></div>
-      <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=160&h=160&fit=crop&q=80" alt="">
+    <div style="margin-top:32px;border-top:1px solid rgba(255,255,255,0.06);padding-top:24px">
+      <div style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px">Latest Issue</div>
+      <div style="border:1px solid rgba(255,255,255,0.06);padding:20px;text-align:left;border-radius:4px">
+        <div style="font-size:10px;color:var(--text-dim);margin-bottom:4px">March 2026</div>
+        <div style="font-weight:600;font-size:15px;margin-bottom:8px">The Art of Quiet Luxury</div>
+        <div style="font-size:12px;color:var(--text-mid);line-height:1.6">Why the most confident people in the room never wear logos. Plus: 5 pieces that work for every occasion this spring.</div>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,0.06);padding:20px;text-align:left;border-radius:4px;margin-top:8px">
+        <div style="font-size:10px;color:var(--text-dim);margin-bottom:4px">February 2026</div>
+        <div style="font-weight:600;font-size:15px;margin-bottom:8px">Cashmere: A Care Guide</div>
+        <div style="font-size:12px;color:var(--text-mid);line-height:1.6">How to wash, store, and maintain your cashmere so it lasts decades. From our atelier to your closet.</div>
+      </div>
     </div>
   </div>
 </div>
@@ -308,7 +302,7 @@ function showPage(id){
   if(page) page.classList.add('active');
   // Highlight matching tab button
   var btns = document.querySelectorAll('.tab-btn');
-  var tabMap = {ig:0, tt:1, yelp:2, dd:3};
+  var tabMap = {ig:0, tt:1, pin:2, news:3};
   if(tabMap[id] !== undefined && btns[tabMap[id]]) btns[tabMap[id]].classList.add('active');
   window.scrollTo(0,0);
 }
