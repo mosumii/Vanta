@@ -1219,6 +1219,33 @@ footer {
 .form-submit:hover {
   box-shadow: 0 0 30px rgba(201, 169, 110, 0.3);
 }
+
+/* Questionnaire modal checkbox tiles — hidden input, highlight on select */
+.qm-check { position: relative; }
+.qm-check input[type="checkbox"] {
+  display: none !important;
+}
+.qm-check label {
+  display: block;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out-expo);
+  user-select: none;
+  text-align: center;
+}
+.qm-check label:hover {
+  border-color: var(--border-hover);
+}
+.qm-check label.selected {
+  border-color: var(--gold-border);
+  color: var(--gold);
+  background: var(--gold-dim);
+}
+
 .form-divider {
   text-align: center;
   margin: 24px 0;

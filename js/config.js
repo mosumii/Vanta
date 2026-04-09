@@ -58,7 +58,7 @@ window.VANTA_CONFIG = {
 
   // ── QUESTIONNAIRE GATE ──
   // If true, users must complete the questionnaire before booking
-  REQUIRE_QUESTIONNAIRE: true,
+  REQUIRE_QUESTIONNAIRE: false,
 
   // ── CONTACT ──
   EMAIL: 'contact@vantacreatives.com',

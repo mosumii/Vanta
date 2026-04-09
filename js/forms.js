@@ -61,31 +61,66 @@
   const modalClose = modalOverlay ? modalOverlay.querySelector('.modal-close') : null;
   const consultForm = document.getElementById('consultForm');
 
-  // Open modal triggers — check questionnaire gate first
+  // Open modal triggers — show questionnaire modal
   document.querySelectorAll('[data-action="open-consult"]').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      var cfg = window.VANTA_CONFIG || {};
-
-      // Gate: require questionnaire if configured
-      if (cfg.REQUIRE_QUESTIONNAIRE && !hasCompletedQuestionnaire()) {
-        // Show gate message instead of modal
-        if (window.showToast) {
-          window.showToast('Please complete the questionnaire first so we can prepare for your consultation.', 4000);
-        }
-        // Redirect to questionnaire after brief delay
-        setTimeout(function() {
-          window.location.href = 'questionnaire.html';
-        }, 1500);
-        return;
-      }
-
+      // Reset modal to step 1 each time
+      qmGoTo(1);
       if (modalOverlay) {
         modalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
       }
     });
   });
+
+  // Skip to Booking button
+  var skipBtn = document.getElementById('qSkipBtn');
+  if (skipBtn) {
+    skipBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var cfg = window.VANTA_CONFIG || {};
+      if (cfg.CALENDLY_URL) {
+        window.open(cfg.CALENDLY_URL, '_blank');
+      }
+      closeModal();
+    });
+  }
+
+  /* ═══════════════════════════════════════════
+     QUESTIONNAIRE MODAL — Multi-step navigation
+     ═══════════════════════════════════════════ */
+  var qmTotalSteps = 5;
+
+  function qmGoTo(step) {
+    document.querySelectorAll('.qm-step').forEach(function (s) { s.style.display = 'none'; });
+    var target = document.querySelector('[data-qm-step="' + step + '"]');
+    if (target) target.style.display = 'block';
+    // Update progress bar
+    document.querySelectorAll('.qm-prog').forEach(function (bar, i) {
+      bar.style.background = (i < step) ? 'var(--gold)' : 'var(--border)';
+    });
+  }
+
+  // Checkbox tile toggle — click label to toggle selected state
+  document.querySelectorAll('.qm-check label').forEach(function (lbl) {
+    lbl.addEventListener('click', function (e) {
+      e.preventDefault();
+      var input = lbl.parentElement.querySelector('input[type="checkbox"]');
+      if (input) {
+        input.checked = !input.checked;
+        lbl.classList.toggle('selected', input.checked);
+      }
+    });
+  });
+
+  window.qmNext = function (from) {
+    if (from < qmTotalSteps) qmGoTo(from + 1);
+  };
+
+  window.qmPrev = function (from) {
+    if (from > 1) qmGoTo(from - 1);
+  };
 
   // Close modal
   function closeModal() {
@@ -139,7 +174,7 @@
     }
   }
 
-  // Form submission
+  // Form submission — sends questionnaire data, then opens Calendly
   if (consultForm) {
     consultForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -152,22 +187,40 @@
       }
 
       const formData = new FormData(consultForm);
-      const data = Object.fromEntries(formData.entries());
-      delete data._gotcha; // don't send honeypot to backend
-      data.questionnaireDone = hasCompletedQuestionnaire() ? 'Yes' : 'No';
+      const data = {};
+      formData.forEach(function (value, key) {
+        if (key === '_gotcha') return;
+        if (data[key]) {
+          if (Array.isArray(data[key])) data[key].push(value);
+          else data[key] = [data[key], value];
+        } else {
+          data[key] = value;
+        }
+      });
 
-      sendFormData(data, 'Consultations');
+      sendFormData(data, 'Questionnaires');
 
-      // Show success state
-      consultForm.innerHTML = `
-        <div style="text-align:center;padding:40px 0;">
-          <div style="font-family:var(--font-display);font-size:32px;font-weight:300;margin-bottom:12px;">Thank you</div>
-          <p style="color:var(--text-muted);font-size:14px;line-height:1.6;">
-            We've received your information and will be in touch within 24 hours
-            to schedule your strategy consultation.
-          </p>
-        </div>
-      `;
+      // Hide progress bar and skip banner
+      var progressBar = document.getElementById('qModalProgress');
+      var skipBanner = document.getElementById('qSkipBanner');
+      if (progressBar) progressBar.style.display = 'none';
+      if (skipBanner) skipBanner.style.display = 'none';
+
+      // Show success + open Calendly
+      var cfg = window.VANTA_CONFIG || {};
+      consultForm.innerHTML = '<div style="text-align:center;padding:40px 0;">' +
+        '<div style="font-family:var(--font-display);font-size:32px;font-weight:300;margin-bottom:12px;">Thank you</div>' +
+        '<p style="color:var(--text-muted);font-size:14px;line-height:1.6;margin-bottom:24px;">' +
+        'Your responses have been saved. Now pick a time for your strategy consultation.</p>' +
+        (cfg.CALENDLY_URL
+          ? '<a href="' + cfg.CALENDLY_URL + '" target="_blank" rel="noopener" style="display:inline-block;padding:14px 32px;background:var(--gold);color:#0b0b09;text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500">Book Your Call</a>'
+          : '<p style="color:var(--text-muted);font-size:13px">We\'ll be in touch within 24 hours to schedule your consultation.</p>') +
+        '</div>';
+
+      // Auto-open Calendly
+      if (cfg.CALENDLY_URL) {
+        window.open(cfg.CALENDLY_URL, '_blank');
+      }
     });
   }
 
