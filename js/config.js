@@ -41,8 +41,8 @@
 window.VANTA_CONFIG = {
 
   // ── FORM ENDPOINTS ──
-  FORMSPREE_URL: null,        // e.g. 'https://formspree.io/f/xyzabc'
-  GOOGLE_SHEET_URL: null,     // e.g. 'https://script.google.com/macros/s/xxxxx/exec'
+  FORMSPREE_URL: 'https://formspree.io/f/xdapvzdd',
+  GOOGLE_SHEET_URL: 'https://script.google.com/macros/s/AKfycbyyfsC36y1kTp2L_kVwXTE9zClhhIa7EHvF_nL5kimB9ufneaJhX80zTfIA-ekrsf_nvw/exec',
 
   // ── STRIPE PAYMENT LINKS ──
   STRIPE_TIER1: null,         // e.g. 'https://buy.stripe.com/xxx'
@@ -50,7 +50,7 @@ window.VANTA_CONFIG = {
   STRIPE_TIER3: null,
 
   // ── CALENDLY ──
-  CALENDLY_URL: null,         // e.g. 'https://calendly.com/your-name/strategy-call'
+  CALENDLY_URL: 'https://calendly.com/natenterprisesllc/30min',
 
   // ── TWILIO (configured in Google Apps Script, not here) ──
   // SMS notifications are sent server-side via Google Apps Script
@@ -61,6 +61,6 @@ window.VANTA_CONFIG = {
   REQUIRE_QUESTIONNAIRE: true,
 
   // ── CONTACT ──
-  EMAIL: 'hello@vantasocials.com',
+  EMAIL: 'contact@vantacreatives.com',
   PHONE: '',
 };
