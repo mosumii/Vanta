@@ -22,11 +22,4 @@ export const CONFIG = {
   // Contact
   EMAIL: 'contact@vantacreatives.com',
   PHONE: '',
-
-  // Social links
-  SOCIALS: {
-    instagram: 'https://instagram.com/vantacreatives',
-    tiktok: 'https://tiktok.com/@vantacreatives',
-    linkedin: 'https://linkedin.com/company/vantacreatives',
-  },
 } as const

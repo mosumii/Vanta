@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
-import { ArrowRight, Instagram, Calendar, Sparkles } from 'lucide-react'
+import { ArrowRight, Calendar, Sparkles } from 'lucide-react'
 import { CONFIG } from '../config'
 
 export default function Hero() {
@@ -170,37 +170,8 @@ export default function Hero() {
         </a>
       </div>
 
-      {/* ── Social icons footer ── */}
-      <div className="relative z-10 flex justify-center gap-3 pb-10">
-        <a
-          href={CONFIG.SOCIALS.instagram}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Instagram"
-          className="liquid-glass rounded-full p-3.5 text-white/70 hover:text-gold hover:bg-white/5 transition-all"
-        >
-          <Instagram size={18} />
-        </a>
-        <a
-          href={CONFIG.SOCIALS.tiktok}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="TikTok"
-          className="liquid-glass rounded-full p-3.5 text-white/70 hover:text-gold hover:bg-white/5 transition-all"
-        >
-          {/* TikTok isn't in lucide — simple "T" mark */}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.6 6.3a5.2 5.2 0 0 1-3.1-5.3h-3.5v14a2.9 2.9 0 1 1-2-2.7V8.8a6.4 6.4 0 1 0 5.5 6.3V9a8.7 8.7 0 0 0 3.1.5z"/></svg>
-        </a>
-        <a
-          href={CONFIG.SOCIALS.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn"
-          className="liquid-glass rounded-full p-3.5 text-white/70 hover:text-gold hover:bg-white/5 transition-all"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM8.3 18.3H5.7V9.7h2.6v8.6zM7 8.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm11.3 9.8h-2.6V14c0-1 0-2.2-1.3-2.2-1.3 0-1.5 1-1.5 2.1v4.4H10.3V9.7h2.5v1.2c.4-.7 1.2-1.4 2.5-1.4 2.7 0 3.2 1.8 3.2 4.1v4.7z"/></svg>
-        </a>
-      </div>
+      {/* Bottom spacer to preserve Hero rhythm */}
+      <div className="pb-10" />
     </section>
   )
 }

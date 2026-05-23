@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion'
-import { ArrowUpRight } from 'lucide-react'
 import { CONFIG } from '../config'
 
 export default function Footer({ onOpenUGC }: { onOpenUGC?: () => void }) {
@@ -18,57 +17,45 @@ export default function Footer({ onOpenUGC }: { onOpenUGC?: () => void }) {
             </p>
           </div>
 
-          {/* Links */}
-          <div className="grid grid-cols-2 gap-8">
-            <div>
-              <h4 className="text-xs tracking-[0.3em] uppercase text-warm-white/70 mb-4">Navigate</h4>
-              <div className="space-y-3">
-                {['Work', 'Services', 'Pricing', 'Contact'].map((item) => (
-                  <a
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
-                    className="block text-sm text-warm-white/75 hover:text-warm-white transition-colors"
-                  >
-                    {item}
-                  </a>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="text-xs tracking-[0.3em] uppercase text-warm-white/70 mb-4">More</h4>
-              <div className="space-y-3">
-                <button
-                  onClick={onOpenUGC}
-                  className="block text-sm text-warm-white/75 hover:text-warm-white transition-colors text-left"
+          {/* Navigate */}
+          <div>
+            <h4 className="text-xs tracking-[0.3em] uppercase text-warm-white/70 mb-4">Navigate</h4>
+            <div className="space-y-3">
+              {['Work', 'Services', 'Pricing', 'Contact'].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="block text-sm text-warm-white/75 hover:text-warm-white transition-colors"
                 >
-                  Join as Creator
-                </button>
-                {['Privacy', 'Terms'].map((item) => (
-                  <a
-                    key={item}
-                    href="#"
-                    className="block text-sm text-warm-white/75 hover:text-warm-white transition-colors"
-                  >
-                    {item}
-                  </a>
-                ))}
-              </div>
+                  {item}
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Socials */}
+          {/* More */}
           <div>
-            <h4 className="text-xs tracking-[0.3em] uppercase text-warm-white/70 mb-4">Connect</h4>
-            <div className="flex gap-3">
-              {Object.entries(CONFIG.SOCIALS).map(([name, url]) => (
+            <h4 className="text-xs tracking-[0.3em] uppercase text-warm-white/70 mb-4">More</h4>
+            <div className="space-y-3">
+              <button
+                onClick={onOpenUGC}
+                className="block text-sm text-warm-white/75 hover:text-warm-white transition-colors text-left"
+              >
+                Join as Creator
+              </button>
+              <a
+                href={`mailto:${CONFIG.EMAIL}`}
+                className="block text-sm text-warm-white/75 hover:text-warm-white transition-colors"
+              >
+                {CONFIG.EMAIL}
+              </a>
+              {['Privacy', 'Terms'].map((item) => (
                 <a
-                  key={name}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 transition-colors group"
+                  key={item}
+                  href="#"
+                  className="block text-sm text-warm-white/75 hover:text-warm-white transition-colors"
                 >
-                  <ArrowUpRight size={16} className="text-warm-white/50 group-hover:text-gold transition-colors" />
+                  {item}
                 </a>
               ))}
             </div>
