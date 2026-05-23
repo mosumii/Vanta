@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Work Section Mockups • Vanta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { gold:'#E0A526','gold-light':'#F0C04A','warm-white':'#FAF8F5', violet:'#7B61FF', coral:'#FF6B6B', electric:'#00D4FF' },
+  fontFamily: { serif:['"Instrument Serif"','Georgia','serif'], sans:['Inter','system-ui','sans-serif'] }
+}}}
+</script>
+<style>
+  body { background:#080808; color:#FAF8F5; font-family:'Inter', system-ui, sans-serif; }
+  .text-gradient-bold { background: linear-gradient(135deg, #7B61FF 0%, #E0A526 50%, #FF6B6B 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .liquid-glass { background: rgba(255,255,255,0.04); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.08); }
+  .card { transition: all 300ms cubic-bezier(.22,1,.36,1); }
+  .card:hover { transform: translateY(-4px); border-color: rgba(224,165,38,0.3); }
+  .num { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 6rem; line-height: 1; color: rgba(255,255,255,0.04); position: absolute; top: 8px; right: 16px; user-select: none; }
+  .preview-frame { aspect-ratio: 16/10; background:#0e0e0e; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; overflow: hidden; position: relative; }
+  .preview-frame::after { content:''; position:absolute; inset:0; box-shadow: inset 0 -60px 60px -20px rgba(8,8,8,.9); pointer-events:none; border-radius: 12px; }
+</style>
+</head>
+<body>
+
+<section class="min-h-screen px-6 py-20 md:py-28">
+  <div class="max-w-6xl mx-auto">
+
+    <header class="mb-16 md:mb-20 max-w-3xl">
+      <p class="text-[11px] tracking-[0.4em] uppercase text-gold/90 mb-4">Internal · Mockups</p>
+      <h1 class="font-serif text-5xl md:text-7xl leading-[1.05] mb-5">
+        Three takes on the <em class="text-gradient-bold not-italic">Our Work</em> section.
+      </h1>
+      <p class="text-warm-white/65 text-base md:text-lg leading-relaxed">
+        Same four projects, three different bets on what makes a portfolio section sell. Click into each to feel the difference — they're full pages, not static images.
+      </p>
+    </header>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Mockup 1: Bento -->
+      <a href="./1-bento.html" class="card group relative liquid-glass rounded-3xl p-6 block">
+        <span class="num">01</span>
+        <div class="preview-frame mb-5 grid grid-cols-12 grid-rows-3 gap-1 p-1">
+          <div class="col-span-7 row-span-2 bg-gradient-to-br from-amber-700/40 to-orange-900/30 rounded"></div>
+          <div class="col-span-5 row-span-1 bg-white/[0.06] rounded"></div>
+          <div class="col-span-5 row-span-1 bg-violet/15 rounded"></div>
+          <div class="col-span-4 row-span-1 bg-gradient-to-br from-red-900/40 to-amber-900/20 rounded"></div>
+          <div class="col-span-8 row-span-1 bg-white/[0.06] rounded"></div>
+        </div>
+        <h2 class="font-serif text-2xl md:text-3xl mb-2 group-hover:text-gold transition-colors">Bento Asymmetric</h2>
+        <p class="text-warm-white/60 text-sm leading-relaxed mb-4">
+          One featured project at 2× scale, supporting cards in mixed sizes. Some carry images, some are stat-forward. Visual hierarchy does the selling.
+        </p>
+        <div class="flex flex-wrap gap-2 text-[10px] tracking-[0.18em] uppercase text-warm-white/60">
+          <span class="px-2 py-1 rounded-full border border-white/10">Information-dense</span>
+          <span class="px-2 py-1 rounded-full border border-white/10">Stat-forward</span>
+          <span class="px-2 py-1 rounded-full border border-white/10">Scannable</span>
+        </div>
+        <div class="mt-6 text-sm text-gold/90 group-hover:text-gold-light tracking-[0.2em] uppercase">Open ↗</div>
+      </a>
+
+      <!-- Mockup 2: Editorial -->
+      <a href="./2-editorial.html" class="card group relative liquid-glass rounded-3xl p-6 block">
+        <span class="num">02</span>
+        <div class="preview-frame mb-5 flex flex-col gap-2 p-3">
+          <div class="flex gap-2 flex-1">
+            <div class="flex-1 flex flex-col gap-1.5 justify-center">
+              <div class="h-1.5 w-12 bg-gold/40 rounded"></div>
+              <div class="h-3 w-3/4 bg-white/15 rounded"></div>
+              <div class="h-1 w-2/3 bg-white/10 rounded"></div>
+              <div class="flex gap-2 mt-1">
+                <div class="h-2 w-5 bg-gold/30 rounded"></div>
+                <div class="h-2 w-5 bg-white/15 rounded"></div>
+              </div>
+            </div>
+            <div class="flex-1 bg-gradient-to-br from-amber-700/40 to-orange-900/30 rounded"></div>
+          </div>
+          <div class="flex gap-2 flex-1">
+            <div class="flex-1 bg-gradient-to-br from-stone-700/40 to-neutral-900/30 rounded"></div>
+            <div class="flex-1 flex flex-col gap-1.5 justify-center">
+              <div class="h-1.5 w-10 bg-gold/40 rounded"></div>
+              <div class="h-3 w-3/4 bg-white/15 rounded"></div>
+              <div class="h-1 w-2/3 bg-white/10 rounded"></div>
+            </div>
+          </div>
+        </div>
+        <h2 class="font-serif text-2xl md:text-3xl mb-2 group-hover:text-gold transition-colors">Editorial Spreads</h2>
+        <p class="text-warm-white/60 text-sm leading-relaxed mb-4">
+          One project per scroll-frame, alternating image left / right. Oversized chapter numbers, real client quotes, every result spelled out. Reads like a portfolio book.
+        </p>
+        <div class="flex flex-wrap gap-2 text-[10px] tracking-[0.18em] uppercase text-warm-white/60">
+          <span class="px-2 py-1 rounded-full border border-white/10">Cinematic</span>
+          <span class="px-2 py-1 rounded-full border border-white/10">Story-led</span>
+          <span class="px-2 py-1 rounded-full border border-white/10">Quote-supported</span>
+        </div>
+        <div class="mt-6 text-sm text-gold/90 group-hover:text-gold-light tracking-[0.2em] uppercase">Open ↗</div>
+      </a>
+
+      <!-- Mockup 3: Workspace -->
+      <a href="./3-workspace.html" class="card group relative liquid-glass rounded-3xl p-6 block">
+        <span class="num">03</span>
+        <div class="preview-frame mb-5 p-2">
+          <div class="flex gap-1 mb-1.5">
+            <div class="h-3 w-12 bg-gold/30 rounded-t border-t border-x border-gold/40"></div>
+            <div class="h-3 w-12 bg-white/[0.04] rounded-t"></div>
+            <div class="h-3 w-12 bg-white/[0.04] rounded-t"></div>
+            <div class="h-3 w-12 bg-white/[0.04] rounded-t"></div>
+          </div>
+          <div class="flex gap-2 h-[80%]">
+            <div class="flex-[2] bg-white/[0.04] rounded border border-white/5 flex flex-col">
+              <div class="px-2 py-1 border-b border-white/5 flex items-center gap-1">
+                <div class="w-1.5 h-1.5 rounded-full bg-coral/60"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-gold/60"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-green-500/60"></div>
+                <div class="ml-2 h-1 flex-1 bg-white/10 rounded-full"></div>
+              </div>
+              <div class="flex-1 bg-gradient-to-br from-amber-800/30 to-orange-900/20"></div>
+            </div>
+            <div class="flex-1 space-y-1.5">
+              <div class="h-2 w-2/3 bg-gold/40 rounded"></div>
+              <div class="h-3 w-full bg-white/15 rounded"></div>
+              <div class="grid grid-cols-2 gap-1">
+                <div class="h-6 bg-white/[0.05] rounded"></div>
+                <div class="h-6 bg-white/[0.05] rounded"></div>
+              </div>
+              <div class="h-5 w-full bg-gold/15 rounded"></div>
+            </div>
+          </div>
+        </div>
+        <h2 class="font-serif text-2xl md:text-3xl mb-2 group-hover:text-gold transition-colors">Workspace Tabs</h2>
+        <p class="text-warm-white/60 text-sm leading-relaxed mb-4">
+          The section <em>is</em> a browser. Project tabs at the top, live iframe in the window, sidebar with the stats. Toggle Site / Social in the URL bar. Keyboard nav. No modal.
+        </p>
+        <div class="flex flex-wrap gap-2 text-[10px] tracking-[0.18em] uppercase text-warm-white/60">
+          <span class="px-2 py-1 rounded-full border border-white/10">Interactive</span>
+          <span class="px-2 py-1 rounded-full border border-white/10">Inline preview</span>
+          <span class="px-2 py-1 rounded-full border border-white/10">Showy</span>
+        </div>
+        <div class="mt-6 text-sm text-gold/90 group-hover:text-gold-light tracking-[0.2em] uppercase">Open ↗</div>
+      </a>
+
+    </div>
+
+    <div class="mt-16 max-w-2xl text-warm-white/45 text-sm leading-relaxed">
+      <p class="mb-2">All three keep the same dark editorial palette and the four real projects so you can compare the <em>structure</em>, not the styling.</p>
+      <p>Pick a direction (or a mash-up of two) and I'll port it into the React app in <code class="text-warm-white/70">src/sections/Work.tsx</code>.</p>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

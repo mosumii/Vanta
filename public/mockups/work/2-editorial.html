@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mockup 2 — Editorial Spreads • Vanta Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { gold:'#E0A526','gold-light':'#F0C04A','warm-white':'#FAF8F5', violet:'#7B61FF', coral:'#FF6B6B', electric:'#00D4FF', smoke:'#1A1A1A', ash:'#2A2A2A' },
+  fontFamily: { serif:['"Instrument Serif"','Georgia','serif'], sans:['Inter','system-ui','sans-serif'] }
+}}}
+</script>
+<style>
+  body { background:#080808; color:#FAF8F5; font-family:'Inter', system-ui, sans-serif; }
+  .liquid-glass { background: rgba(255,255,255,0.04); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.08); }
+  .text-gradient-bold { background: linear-gradient(135deg, #7B61FF 0%, #E0A526 50%, #FF6B6B 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .spread { padding: clamp(64px, 10vw, 140px) 24px; position: relative; }
+  .spread + .spread { border-top: 1px solid rgba(255,255,255,0.06); }
+  .giant-num { font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(11rem, 28vw, 28rem); line-height: .82; letter-spacing: -0.04em; color: rgba(255,255,255,0.045); user-select: none; }
+  .ribbon { display: inline-flex; align-items: center; gap: 12px; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: rgba(224,165,38,0.9); }
+  .ribbon::before { content:''; width: 28px; height: 1px; background: #E0A526; }
+  .badge-back { position:fixed; top:24px; left:24px; z-index:50; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:rgba(250,248,245,.5); }
+  .badge-back:hover { color:#E0A526; }
+  .hero-img { position: relative; overflow: hidden; border-radius: 24px; }
+  .hero-img img { display:block; width:100%; height:100%; object-fit:cover; transition: transform 1200ms cubic-bezier(.22,1,.36,1); }
+  .hero-img:hover img { transform: scale(1.04); }
+  .hero-img::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, transparent 40%, rgba(8,8,8,0.5) 100%); pointer-events:none; }
+  .tag { display:inline-block; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.12); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(250,248,245,0.7); margin-right: 4px; margin-bottom:4px; }
+</style>
+</head>
+<body>
+
+<a href="./" class="badge-back">← All mockups</a>
+
+<!-- Section heading -->
+<section class="pt-32 md:pt-40 pb-8 px-6">
+  <div class="max-w-6xl mx-auto">
+    <p class="text-[11px] tracking-[0.4em] uppercase text-gold/90 mb-5">Selected Work · 2023–2026</p>
+    <h2 class="font-serif text-5xl md:text-7xl leading-[1.05] max-w-4xl">
+      Four chapters from a <em class="text-gradient-bold not-italic">very busy</em> year<span class="text-gold">.</span>
+    </h2>
+    <div class="flex items-center gap-6 mt-6 text-warm-white/40 text-xs tracking-[0.25em] uppercase">
+      <span>Scroll</span>
+      <span class="h-px w-12 bg-warm-white/20"></span>
+      <span>01 — 04</span>
+    </div>
+  </div>
+</section>
+
+<!-- Spread 01: Koi Boba (image right) -->
+<section class="spread">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-12 gap-10 md:gap-16 items-center relative">
+    <div class="absolute -top-8 left-0 giant-num pointer-events-none">01</div>
+
+    <div class="md:col-span-5 relative z-10">
+      <span class="ribbon mb-6">Case · Web + Social</span>
+      <h3 class="font-serif text-5xl md:text-7xl leading-[1.05] mb-5">Koi Boba</h3>
+      <p class="text-warm-white/75 text-base md:text-lg leading-relaxed mb-8 max-w-md">
+        An artisan boba shop with a great product and a tired aesthetic. We rebuilt the brand from cup sleeve up, then ran the social channel for 90 days.
+      </p>
+      <div class="grid grid-cols-2 gap-5 mb-8">
+        <div>
+          <div class="font-serif italic text-4xl md:text-5xl text-gold leading-none">+312%</div>
+          <div class="text-[10px] tracking-[0.25em] uppercase text-warm-white/50 mt-2">In-store traffic</div>
+        </div>
+        <div>
+          <div class="font-serif italic text-4xl md:text-5xl text-warm-white leading-none">11.2k</div>
+          <div class="text-[10px] tracking-[0.25em] uppercase text-warm-white/50 mt-2">New followers · 90 days</div>
+        </div>
+      </div>
+      <div class="mb-8">
+        <span class="tag">Brand identity</span>
+        <span class="tag">Web design</span>
+        <span class="tag">UGC</span>
+        <span class="tag">Paid social</span>
+      </div>
+      <a href="/gallery-demo/boba-shop.html" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm tracking-[0.2em] uppercase text-gold hover:text-gold-light transition-colors">
+        Explore the build <span aria-hidden>→</span>
+      </a>
+    </div>
+
+    <div class="md:col-span-7 relative">
+      <div class="hero-img aspect-[5/6] md:aspect-[4/5]">
+        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1200&h=1500&fit=crop" alt="Koi Boba" loading="lazy" />
+      </div>
+      <blockquote class="absolute -bottom-6 -left-6 md:-left-12 max-w-xs liquid-glass rounded-2xl p-5 text-sm leading-relaxed">
+        <span class="text-gold text-2xl font-serif italic leading-none block mb-1">"</span>
+        They didn't just hand us a logo — they handed us a line out the door.
+        <div class="mt-3 text-[10px] tracking-[0.25em] uppercase text-warm-white/50">Owner · Koi Boba</div>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- Spread 02: Maison Noir (image left) -->
+<section class="spread">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-12 gap-10 md:gap-16 items-center relative">
+    <div class="absolute -top-8 right-0 giant-num pointer-events-none">02</div>
+
+    <div class="md:col-span-7 md:order-1 order-2 relative">
+      <div class="hero-img aspect-[4/5]">
+        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=1500&fit=crop" alt="Maison Noir" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="md:col-span-5 md:order-2 order-1 relative z-10">
+      <span class="ribbon mb-6">Case · Brand Identity</span>
+      <h3 class="font-serif text-5xl md:text-7xl leading-[1.05] mb-5">Maison Noir</h3>
+      <p class="text-warm-white/75 text-base md:text-lg leading-relaxed mb-8 max-w-md">
+        Independent luxury fashion fighting for shelf space against legacy houses. We built a visual identity bold enough to earn its own real estate.
+      </p>
+      <div class="grid grid-cols-2 gap-5 mb-8">
+        <div>
+          <div class="font-serif italic text-4xl md:text-5xl text-gold leading-none">2.4×</div>
+          <div class="text-[10px] tracking-[0.25em] uppercase text-warm-white/50 mt-2">Avg. order value</div>
+        </div>
+        <div>
+          <div class="font-serif italic text-4xl md:text-5xl text-warm-white leading-none">+58%</div>
+          <div class="text-[10px] tracking-[0.25em] uppercase text-warm-white/50 mt-2">Return customers</div>
+        </div>
+      </div>
+      <div class="mb-8">
+        <span class="tag">Visual system</span>
+        <span class="tag">E-commerce</span>
+        <span class="tag">Photography</span>
+      </div>
+      <a href="/gallery-demo/boutique.html" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm tracking-[0.2em] uppercase text-gold hover:text-gold-light transition-colors">
+        Explore the build <span aria-hidden>→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Spread 03: Ember & Vine (image right) -->
+<section class="spread">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-12 gap-10 md:gap-16 items-center relative">
+    <div class="absolute -top-8 left-0 giant-num pointer-events-none">03</div>
+
+    <div class="md:col-span-5 relative z-10">
+      <span class="ribbon mb-6">Case · Full Service</span>
+      <h3 class="font-serif text-5xl md:text-7xl leading-[1.05] mb-5">Ember &amp; Vine</h3>
+      <p class="text-warm-white/75 text-base md:text-lg leading-relaxed mb-8 max-w-md">
+        A farm-to-table concept opening in a saturated downtown. We owned every customer touchpoint — web, social, UGC, and the paid push that filled the first three months of bookings.
+      </p>
+      <div class="grid grid-cols-2 gap-5 mb-8">
+        <div>
+          <div class="font-serif italic text-4xl md:text-5xl text-gold leading-none">84%</div>
+          <div class="text-[10px] tracking-[0.25em] uppercase text-warm-white/50 mt-2">Repeat visits</div>
+        </div>
+        <div>
+          <div class="font-serif italic text-4xl md:text-5xl text-warm-white leading-none">−42%</div>
+          <div class="text-[10px] tracking-[0.25em] uppercase text-warm-white/50 mt-2">Customer acquisition cost</div>
+        </div>
+      </div>
+      <div class="mb-8">
+        <span class="tag">Web</span>
+        <span class="tag">UGC</span>
+        <span class="tag">Paid media</span>
+        <span class="tag">Print</span>
+      </div>
+      <a href="/gallery-demo/restaurant.html" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm tracking-[0.2em] uppercase text-gold hover:text-gold-light transition-colors">
+        Explore the build <span aria-hidden>→</span>
+      </a>
+    </div>
+
+    <div class="md:col-span-7 relative">
+      <div class="hero-img aspect-[4/5]">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&h=1500&fit=crop" alt="Ember & Vine" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Spread 04: FORM Athletics (image left) -->
+<section class="spread">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-12 gap-10 md:gap-16 items-center relative">
+    <div class="absolute -top-8 right-0 giant-num pointer-events-none">04</div>
+
+    <div class="md:col-span-7 md:order-1 order-2 relative">
+      <div class="hero-img aspect-[4/5]">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&h=1500&fit=crop" alt="FORM Athletics" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="md:col-span-5 md:order-2 order-1 relative z-10">
+      <span class="ribbon mb-6">Case · UGC + Paid</span>
+      <h3 class="font-serif text-5xl md:text-7xl leading-[1.05] mb-5">FORM Athletics</h3>
+      <p class="text-warm-white/75 text-base md:text-lg leading-relaxed mb-8 max-w-md">
+        A performance fitness label with one viral product. We scaled them past the launch window with a creator-led campaign that didn't read like an ad.
+      </p>
+      <div class="grid grid-cols-2 gap-5 mb-8">
+        <div>
+          <div class="font-serif italic text-4xl md:text-5xl text-gold leading-none">6.8×</div>
+          <div class="text-[10px] tracking-[0.25em] uppercase text-warm-white/50 mt-2">ROAS</div>
+        </div>
+        <div>
+          <div class="font-serif italic text-4xl md:text-5xl text-warm-white leading-none">$1.2M</div>
+          <div class="text-[10px] tracking-[0.25em] uppercase text-warm-white/50 mt-2">Revenue · year 1</div>
+        </div>
+      </div>
+      <div class="mb-8">
+        <span class="tag">UGC</span>
+        <span class="tag">Creator strategy</span>
+        <span class="tag">Paid media</span>
+      </div>
+      <a href="/gallery-demo/fitness.html" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm tracking-[0.2em] uppercase text-gold hover:text-gold-light transition-colors">
+        Explore the build <span aria-hidden>→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Outro CTA -->
+<section class="px-6 py-24 md:py-32 text-center">
+  <div class="max-w-2xl mx-auto">
+    <p class="text-[11px] tracking-[0.4em] uppercase text-gold/90 mb-4">Next chapter</p>
+    <h3 class="font-serif text-4xl md:text-5xl leading-tight mb-6">Want to be case study <em class="text-gradient-bold not-italic">number five</em>?</h3>
+    <a href="#" class="inline-flex items-center gap-3 liquid-glass rounded-full px-8 py-4 text-sm font-medium hover:bg-white/[0.07] transition-colors">
+      Tell us about your brand <span aria-hidden>→</span>
+    </a>
+  </div>
+</section>
+
+</body>
+</html>

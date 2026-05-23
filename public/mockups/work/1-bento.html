@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mockup 1 — Bento Asymmetric • Vanta Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { gold:'#E0A526','gold-light':'#F0C04A','warm-white':'#FAF8F5', violet:'#7B61FF', coral:'#FF6B6B', electric:'#00D4FF', smoke:'#1A1A1A', ash:'#2A2A2A' },
+  fontFamily: { serif:['"Instrument Serif"','Georgia','serif'], sans:['Inter','system-ui','sans-serif'] }
+}}}
+</script>
+<style>
+  body { background: #080808; color: #FAF8F5; font-family: 'Inter', system-ui, sans-serif; }
+  .liquid-glass { background: rgba(255,255,255,0.04); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.08); }
+  .text-gradient-bold { background: linear-gradient(135deg, #7B61FF 0%, #E0A526 50%, #FF6B6B 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .grain::before { content:''; position:fixed; inset:0; pointer-events:none; opacity:.04; background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 3px 3px; z-index:1; }
+  .card-img { transition: transform 700ms cubic-bezier(.22,1,.36,1); }
+  .card:hover .card-img { transform: scale(1.06); }
+  .card .stat-grow { transition: all 500ms ease; }
+  .card:hover .stat-grow { letter-spacing: 0.02em; }
+  .pill { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; }
+  .badge-back { position:fixed; top:24px; left:24px; z-index:50; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:rgba(250,248,245,.5); }
+  .badge-back:hover { color:#E0A526; }
+</style>
+</head>
+<body class="grain">
+
+<a href="./" class="badge-back">← All mockups</a>
+
+<section class="relative py-24 md:py-32 px-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Heading -->
+    <div class="mb-16 md:mb-20">
+      <p class="text-[11px] tracking-[0.4em] uppercase text-gold/90 mb-4">Our Work</p>
+      <h2 class="font-serif text-5xl md:text-7xl leading-[1.05] max-w-4xl">
+        Results that <em class="text-gradient-bold not-italic">speak</em><span class="text-gold">.</span>
+      </h2>
+      <p class="text-warm-white/60 max-w-xl mt-5 text-base md:text-lg leading-relaxed">
+        Four brands. Four very different problems. One throughline — work that moves the number.
+      </p>
+    </div>
+
+    <!-- Bento grid -->
+    <div class="grid grid-cols-12 gap-4 md:gap-5 auto-rows-[180px] md:auto-rows-[220px]">
+
+      <!-- 1. Featured (2x2) — Koi Boba -->
+      <a href="/gallery-demo/boba-shop.html" target="_blank" rel="noopener" class="card group col-span-12 md:col-span-7 row-span-2 relative overflow-hidden rounded-3xl">
+        <div class="absolute inset-0 card-img" style="background-image: url('https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=1400&h=900&fit=crop'); background-size:cover; background-position:center;"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-amber-900/30 to-orange-900/20"></div>
+
+        <div class="relative h-full flex flex-col justify-between p-7 md:p-9 z-10">
+          <div class="flex items-start justify-between">
+            <span class="pill liquid-glass text-gold/90">Featured · Web + Social</span>
+            <span class="text-xs tracking-[0.3em] uppercase text-warm-white/40">01 / 04</span>
+          </div>
+          <div>
+            <h3 class="font-serif text-4xl md:text-6xl leading-none mb-3">Koi Boba</h3>
+            <p class="text-warm-white/70 text-sm md:text-base max-w-md mb-5">
+              Complete rebrand + social takeover. From 800 followers to a regional cult favorite in 90 days.
+            </p>
+            <div class="flex flex-wrap gap-x-8 gap-y-3 items-end">
+              <div>
+                <div class="font-serif italic text-3xl md:text-5xl text-gold stat-grow">+312%</div>
+                <div class="text-[10px] tracking-[0.25em] uppercase text-warm-white/50 mt-1">In-store traffic</div>
+              </div>
+              <div>
+                <div class="font-serif italic text-3xl md:text-5xl text-warm-white stat-grow">11.2k</div>
+                <div class="text-[10px] tracking-[0.25em] uppercase text-warm-white/50 mt-1">New followers · 90d</div>
+              </div>
+              <div class="ml-auto liquid-glass rounded-full px-4 py-2 text-xs flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                View live demo →
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 2. Maison Noir — image card -->
+      <a href="/gallery-demo/boutique.html" target="_blank" rel="noopener" class="card group col-span-12 md:col-span-5 row-span-1 relative overflow-hidden rounded-3xl">
+        <div class="absolute inset-0 card-img" style="background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1000&h=700&fit=crop'); background-size:cover; background-position:center;"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+        <div class="relative h-full flex flex-col justify-between p-6 z-10">
+          <span class="pill liquid-glass text-warm-white/70 self-start">Brand Identity</span>
+          <div>
+            <h3 class="font-serif text-2xl md:text-3xl mb-1">Maison Noir</h3>
+            <p class="text-warm-white/55 text-xs">Luxury fashion · full visual system</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- 3. Maison stat -->
+      <div class="card col-span-6 md:col-span-5 row-span-1 relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet/10 to-coral/5 border border-white/5">
+        <div class="absolute -right-8 -bottom-12 text-[12rem] font-serif italic text-white/[0.04] select-none leading-none">M</div>
+        <div class="relative h-full flex flex-col justify-between p-6 z-10">
+          <span class="text-[10px] tracking-[0.3em] uppercase text-violet/80">Conversion lift</span>
+          <div>
+            <div class="font-serif italic text-5xl md:text-6xl text-warm-white leading-none mb-2">2.4×</div>
+            <p class="text-warm-white/60 text-xs">Average order value after the rebrand drop.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Ember & Vine — image card (vertical) -->
+      <a href="/gallery-demo/restaurant.html" target="_blank" rel="noopener" class="card group col-span-6 md:col-span-4 row-span-2 relative overflow-hidden rounded-3xl">
+        <div class="absolute inset-0 card-img" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&h=1300&fit=crop'); background-size:cover; background-position:center;"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-red-900/30 to-amber-900/10"></div>
+        <div class="relative h-full flex flex-col justify-between p-6 z-10">
+          <span class="pill liquid-glass text-gold/90 self-start">Full Service</span>
+          <div>
+            <h3 class="font-serif text-3xl md:text-4xl mb-2 leading-none">Ember &amp; Vine</h3>
+            <p class="text-warm-white/65 text-sm mb-4">Farm-to-table · web, social, UGC, paid media.</p>
+            <div class="flex items-end gap-5">
+              <div>
+                <div class="font-serif italic text-3xl text-gold">84%</div>
+                <div class="text-[9px] tracking-[0.25em] uppercase text-warm-white/50 mt-1">Repeat visits</div>
+              </div>
+              <div>
+                <div class="font-serif italic text-3xl text-warm-white">−42%</div>
+                <div class="text-[9px] tracking-[0.25em] uppercase text-warm-white/50 mt-1">CAC</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 5. FORM Athletics — image card -->
+      <a href="/gallery-demo/fitness.html" target="_blank" rel="noopener" class="card group col-span-12 md:col-span-8 row-span-1 relative overflow-hidden rounded-3xl">
+        <div class="absolute inset-0 card-img" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1400&h=600&fit=crop'); background-size:cover; background-position:center;"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent"></div>
+        <div class="relative h-full flex items-center justify-between p-6 md:p-8 z-10">
+          <div>
+            <span class="pill liquid-glass text-warm-white/70 mb-3">UGC + Paid</span>
+            <h3 class="font-serif text-2xl md:text-4xl mb-1">FORM Athletics</h3>
+            <p class="text-warm-white/55 text-xs md:text-sm">Performance fitness · scaled creator-led to 6 figures.</p>
+          </div>
+          <div class="hidden md:flex items-end gap-8">
+            <div class="text-right">
+              <div class="font-serif italic text-4xl text-gold">6.8×</div>
+              <div class="text-[10px] tracking-[0.25em] uppercase text-warm-white/50 mt-1">ROAS</div>
+            </div>
+            <div class="text-right">
+              <div class="font-serif italic text-4xl text-warm-white">$1.2M</div>
+              <div class="text-[10px] tracking-[0.25em] uppercase text-warm-white/50 mt-1">Revenue · year 1</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 6. CTA tile -->
+      <a href="#" class="card col-span-12 md:col-span-12 row-span-1 relative overflow-hidden rounded-3xl border border-white/10 flex items-center justify-between p-6 md:p-8 hover:border-gold/40 transition-colors">
+        <div>
+          <p class="text-[10px] tracking-[0.3em] uppercase text-gold/80 mb-2">Your brand here</p>
+          <h3 class="font-serif text-2xl md:text-3xl">Let's build the next case study →</h3>
+        </div>
+        <div class="liquid-glass rounded-full px-6 py-3 text-sm font-medium">Start a project</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

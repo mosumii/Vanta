@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mockup 3 — Workspace Tabs • Vanta Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { gold:'#E0A526','gold-light':'#F0C04A','warm-white':'#FAF8F5', violet:'#7B61FF', coral:'#FF6B6B', electric:'#00D4FF', smoke:'#1A1A1A', ash:'#2A2A2A' },
+  fontFamily: { serif:['"Instrument Serif"','Georgia','serif'], sans:['Inter','system-ui','sans-serif'] }
+}}}
+</script>
+<style>
+  body { background:#080808; color:#FAF8F5; font-family:'Inter', system-ui, sans-serif; }
+  .liquid-glass { background: rgba(255,255,255,0.04); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.08); }
+  .text-gradient-bold { background: linear-gradient(135deg, #7B61FF 0%, #E0A526 50%, #FF6B6B 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .badge-back { position:fixed; top:24px; left:24px; z-index:50; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:rgba(250,248,245,.5); }
+  .badge-back:hover { color:#E0A526; }
+
+  /* Tab bar — Chrome / Arc inspired */
+  .tab-row { display:flex; gap: 4px; align-items: flex-end; padding: 0 14px; }
+  .tab { position: relative; padding: 10px 16px 10px 14px; min-width: 180px; max-width: 240px;
+    background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-bottom: 0;
+    border-radius: 12px 12px 0 0; color: rgba(250,248,245,0.55); cursor: pointer;
+    transition: all 180ms ease; display: flex; align-items: center; gap: 10px;
+    font-size: 12px; letter-spacing: 0.04em; flex: 1; }
+  .tab:hover { background: rgba(255,255,255,0.05); color: rgba(250,248,245,0.85); }
+  .tab.active { background: rgba(255,255,255,0.06); color: #FAF8F5; border-color: rgba(224,165,38,0.35); }
+  .tab .dot { width: 8px; height: 8px; border-radius: 999px; background: currentColor; opacity: .4; flex-shrink: 0; }
+  .tab.active .dot { background: #E0A526; opacity: 1; box-shadow: 0 0 12px #E0A526; }
+  .tab .label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tab .category { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(250,248,245,0.35); }
+
+  /* Window shell */
+  .window { background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+    border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; overflow: hidden;
+    box-shadow: 0 30px 90px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02); }
+  .url-bar { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); }
+  .traffic { display:flex; gap:6px; }
+  .traffic span { width:11px; height:11px; border-radius:999px; }
+  .traffic span:nth-child(1){ background:#FF6B6B; } .traffic span:nth-child(2){ background:#E0A526; } .traffic span:nth-child(3){ background:#7BCE99; }
+  .url { flex: 1; padding: 5px 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 999px; font-size: 11px; color: rgba(250,248,245,0.6); letter-spacing: 0.04em; }
+  .url .lock { color: #7BCE99; margin-right: 6px; }
+  .view-toggle { display:flex; background: rgba(0,0,0,0.4); border-radius: 999px; padding: 3px; gap: 2px; }
+  .view-toggle button { padding: 4px 10px; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; border-radius: 999px; color: rgba(250,248,245,0.5); transition: all 150ms ease; }
+  .view-toggle button.active { background: rgba(224,165,38,0.15); color: #E0A526; }
+
+  /* Pane */
+  .pane { display: none; }
+  .pane.active { display: block; }
+  .preview { aspect-ratio: 16/10; background:#111; position: relative; overflow: hidden; }
+  .preview iframe { width: 100%; height: 100%; border: 0; background: white; }
+
+  /* Sidebar */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .stat-card { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 16px; }
+  .chip { display:inline-block; padding: 4px 9px; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.06); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,248,245,0.7); margin-right:4px; margin-bottom:4px; }
+  kbd { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 5px; font-family: inherit; font-size: 10px; color: rgba(250,248,245,0.7); }
+</style>
+</head>
+<body>
+
+<a href="./" class="badge-back">← All mockups</a>
+
+<section class="pt-28 md:pt-36 pb-24 px-6">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Heading -->
+    <div class="grid md:grid-cols-12 items-end gap-8 mb-10 md:mb-14">
+      <div class="md:col-span-8">
+        <p class="text-[11px] tracking-[0.4em] uppercase text-gold/90 mb-4">Our Work · Live preview</p>
+        <h2 class="font-serif text-5xl md:text-7xl leading-[1.05]">
+          Don't take our word for it. <em class="text-gradient-bold not-italic">Click through</em><span class="text-gold">.</span>
+        </h2>
+      </div>
+      <div class="md:col-span-4 text-sm text-warm-white/55 leading-relaxed">
+        Switch between projects in the tabs above the window. Toggle <span class="text-warm-white/85">Site / Social</span> in the address bar. Or hit <kbd>←</kbd> <kbd>→</kbd> to walk through them.
+      </div>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="tab-row">
+      <button class="tab active" data-tab="koi">
+        <span class="dot"></span>
+        <div class="flex-1 min-w-0">
+          <div class="category">Web + Social</div>
+          <div class="label font-serif text-base text-current">Koi Boba</div>
+        </div>
+      </button>
+      <button class="tab" data-tab="maison">
+        <span class="dot"></span>
+        <div class="flex-1 min-w-0">
+          <div class="category">Brand Identity</div>
+          <div class="label font-serif text-base">Maison Noir</div>
+        </div>
+      </button>
+      <button class="tab" data-tab="ember">
+        <span class="dot"></span>
+        <div class="flex-1 min-w-0">
+          <div class="category">Full Service</div>
+          <div class="label font-serif text-base">Ember &amp; Vine</div>
+        </div>
+      </button>
+      <button class="tab" data-tab="form">
+        <span class="dot"></span>
+        <div class="flex-1 min-w-0">
+          <div class="category">UGC + Paid</div>
+          <div class="label font-serif text-base">FORM Athletics</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Window + sidebar -->
+    <div class="grid md:grid-cols-12 gap-6 items-start">
+
+      <!-- Window (preview) -->
+      <div class="md:col-span-8 window">
+        <div class="url-bar">
+          <div class="traffic"><span></span><span></span><span></span></div>
+          <div class="url" data-url="koi.com"><span class="lock">●</span><span class="url-text">koi-boba.com</span></div>
+          <div class="view-toggle">
+            <button class="active" data-view="site">Site</button>
+            <button data-view="social">Social</button>
+          </div>
+        </div>
+
+        <!-- Panes — each contains its own iframe -->
+        <div class="pane active" data-pane="koi">
+          <div class="preview">
+            <iframe src="/gallery-demo/boba-shop.html" title="Koi Boba site" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+          </div>
+        </div>
+        <div class="pane" data-pane="maison">
+          <div class="preview">
+            <iframe src="/gallery-demo/boutique.html" title="Maison Noir site" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+          </div>
+        </div>
+        <div class="pane" data-pane="ember">
+          <div class="preview">
+            <iframe src="/gallery-demo/restaurant.html" title="Ember & Vine site" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+          </div>
+        </div>
+        <div class="pane" data-pane="form">
+          <div class="preview">
+            <iframe src="/gallery-demo/fitness.html" title="FORM Athletics site" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar (project meta) -->
+      <aside class="md:col-span-4 space-y-5">
+
+        <div data-detail="koi">
+          <div class="text-[10px] tracking-[0.3em] uppercase text-gold/80 mb-2">Case study · 01</div>
+          <h3 class="font-serif text-3xl md:text-4xl mb-2">Koi Boba</h3>
+          <p class="text-warm-white/70 text-sm leading-relaxed mb-5">Artisan boba shop. Full rebrand + a 90-day social takeover that turned the corner into a queue.</p>
+          <div class="stat-grid mb-5">
+            <div class="stat-card">
+              <div class="font-serif italic text-3xl text-gold leading-none">+312%</div>
+              <div class="text-[10px] tracking-[0.22em] uppercase text-warm-white/55 mt-2">In-store traffic</div>
+            </div>
+            <div class="stat-card">
+              <div class="font-serif italic text-3xl text-warm-white leading-none">11.2k</div>
+              <div class="text-[10px] tracking-[0.22em] uppercase text-warm-white/55 mt-2">New followers · 90d</div>
+            </div>
+          </div>
+          <div class="mb-5">
+            <span class="chip">Identity</span><span class="chip">Web</span><span class="chip">UGC</span><span class="chip">Paid</span>
+          </div>
+        </div>
+
+        <div data-detail="maison" hidden>
+          <div class="text-[10px] tracking-[0.3em] uppercase text-gold/80 mb-2">Case study · 02</div>
+          <h3 class="font-serif text-3xl md:text-4xl mb-2">Maison Noir</h3>
+          <p class="text-warm-white/70 text-sm leading-relaxed mb-5">Independent luxury fashion. A visual identity bold enough to earn its own shelf space.</p>
+          <div class="stat-grid mb-5">
+            <div class="stat-card">
+              <div class="font-serif italic text-3xl text-gold leading-none">2.4×</div>
+              <div class="text-[10px] tracking-[0.22em] uppercase text-warm-white/55 mt-2">Avg. order value</div>
+            </div>
+            <div class="stat-card">
+              <div class="font-serif italic text-3xl text-warm-white leading-none">+58%</div>
+              <div class="text-[10px] tracking-[0.22em] uppercase text-warm-white/55 mt-2">Return customers</div>
+            </div>
+          </div>
+          <div class="mb-5">
+            <span class="chip">Visual system</span><span class="chip">E-com</span><span class="chip">Photo</span>
+          </div>
+        </div>
+
+        <div data-detail="ember" hidden>
+          <div class="text-[10px] tracking-[0.3em] uppercase text-gold/80 mb-2">Case study · 03</div>
+          <h3 class="font-serif text-3xl md:text-4xl mb-2">Ember &amp; Vine</h3>
+          <p class="text-warm-white/70 text-sm leading-relaxed mb-5">Farm-to-table launch in a saturated downtown. We owned every touchpoint — and filled three months of bookings before opening.</p>
+          <div class="stat-grid mb-5">
+            <div class="stat-card">
+              <div class="font-serif italic text-3xl text-gold leading-none">84%</div>
+              <div class="text-[10px] tracking-[0.22em] uppercase text-warm-white/55 mt-2">Repeat visits</div>
+            </div>
+            <div class="stat-card">
+              <div class="font-serif italic text-3xl text-warm-white leading-none">−42%</div>
+              <div class="text-[10px] tracking-[0.22em] uppercase text-warm-white/55 mt-2">CAC</div>
+            </div>
+          </div>
+          <div class="mb-5">
+            <span class="chip">Web</span><span class="chip">UGC</span><span class="chip">Paid</span><span class="chip">Print</span>
+          </div>
+        </div>
+
+        <div data-detail="form" hidden>
+          <div class="text-[10px] tracking-[0.3em] uppercase text-gold/80 mb-2">Case study · 04</div>
+          <h3 class="font-serif text-3xl md:text-4xl mb-2">FORM Athletics</h3>
+          <p class="text-warm-white/70 text-sm leading-relaxed mb-5">Performance fitness label. Scaled past the launch window with creator-led media that didn't read like an ad.</p>
+          <div class="stat-grid mb-5">
+            <div class="stat-card">
+              <div class="font-serif italic text-3xl text-gold leading-none">6.8×</div>
+              <div class="text-[10px] tracking-[0.22em] uppercase text-warm-white/55 mt-2">ROAS</div>
+            </div>
+            <div class="stat-card">
+              <div class="font-serif italic text-3xl text-warm-white leading-none">$1.2M</div>
+              <div class="text-[10px] tracking-[0.22em] uppercase text-warm-white/55 mt-2">Revenue · year 1</div>
+            </div>
+          </div>
+          <div class="mb-5">
+            <span class="chip">UGC</span><span class="chip">Creators</span><span class="chip">Paid</span>
+          </div>
+        </div>
+
+        <a href="#" class="block liquid-glass rounded-2xl p-4 hover:bg-white/[0.07] transition-colors">
+          <div class="text-[10px] tracking-[0.3em] uppercase text-gold/80 mb-1">Next step</div>
+          <div class="font-serif text-xl">Start your case study →</div>
+        </a>
+      </aside>
+    </div>
+
+    <!-- Keyboard hint -->
+    <div class="mt-8 flex flex-wrap items-center gap-3 text-xs text-warm-white/45">
+      <span>Navigate:</span>
+      <kbd>←</kbd><kbd>→</kbd>
+      <span class="text-warm-white/25">/</span>
+      <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd>
+      <span>jump to a project</span>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panes = document.querySelectorAll('.pane');
+  const details = document.querySelectorAll('[data-detail]');
+  const urlText = document.querySelector('.url-text');
+  const viewBtns = document.querySelectorAll('.view-toggle button');
+
+  const urlMap = { koi: 'koi-boba.com', maison: 'maisonnoir.studio', ember: 'emberandvine.com', form: 'formathletics.co' };
+  const order = ['koi','maison','ember','form'];
+  let activeKey = 'koi';
+  let view = 'site';
+
+  function applyView() {
+    // Visual only — flip URL prefix; iframe src stays for the mockup
+    if (!urlText) return;
+    if (view === 'social') {
+      urlText.textContent = 'instagram.com/' + (activeKey === 'koi' ? 'koiboba' : activeKey === 'maison' ? 'maisonnoir' : activeKey === 'ember' ? 'emberandvine' : 'formathletics');
+    } else {
+      urlText.textContent = urlMap[activeKey];
+    }
+  }
+
+  function activate(key) {
+    activeKey = key;
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === key));
+    panes.forEach(p => p.classList.toggle('active', p.dataset.pane === key));
+    details.forEach(d => { d.hidden = d.dataset.detail !== key; });
+    applyView();
+  }
+
+  tabs.forEach(t => t.addEventListener('click', () => activate(t.dataset.tab)));
+
+  viewBtns.forEach(b => b.addEventListener('click', () => {
+    view = b.dataset.view;
+    viewBtns.forEach(x => x.classList.toggle('active', x === b));
+    applyView();
+  }));
+
+  document.addEventListener('keydown', e => {
+    const i = order.indexOf(activeKey);
+    if (e.key === 'ArrowRight') activate(order[(i+1) % order.length]);
+    else if (e.key === 'ArrowLeft') activate(order[(i-1+order.length) % order.length]);
+    else if (['1','2','3','4'].includes(e.key)) activate(order[parseInt(e.key)-1]);
+  });
+</script>
+</body>
+</html>
