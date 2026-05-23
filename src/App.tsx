@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import Loader from './components/Loader'
 import Navbar from './components/Navbar'
-import CustomCursor from './components/CustomCursor'
 import QuestionnaireModal from './components/QuestionnaireModal'
 import KineticTransition from './components/KineticTransition'
 import MorphTransition from './components/MorphTransition'
@@ -40,7 +39,6 @@ export default function App() {
 
   return (
     <div className="grain">
-      <CustomCursor />
       <AnimatePresence mode="wait">
         {loading ? (
           <Loader key="loader" />

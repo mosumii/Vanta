@@ -21,9 +21,16 @@ export default function ParticleField({ className = '' }: { className?: string }
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    let animationId: number
+    // Respect users who prefer reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) return
+
+    let animationId: number | null = null
     let particles: Particle[] = []
-    const PARTICLE_COUNT = 80
+    let isVisible = false
+    // Reduce particle count on mobile / lower DPR devices
+    const isCoarse = window.matchMedia('(pointer: coarse)').matches
+    const PARTICLE_COUNT = isCoarse ? 40 : 80
     const CONNECTION_DISTANCE = 120
     const MOUSE = { x: -1000, y: -1000 }
 
@@ -107,7 +114,11 @@ export default function ParticleField({ className = '' }: { className?: string }
         }
       }
 
-      animationId = requestAnimationFrame(draw)
+      if (isVisible && !document.hidden) {
+        animationId = requestAnimationFrame(draw)
+      } else {
+        animationId = null
+      }
     }
 
     const handleMouse = (e: MouseEvent) => {
@@ -122,13 +133,47 @@ export default function ParticleField({ className = '' }: { className?: string }
     }
 
     init()
-    animationId = requestAnimationFrame(draw)
+
+    // Only animate while the canvas is in the viewport — saves a huge
+    // amount of CPU on a section that's offscreen most of the time
+    // (O(n²) connection checks on 80 particles ≈ 3160 distance calcs / frame).
+    const start = () => {
+      if (animationId === null) {
+        animationId = requestAnimationFrame(draw)
+      }
+    }
+    const stop = () => {
+      if (animationId !== null) {
+        cancelAnimationFrame(animationId)
+        animationId = null
+      }
+    }
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting
+        if (isVisible && !document.hidden) start()
+        else stop()
+      },
+      { rootMargin: '100px' }
+    )
+    io.observe(canvas)
+
+    // Also pause when the tab is backgrounded
+    const handleVisibility = () => {
+      if (document.hidden) stop()
+      else if (isVisible) start()
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+
     window.addEventListener('resize', resize)
     canvas.addEventListener('mousemove', handleMouse)
     canvas.addEventListener('mouseleave', handleLeave)
 
     return () => {
-      cancelAnimationFrame(animationId)
+      stop()
+      io.disconnect()
+      document.removeEventListener('visibilitychange', handleVisibility)
       window.removeEventListener('resize', resize)
       canvas.removeEventListener('mousemove', handleMouse)
       canvas.removeEventListener('mouseleave', handleLeave)

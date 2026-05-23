@@ -76,8 +76,11 @@ export default function Navbar({ onOpenUGC }: { onOpenUGC?: () => void }) {
 
           {/* Mobile toggle */}
           <button
+            type="button"
             className="md:hidden text-white/80 hover:text-white"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
